@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  node-server:
+    build: .
+    command: yarn start
+    ports:
+      - 3200:3200
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/node-server
+    environment:
+      MONGO_ROOT_USERNAME: "${MONGO_ROOT_USERNAME}"
+      MONGO_ROOT_PASSWORD: "${MONGO_ROOT_PASSWORD}"
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongo-data:/var/lib/mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_ROOT_PASSWORD}"
+  
+volumes:
+  mongo-data:

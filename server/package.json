@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "The server and database for the cornhole-tracker project",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn build && node lib/index.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "rimraf": "^3.0.2",
+    "shx": "^0.3.3",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}
