@@ -14,6 +14,7 @@ services:
       MONGO_ROOT_USERNAME: "${MONGO_ROOT_USERNAME}"
       MONGO_ROOT_PASSWORD: "${MONGO_ROOT_PASSWORD}"
 
+  # The mongo DB should be available over port 27017 by default.
   mongo:
     image: mongo
     volumes:

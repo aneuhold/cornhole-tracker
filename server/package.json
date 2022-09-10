@@ -14,5 +14,8 @@
     "shx": "^0.3.3",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "mongoose": "^6.6.0"
   }
 }

@@ -3,6 +3,7 @@
   "description": "An application that can be used to track cornhole stats over time",
   "main": "index.js",
   "scripts": {
+    "i": "yarn && cd server && yarn",
     "build": "tsc",
     "start": "yarn build && node lib/index.js"
   },
