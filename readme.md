@@ -33,32 +33,32 @@ The data architecture below is based upon using a document-based DB.
    - `isArchived` if this is true, then the account is essentially deleted, but for scoring purposes in other people's games, the document will stay. Also, if set to true, the username is no longer in use, and can be used by someone else again.
 ```json
 {
-  id: "someGuid",
-  name: "Rebecca Smith", // Could be optional, as the username could be the default to display
-  userName: "uniqueUsername", // Has to remain unique and unchanged, just in case someone hasn't linked this account offline for some games
-  auth: { // This object is used for login purposes
-    googleId: "someGuid", // Optional
-    githubId: "someGuid" // Optional
+  "id": "someGuid",
+  "name": "Rebecca Smith", // Could be optional, as the username could be the default to display
+  "userName": "uniqueUsername", // Has to remain unique and unchanged, just in case someone hasn't linked this account offline for some games
+  "auth": { // This object is used for login purposes
+    "googleId": "someGuid", // Optional
+    "githubId": "someGuid" // Optional
   },
-  approvedGames: [
+  "approvedGames": [
     "cornholeGameId1",
     "cornholdGameId2"
   ],
-  currentTeamsIncludingUser: [
+  "currentTeamsIncludingUser": [
     "soloTeamId",
     "otherPartnerTeamId",
     "anotherPartnerTeamId"
   ],
-  currentTeamsNotIncludingUser: [
+  "currentTeamsNotIncludingUser": [
     "otherTeamId1",
     "otherTeamId2"
   ],
-  tempPlayers: [
+  "tempPlayers": [
     "tempPlayerId1",
     "tempPlayerId2"
   ],
-  profileIsPublic: false,
-  isArchived: false
+  "profileIsPublic": false,
+  "isArchived": false
 }
 ```
 
@@ -66,13 +66,13 @@ The data architecture below is based upon using a document-based DB.
    - `owner`: The user that created the game. Only this user can permenently delete the game, and log scores for it. 
 ```json
 {
-  id: "someGuid",
-  teams: [
+  "id": "someGuid",
+  "teams": [
     "teamId1",
     "teamId2"
   ],
-  gameIsComplete: false,
-  rounds: [ // The order of these rounds is important
+  "gameIsComplete": false,
+  "rounds": [ // The order of these rounds is important
     {
       "playerId1": 10,
       "playerId2": 9
@@ -86,18 +86,18 @@ The data architecture below is based upon using a document-based DB.
       "playerId2": 8
     },
   ],
-  playerPositioning: {
-    is4PlayerGame: true,
-    board1Players: [ // Array only exists if it is a 4 player game
+  "playerPositioning": {
+    "is4PlayerGame": true,
+    "board1Players": [ // Array only exists if it is a 4 player game
       "playerId1",
       "playerId2",
-    ]
-    board2Players: [ // Array only exists if it is a 4 player game
+    ],
+    "board2Players": [ // Array only exists if it is a 4 player game
       "playerId3",
       "playerId4"
     ]
   },
-  owner: "ownerId"
+  "owner": "ownerId"
 }
 ```
 
@@ -106,15 +106,15 @@ The data architecture below is based upon using a document-based DB.
    - `isArchived` means that the team will not be shown to other users when trying to create new games, but will still be available for stats purposes. If a user tries to create a new team with the same players in it as an existing one, it will bring this team back. That way stats can stay consistent for particular users
 ```json
 {
-  id: "someGuid",
-  name: "Best Team Ever", // Optional
-  players: [
+  "id": "someGuid",
+  "name": "Best Team Ever", // Optional
+  "players": [
     "someUserId",
     "someTempPlayerUserId"
   ],
-  color: "red", // CSS compatible color, this needs to be able to change,
-  owner: "ownerId",
-  isArchived: false
+  "color": "red", // CSS compatible color, this needs to be able to change,
+  "owner": "ownerId",
+  "isArchived": false
 }
 ```
 
@@ -123,9 +123,9 @@ The data architecture below is based upon using a document-based DB.
    - `userName`: This is the target userName for the player, as it can't be checked for uniquness (if the device is offline), this is a target, as it can be synced later if it matches someone in the DB when they re-connect.
 ```json
 {
-  id: "someGuid",
-  name: "Rebecca Smith",
-  userName: "targetUserName"
+  "id": "someGuid",
+  "name": "Rebecca Smith",
+  "userName": "targetUserName"
 }
 ```
 
