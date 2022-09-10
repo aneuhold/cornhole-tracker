@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import config from './config';
 
-console.log('This is a test');
-console.log(process.env);
+console.log('The server is beginning to start...');
 
-const conn = mongoose.createConnection('');
+const mongoDbConnectionString = `mongodb://${config.mongoRootUsername}:${config.mongoRootPassword}`;
+console.log(mongoDbConnectionString);
