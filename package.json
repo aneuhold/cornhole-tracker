@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "i": "yarn && cd server && yarn",
-    "build": "tsc",
-    "start": "yarn build && node lib/index.js"
+    "start": "yarn copySharedFiles && cd server && yarn start",
+    "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/_shared -u 1"
   },
   "type": "commonjs",
   "repository": "https://github.com/aneuhold/cornhole-tracker",
@@ -19,14 +19,18 @@
     "url": "https://github.com/aneuhold/cornhole-tracker/issues"
   },
   "homepage": "UPDATE ME",
-  "dependencies": {},
+  "dependencies": {
+    "mongodb": "^4.9.1"
+  },
   "devDependencies": {
     "@types/node": "^16.10.2",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^3.5.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.4.1",

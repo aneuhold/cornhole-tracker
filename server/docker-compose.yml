@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   node-server:
@@ -11,17 +11,26 @@ services:
     volumes:
       - .:/usr/node-server
     environment:
-      MONGO_ROOT_USERNAME: "${MONGO_ROOT_USERNAME}"
-      MONGO_ROOT_PASSWORD: "${MONGO_ROOT_PASSWORD}"
+      MONGO_ROOT_USERNAME: '${MONGO_ROOT_USERNAME}'
+      MONGO_ROOT_PASSWORD: '${MONGO_ROOT_PASSWORD}'
+    links:
+      - mongo
 
   # The mongo DB should be available over port 27017 by default.
   mongo:
     image: mongo
     volumes:
       - mongo-data:/var/lib/mongo
+    # The below ports are not technically needed if only the node-server is
+    # contacting the mongo DB in the docker network. This is exposed to help
+    # local development. The idea is that when the service is deployed to the
+    # cloud, the port will be blocked on the server there from being accessed
+    # from outside, so it should be okay.
+    ports:
+      - 27017:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "${MONGO_ROOT_USERNAME}"
-      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_ROOT_PASSWORD}"
-  
+      MONGO_INITDB_ROOT_USERNAME: '${MONGO_ROOT_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_ROOT_PASSWORD}'
+
 volumes:
   mongo-data:

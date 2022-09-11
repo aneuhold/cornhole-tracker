@@ -1,3 +1,6 @@
+# Specific to cornhole-tracker
+_shared
+
 # Created by https://www.toptal.com/developers/gitignore/api/windows,macos,visualstudiocode,yarn,svelte,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,visualstudiocode,yarn,svelte,node
 
