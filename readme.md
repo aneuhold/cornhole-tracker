@@ -2,13 +2,18 @@
 
 An application that can be used to track cornhole stats over time.
 
-# Features
+# Features for RC1 (Release Candidate 1)
 
 - A randomizer can choose which team goes first, or one can be set as the first team to go.
 - 2 or 4 players can play each game
   - If there are 4 players The user can choose what side each person is on at the boards
   - If there are 2 players, each round goes back and forth between those 2
 - The team sides in the UI can be switched at any time during the game, so that if the phone recording scores is passed off, it can make sense to the other person.
+
+## Potential Future Features
+
+- Badges + Trophies
+- Tournament Support
 
 # Architecture
 
