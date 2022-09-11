@@ -9,7 +9,7 @@ const config = {
   mongoRootUsername: process.env.MONGO_ROOT_USERNAME,
   mongoRootPassword: process.env.MONGO_ROOT_PASSWORD,
   mongoPort: process.env.MONGO_PORT,
-  mongoUrl: process.env.MONGO_URL,
+  mongoUrl: process.env.MONGO_URL
 };
 
 export default config;
