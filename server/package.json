@@ -4,15 +4,22 @@
   "description": "The server and database for the cornhole-tracker project",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "yarn build && node lib/index.js"
+    "build": "tsc --project tsconfig.build.json",
+    "start": "yarn build && cross-env MONGO_URL=localhost && node lib/index.js",
+    "start:docker": "yarn build && cross-env MONGO_URL=mongo node lib/index.js",
+    "test": "cross-env MONGO_URL=localhost jest --detectOpenHandles"
   },
   "type": "commonjs",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.7.16"
+    "@types/jest": "^29.0.1",
+    "@types/node": "^18.7.16",
+    "babel-jest": "^29.0.3",
+    "jest": "^29.0.3",
+    "ts-jest": "^29.0.0"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.2",
     "module-alias": "^2.2.2",
     "mongodb": "^4.9.1",

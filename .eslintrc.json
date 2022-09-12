@@ -37,7 +37,9 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    // Turned off so that private variables can be declared in a constructor
+    "no-useless-constructor": "off"
   },
   "settings": {
     "import/resolver": {

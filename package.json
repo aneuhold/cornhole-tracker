@@ -5,7 +5,13 @@
   "scripts": {
     "i": "yarn && cd server && yarn",
     "start": "yarn copySharedFiles && cd server && yarn start",
-    "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/_shared -u 1"
+    "docker:start": "yarn copySharedFiles && cd server && docker-compose up",
+    "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/_shared -u 1",
+    "test": "cd server && yarn test"
+  },
+  "scriptsDescription": {
+    "start": "Will start up the node server locally. Assumes the mongodb docker container is already running.",
+    "docker:start": "Will start up the docker containers containing the database and the noder server"
   },
   "type": "commonjs",
   "repository": "https://github.com/aneuhold/cornhole-tracker",

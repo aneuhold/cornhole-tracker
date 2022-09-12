@@ -3,7 +3,7 @@ version: '3.9'
 services:
   node-server:
     build: .
-    command: yarn start
+    command: yarn start:docker
     ports:
       - 3200:3200
     depends_on:
@@ -25,7 +25,7 @@ services:
     # contacting the mongo DB in the docker network. This is exposed to help
     # local development. The idea is that when the service is deployed to the
     # cloud, the port will be blocked on the server there from being accessed
-    # from outside, so it should be okay.
+    # from outside, so it should be okay from a security perspective.
     ports:
       - 27017:27017
     environment:

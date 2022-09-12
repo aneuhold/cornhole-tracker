@@ -12,17 +12,16 @@ export default class UserRepository {
   private static userCollection: Collection<UserDocument>;
 
   private static async getCollection() {
-    if (!UserRepository.userCollection) {
-      UserRepository.userCollection =
-        await DocumentDb.getCollection<UserDocument>(
-          UserRepository.COLLECTION_NAME
-        );
+    if (!this.userCollection) {
+      this.userCollection = await DocumentDb.getCollection<UserDocument>(
+        this.COLLECTION_NAME
+      );
     }
-    return UserRepository.userCollection;
+    return this.userCollection;
   }
 
   static async insertNewUser(newUser: User): Promise<InsertOneResult> {
-    const collection = await UserRepository.getCollection();
+    const collection = await this.getCollection();
     const insertResult = await collection.insertOne(newUser);
     return insertResult;
   }
