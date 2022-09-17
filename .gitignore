@@ -1,6 +1,15 @@
 # Specific to cornhole-tracker
 _shared
 
+# Specific to Yarn 2
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 # Created by https://www.toptal.com/developers/gitignore/api/windows,macos,visualstudiocode,yarn,svelte,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,visualstudiocode,yarn,svelte,node
 

@@ -45,5 +45,6 @@
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },
-  "name": "cornhole-tracker"
+  "name": "cornhole-tracker",
+  "packageManager": "yarn@3.2.3"
 }

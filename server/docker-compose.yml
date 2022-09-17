@@ -17,6 +17,8 @@ services:
       - mongo
 
   # The mongo DB should be available over port 27017 by default.
+  # If the name of the service below is changed it also needs to be changed
+  # in the package.json where the start commands are defined
   mongo:
     image: mongo
     volumes:
