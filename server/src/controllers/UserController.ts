@@ -1,10 +1,19 @@
 import { UUID } from 'bson';
 import User from 'shared/types/User';
 import UserRepository from 'src/repositories/UserRepository';
-import { Controller, Get, Path, Route, SuccessResponse } from 'tsoa';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Path,
+  Route,
+  SuccessResponse
+} from 'tsoa';
 
 /**
- * Just handles status requests
+ * Handles operations related to users.
  */
 @Route('users')
 export class UserController extends Controller {
@@ -13,14 +22,13 @@ export class UserController extends Controller {
    */
   @Get('{userId}')
   @SuccessResponse('200')
-  public async getUser(@Path() userId: UUID): Promise<User | string> {
+  public async getUser(@Path() userId: UUID): Promise<User | null> {
     const userDoc = await UserRepository.getUser(userId);
     if (userDoc) {
-      this.setStatus(200);
       return userDoc;
     }
     this.setStatus(400);
-    return `User with ID ${userId} not found.`;
+    return userDoc;
   }
 
   /**
@@ -29,8 +37,21 @@ export class UserController extends Controller {
   @Get('/')
   @SuccessResponse('200')
   public async getAllUsers(): Promise<User[]> {
-    const userDocs = await UserRepository.getAllUsers();
-    this.setStatus(200);
-    return userDocs;
+    return UserRepository.getAllUsers();
   }
+
+  /**
+   * Deletes a user.
+   */
+  @Delete('{userId}')
+  @SuccessResponse('204')
+  public async deleteUser(@Path() userId: UUID) {
+    return UserRepository.deleteUser(userId);
+  }
+
+  /**
+   * Updates the provided user with any new values. Update operations.
+   */
+  @Patch(`/`)
+  public async updateUser(@Body() user: User) {}
 }

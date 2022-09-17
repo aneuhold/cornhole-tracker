@@ -49,4 +49,12 @@ export default class UserRepository {
     const collection = await this.getCollection();
     return collection.deleteMany({});
   }
+
+  static async updateUser(updatedUser: User) {
+    const collection = await this.getCollection();
+    const userId = updatedUser.id;
+    const userWithoutId: Partial<User> = updatedUser;
+    delete userWithoutId.id;
+    return collection.updateOne({ id: userId }, userWithoutId);
+  }
 }
