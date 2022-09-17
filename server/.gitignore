@@ -1,1 +1,5 @@
 lib
+
+# Swagger / TSOA files
+src/routes.ts
+src/swagger.json

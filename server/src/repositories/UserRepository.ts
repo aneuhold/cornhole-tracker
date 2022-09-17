@@ -1,4 +1,5 @@
-import { Collection, InsertOneResult } from 'mongodb';
+import { UUID } from 'bson';
+import { Collection } from 'mongodb';
 import User from 'shared/types/User';
 import DocumentDb from 'src/util/DocumentDb';
 import UserDocument from './documentTypes/UserDocument';
@@ -20,9 +21,13 @@ export default class UserRepository {
     return this.userCollection;
   }
 
-  static async insertNewUser(newUser: User): Promise<InsertOneResult> {
+  static async insertNewUser(newUser: User) {
     const collection = await this.getCollection();
-    const insertResult = await collection.insertOne(newUser);
-    return insertResult;
+    return collection.insertOne(newUser);
+  }
+
+  static async getUser(userId: UUID) {
+    const collection = await this.getCollection();
+    return collection.findOne({ id: userId });
   }
 }

@@ -5,7 +5,7 @@ import https, { Server as HttpsServer } from 'https';
 import 'module-alias/register';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
-import { RegisterRoutes } from '../lib/routes';
+import { RegisterRoutes } from './routes';
 import DocumentDb from './util/DocumentDb';
 
 const NODE_SERVER_PORT = process.env.PORT || 3020;
@@ -58,8 +58,6 @@ function setupSwagger(app: Express) {
   app.use(morgan('tiny'));
   RegisterRoutes(app);
   app.use('/docs', swaggerUi.serve, async (_req: Request, res: Response) => {
-    return res.send(
-      swaggerUi.generateHTML(await import('../lib/swagger.json'))
-    );
+    return res.send(swaggerUi.generateHTML(await import('./swagger.json')));
   });
 }

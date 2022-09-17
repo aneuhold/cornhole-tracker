@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import { UUID } from 'bson';
 import Player from './Player';
 
 /**
@@ -6,7 +6,7 @@ import Player from './Player';
  * have played, but only the ones they want stats calculated on their profile
  */
 export default class User implements Player {
-  id = crypto.randomUUID();
+  id = new UUID();
 
   userName: string;
 

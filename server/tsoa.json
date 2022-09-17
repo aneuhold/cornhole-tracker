@@ -3,13 +3,20 @@
   "noImplicitAdditionalProperties": "silently-remove-extras",
   "controllerPathGlobs": ["src/**/*Controller.ts"],
   "spec": {
-    "outputDirectory": "lib",
+    "outputDirectory": "./src",
     "basePath": "api/v1",
     "specVersion": 3
   },
   "routes": {
     "basePath": "api/v1",
-    "routesDir": "lib",
+    "routesDir": "./src",
     "middleware": "express"
+  },
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "shared/*": ["src/_shared/*"]
+    }
   }
 }
