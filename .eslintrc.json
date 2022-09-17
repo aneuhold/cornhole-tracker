@@ -37,7 +37,9 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    // Turned off because it doesn't help organization a lot of the time
+    "no-use-before-define": "off"
   },
   "settings": {
     "import/resolver": {
