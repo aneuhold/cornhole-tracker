@@ -22,4 +22,15 @@ export class UserController extends Controller {
     this.setStatus(400);
     return `User with ID ${userId} not found.`;
   }
+
+  /**
+   * Gets all users.
+   */
+  @Get('/')
+  @SuccessResponse('200')
+  public async getAllUsers(): Promise<User[]> {
+    const userDocs = await UserRepository.getAllUsers();
+    this.setStatus(200);
+    return userDocs;
+  }
 }

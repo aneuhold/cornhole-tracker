@@ -30,4 +30,23 @@ export default class UserRepository {
     const collection = await this.getCollection();
     return collection.findOne({ id: userId });
   }
+
+  static async getAllUsers() {
+    const collection = await this.getCollection();
+    const cursor = collection.find();
+    return cursor.toArray();
+  }
+
+  static async deleteUser(userId: UUID) {
+    const collection = await this.getCollection();
+    return collection.deleteOne({ id: userId });
+  }
+
+  /**
+   * This should not be used except for testing purposes
+   */
+  static async deleteAllUsers() {
+    const collection = await this.getCollection();
+    return collection.deleteMany({});
+  }
 }

@@ -4,11 +4,13 @@
   "description": "The server and database for the cornhole-tracker project",
   "main": "index.js",
   "scripts": {
-    "build": "tsoa spec-and-routes && tsc --project tsconfig.build.json",
-    "start": "yarn build && cross-env MONGO_URL=localhost && node lib/index.js",
+    "--- Main Commands ---": "",
+    "dev": "yarn build && cross-env MONGO_URL=localhost concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
+    "start": "yarn build && cross-env MONGO_URL=localhost node lib/server.js",
     "start:docker": "yarn build && cross-env MONGO_URL=mongo node lib/index.js",
-    "test": "cross-env MONGO_URL=localhost jest --detectOpenHandles",
-    "dev": "yarn build && concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\""
+    "test": "cross-env MONGO_URL=localhost jest",
+    "--- Support Commands ---": "",
+    "build": "tsoa spec-and-routes && tsc --project tsconfig.build.json"
   },
   "type": "commonjs",
   "license": "MIT",
