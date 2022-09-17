@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import express, { Express, Request, Response } from 'express';
-import http from 'http';
-import https from 'https';
+import http, { Server as HttpServer } from 'http';
+import https, { Server as HttpsServer } from 'https';
 import 'module-alias/register';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
@@ -10,6 +10,9 @@ import DocumentDb from './util/DocumentDb';
 
 const NODE_SERVER_PORT = process.env.PORT || 3020;
 
+/**
+ * The entry point for the server
+ */
 async function main() {
   console.log('The server is beginning to start...');
   const app = express();
@@ -17,23 +20,29 @@ async function main() {
   createServer(app, NODE_SERVER_PORT);
 }
 
-main()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => {
-    DocumentDb.closeDbConnection();
-  });
+main();
 
+async function shutdownServerGracefully() {
+  console.log('Shutting down server gracefully...');
+  DocumentDb.closeDbConnection();
+}
+
+/**
+ * Creates the node server and starts listening for requests
+ */
 function createServer(app: Express, port: number | string, isHttps = false) {
+  let server: HttpServer | HttpsServer;
   if (isHttps) {
-    https.createServer(app).listen(port, () => {
-      console.log(`HTTP server listening on port ${port}`);
-    });
+    server = https.createServer(app);
   } else {
-    http.createServer(app).listen(port, () => {
-      console.log(`HTTPS server listening on port ${port}`);
-    });
+    server = http.createServer(app);
   }
+  server.on('close', shutdownServerGracefully);
+  server.listen(port, () => {
+    console.log(
+      `${isHttps ? 'HTTPS' : 'HTTP'} server listening on port ${port}`
+    );
+  });
 }
 
 /**
