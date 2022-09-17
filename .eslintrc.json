@@ -39,7 +39,11 @@
       }
     ],
     // Turned off because it doesn't help organization a lot of the time
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    // Turned off because of conflict with tsoa structure
+    "class-methods-use-this": "off",
+    // Turned off because tsoa needs controllers to not be a default export
+    "import/prefer-default-export": "off"
   },
   "settings": {
     "import/resolver": {

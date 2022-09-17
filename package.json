@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "i": "yarn && cd server && yarn",
+    "build": "cd server && yarn build",
+    "preDev": "yarn i && yarn copySharedFiles && yarn build",
     "start": "yarn copySharedFiles && cd server && yarn start",
+    "dev": "yarn copySharedFiles && cd server && yarn dev",
     "docker:start": "yarn copySharedFiles && cd server && docker-compose up",
     "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/_shared -u 1",
     "test": "cd server && yarn test"
@@ -29,12 +32,12 @@
     "mongodb": "^4.9.1"
   },
   "devDependencies": {
-    "@types/node": "*16.10.2",
-    "@typescript-eslint/eslint-plugin": "^4.32.0",
-    "@typescript-eslint/parser": "^4.32.0",
+    "@types/node": "18.7.18",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
     "copyfiles": "^2.4.1",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint": "^8.23.1",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^3.5.1",
     "eslint-plugin-import": "^2.22.1",

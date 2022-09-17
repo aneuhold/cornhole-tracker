@@ -1,0 +1,15 @@
+{
+  "entryFile": "./src/server.ts",
+  "noImplicitAdditionalProperties": "silently-remove-extras",
+  "controllerPathGlobs": ["src/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "lib",
+    "basePath": "api/v1",
+    "specVersion": 3
+  },
+  "routes": {
+    "basePath": "api/v1",
+    "routesDir": "lib",
+    "middleware": "express"
+  }
+}

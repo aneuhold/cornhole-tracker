@@ -154,10 +154,13 @@ CornholeGame o-- Player
 
 # Development
 
-To start development, run the following after pulling down the repo:
+To start editing the code, run the following after pulling down the repo. The project requires a few files to be copied around and for the API documentation to create some routes.
 
-- `yarn`
-- `yarn docker start`
+- `yarn preDev`: Installs yarn + copies files to `client` and `server` + generates routes for the server
+- `yarn docker:start`: Starts up the mongoDB server locally in docker
+- `yarn dev`: Sets up hot-reloading and the local node server (not in docker)
+
+Start making code changes!
 
 ## Testing
 
