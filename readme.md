@@ -151,3 +151,14 @@ CornholeGame o-- Player
   - MongoDB
 
 [Guide used to set this up](https://blog.logrocket.com/node-js-docker-improve-dx-docker-compose/)
+
+# Development
+
+To start development, run the following after pulling down the repo:
+
+- `yarn`
+- `yarn docker start`
+
+## Testing
+
+To test, the docker mongoDB container must be running locally. After that you can run `yarn test`.
