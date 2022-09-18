@@ -1,4 +1,4 @@
-import { Document, ObjectId } from 'bson';
+import { ObjectId } from 'bson';
 import { InsertOneResult } from 'mongodb';
 import User from 'shared/types/User';
 import UserRepository from 'src/repositories/UserRepository';
@@ -10,7 +10,8 @@ import {
   Path,
   Post,
   Route,
-  SuccessResponse
+  SuccessResponse,
+  Tags
 } from 'tsoa';
 import BaseDocumentController from './BaseDocumentController';
 
@@ -18,6 +19,7 @@ import BaseDocumentController from './BaseDocumentController';
  * Handles operations related to users.
  */
 @Route('users')
+@Tags('Users')
 export class UserController extends BaseDocumentController<User> {
   private userRepo: UserRepository = UserRepository.getRepo();
 
@@ -37,6 +39,15 @@ export class UserController extends BaseDocumentController<User> {
   @SuccessResponse('200')
   public async getAll(): Promise<User[]> {
     return this.userRepo.getAll();
+  }
+
+  /**
+   * @summary Gets a list of users with the provided IDs.
+   */
+  @Post('/list')
+  @SuccessResponse('200')
+  getList(@Body() userIds: ObjectId[]): Promise<User[]> {
+    return this.userRepo.getList(userIds);
   }
 
   /**
@@ -62,7 +73,7 @@ export class UserController extends BaseDocumentController<User> {
    */
   @SuccessResponse('204')
   @Post('/')
-  create(@Body() user: User): Promise<InsertOneResult<Document>> {
+  create(@Body() user: User): Promise<InsertOneResult<User>> {
     return this.userRepo.insertNew(user);
   }
 }

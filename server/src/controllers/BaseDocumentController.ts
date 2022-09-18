@@ -46,6 +46,8 @@ export default abstract class BaseDocumentController<
 
   abstract getAll(): Promise<TBaseType[]>;
 
+  abstract getList(docIds: ObjectId[]): Promise<TBaseType[]>;
+
   abstract delete(docId: ObjectId): Promise<DeleteResult>;
 
   abstract update(doc: TBaseType): Promise<UpdateResult>;
