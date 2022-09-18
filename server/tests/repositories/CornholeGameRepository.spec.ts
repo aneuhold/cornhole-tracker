@@ -5,6 +5,8 @@ import CornholeGameRepository from 'src/repositories/CornholeGameRepository';
 import CornholeTeamRepository from 'src/repositories/CornholeTeamRepository';
 import UserRepository from 'src/repositories/UserRepository';
 import DocumentDb from 'src/util/DocumentDb';
+import { CornholeRound } from 'src/_shared/types/CornholeRound';
+import { CornholeRoundPlayerInfo } from 'src/_shared/types/CornholeRoundPlayerInfo';
 import CornholeTeam from 'src/_shared/types/CornholeTeam';
 import { cleanupDoc, cleanupDocs, expectToThrow } from '../testUtils';
 
@@ -17,36 +19,103 @@ let validCornholeTeams: CornholeTeam[];
  */
 let validTeamUsers: User[];
 
-it('can create a new game if the data is valid', async () => {
-  const gameRepo = CornholeGameRepository.getRepo();
-  const testGame = createValid4PersonCornholeGame();
-  const result = await gameRepo.insertNew(testGame);
-  expect(result.acknowledged).toBeTruthy();
+describe('Create operations', () => {
+  it('can create a new game if the data is valid', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+    const result = await gameRepo.insertNew(testGame);
+    expect(result.acknowledged).toBeTruthy();
 
-  await cleanupDoc(gameRepo, testGame);
-});
+    await cleanupDoc(gameRepo, testGame);
+  });
 
-it('throws if a game is created with an owner that doesnt exist', async () => {
-  const gameRepo = CornholeGameRepository.getRepo();
-  const testGame = createValid4PersonCornholeGame();
+  it('throws if a game is created with an owner that doesnt exist', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
 
-  testGame.owner = new ObjectId();
-  await expectToThrow(async () => {
-    await gameRepo.insertNew(testGame);
+    testGame.owner = new ObjectId();
+    await expectToThrow(async () => {
+      await gameRepo.insertNew(testGame);
+    });
+  });
+
+  it('throws if a game is created with points less than 1', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+
+    testGame.pointsToWin = -31;
+    await expectToThrow(async () => {
+      await gameRepo.insertNew(testGame);
+    });
+    testGame.pointsToWin = 0;
+    await expectToThrow(async () => {
+      await gameRepo.insertNew(testGame);
+    });
+  });
+
+  it('throws if a game is created with a team that doesnt exist in the DB', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+
+    testGame.teams[0] = new ObjectId();
+    await expectToThrow(async () => {
+      await gameRepo.insertNew(testGame);
+    });
+  });
+
+  it('throws if a game is created with fourPlayerPositioning players that differ from the team members', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+
+    expect(testGame.fourPlayerPositioning).toBeDefined();
+    if (testGame.fourPlayerPositioning) {
+      testGame.fourPlayerPositioning.board1Players[0] = new ObjectId();
+      await expectToThrow(async () => {
+        await gameRepo.insertNew(testGame);
+      });
+    }
+  });
+
+  it('throws if a game is created with 2 teams but fourPlayerPositioning isnt defined', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+
+    delete testGame.fourPlayerPositioning;
+    await expectToThrow(async () => {
+      await gameRepo.insertNew(testGame);
+    });
+  });
+
+  it('throws if a game is created with 2 teams but fourPlayerPositioning doesnt have the correct number of players defined', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+
+    if (testGame.fourPlayerPositioning) {
+      testGame.fourPlayerPositioning.board2Players.pop();
+      await expectToThrow(async () => {
+        await gameRepo.insertNew(testGame);
+      });
+    }
   });
 });
 
-it('throws if a game is created with points less than 1', async () => {
-  const gameRepo = CornholeGameRepository.getRepo();
-  const testGame = createValid4PersonCornholeGame();
+describe('Update operations', () => {
+  it('can update a game if the data is valid', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+    const result = await gameRepo.insertNew(testGame);
+    expect(result.acknowledged).toBeTruthy();
 
-  testGame.pointsToWin = -31;
-  await expectToThrow(async () => {
-    await gameRepo.insertNew(testGame);
-  });
-  testGame.pointsToWin = 0;
-  await expectToThrow(async () => {
-    await gameRepo.insertNew(testGame);
+    // Update the game
+    const newCornHoleRound = new CornholeRound(
+      new CornholeRoundPlayerInfo(validTeamUsers[0]._id, 10),
+      new CornholeRoundPlayerInfo(validTeamUsers[3]._id, 9)
+    );
+    testGame.rounds.push(newCornHoleRound);
+    const updateResult = await gameRepo.update(testGame);
+    expect(updateResult.acknowledged).toBeTruthy();
+
+    await cleanupDoc(gameRepo, testGame);
   });
 });
 
@@ -64,9 +133,6 @@ it.skip('can delete all games', async () => {
   expect(result.acknowledged).toBeTruthy();
 });
 
-/**
- * Jest needs the function to return a promise in order to wait on it.
- */
 beforeAll(async () => {
   const teamRepo = CornholeTeamRepository.getRepo();
   const userRepo = UserRepository.getRepo();
