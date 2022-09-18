@@ -1,4 +1,4 @@
-import { Document, UUID } from 'bson';
+import { Document, ObjectId } from 'bson';
 import { InsertOneResult } from 'mongodb';
 import User from 'shared/types/User';
 import UserRepository from 'src/repositories/UserRepository';
@@ -13,16 +13,12 @@ import {
   SuccessResponse
 } from 'tsoa';
 import BaseDocumentController from './BaseDocumentController';
-import { IDocumentController } from './IDocumentController';
 
 /**
  * Handles operations related to users.
  */
 @Route('users')
-export class UserController
-  extends BaseDocumentController<User>
-  implements IDocumentController<User>
-{
+export class UserController extends BaseDocumentController<User> {
   private userRepo: UserRepository = UserRepository.getRepo();
 
   /**
@@ -30,8 +26,8 @@ export class UserController
    */
   @Get('{userId}')
   @SuccessResponse('200')
-  public async get(@Path() userId: UUID): Promise<User | null> {
-    const userDoc = this.userRepo.get(userId);
+  public async get(@Path() userId: ObjectId): Promise<User | null> {
+    const userDoc = this.userRepo.get({ _id: userId });
     if (userDoc) {
       return userDoc;
     }
@@ -53,7 +49,7 @@ export class UserController
    */
   @Delete('{userId}')
   @SuccessResponse('204')
-  public async delete(@Path() userId: UUID) {
+  public async delete(@Path() userId: ObjectId) {
     const result = await this.userRepo.delete(userId);
     if (result.acknowledged && result.deletedCount >= 1) {
       this.setStatus(204);

@@ -1,22 +1,26 @@
-import { UUID } from 'bson';
+import { ObjectId } from 'bson';
 import {
   Collection,
   DeleteResult,
-  Document,
   InsertOneResult,
   UpdateResult
 } from 'mongodb';
+import BaseDocument from 'shared/types/BaseDocument';
 import DocumentDb from 'src/util/DocumentDb';
+import IValidator from 'src/validators/BaseValidator';
 
 /**
  * A base repository that implements a lot of the normal CRUD operations.
  */
-export default abstract class BaseRepository<TBasetype extends Document> {
+export default abstract class BaseRepository<TBasetype extends BaseDocument> {
   protected collectionName: string;
 
   private collection?: Collection;
 
-  constructor(collectionName: string) {
+  constructor(
+    collectionName: string,
+    private validator: IValidator<TBasetype>
+  ) {
     this.collectionName = collectionName;
   }
 
@@ -29,12 +33,13 @@ export default abstract class BaseRepository<TBasetype extends Document> {
 
   async insertNew(newDoc: TBasetype): Promise<InsertOneResult> {
     const collection = await this.getCollection();
+    await this.validator.validateNewObject(newDoc);
     return collection.insertOne(newDoc);
   }
 
-  async get(docId: UUID): Promise<TBasetype | null> {
+  async get(filter: Partial<TBasetype>): Promise<TBasetype | null> {
     const collection = await this.getCollection();
-    const result = await collection.findOne({ _id: docId });
+    const result = await collection.findOne(filter);
     return result as TBasetype | null;
   }
 
@@ -45,7 +50,7 @@ export default abstract class BaseRepository<TBasetype extends Document> {
     return result as unknown as TBasetype[];
   }
 
-  async delete(docId: UUID): Promise<DeleteResult> {
+  async delete(docId: ObjectId): Promise<DeleteResult> {
     const collection = await this.getCollection();
     return collection.deleteOne({ _id: docId });
   }

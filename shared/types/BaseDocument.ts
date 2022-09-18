@@ -1,4 +1,4 @@
-import { UUID } from 'bson';
+import { ObjectId } from 'bson';
 import { Document } from 'mongodb';
 
 /**
@@ -6,5 +6,5 @@ import { Document } from 'mongodb';
  * inherit from.
  */
 export default interface BaseDocument extends Document {
-  _id: UUID;
+  _id: ObjectId;
 }

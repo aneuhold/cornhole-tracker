@@ -12,9 +12,11 @@ export default class DocumentDb {
     if (!this.mongoClient) {
       const mongoDbConnectionString = `mongodb://${config.mongoRootUsername}:${config.mongoRootPassword}@${config.mongoUrl}:${config.mongoPort}`;
       this.mongoClient = new MongoClient(mongoDbConnectionString);
-      await this.mongoClient.connect();
-      console.log('MongoDB client successfully connected...');
     }
+    // Connecting every time is evidently the correct way to do it. This is
+    // because it will not do anything and just return if it is already
+    // connected.
+    await this.mongoClient.connect();
     return this.mongoClient;
   }
 
