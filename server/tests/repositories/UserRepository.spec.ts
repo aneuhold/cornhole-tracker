@@ -1,57 +1,47 @@
+import crypto from 'crypto';
 import User from 'shared/types/User';
 import UserRepository from 'src/repositories/UserRepository';
 import DocumentDb from 'src/util/DocumentDb';
 import { cleanupDoc, expectToThrow } from '../testUtils';
 
-afterAll(async () => {
-  return DocumentDb.closeDbConnection();
-});
-
-it('can create a new user and delete them', async () => {
-  const userRepository = UserRepository.getRepo();
-  const newUser = new User('testUserName');
-  const createResult = await userRepository.insertNew(newUser);
-  expect(createResult.acknowledged).toBeTruthy();
-
-  await cleanupDoc(userRepository, newUser);
-});
-
 it('throws if a user is created with a duplicate username', async () => {
-  const userRepository = UserRepository.getRepo();
-  const newUser1 = new User('duplicateUserName');
-  const newUser2 = new User('duplicateUserName');
+  const userRepo = UserRepository.getRepo();
+  const duplicateUserName = `${crypto.randomUUID()}`;
+  const newUser1 = new User(duplicateUserName);
+  const newUser2 = new User(duplicateUserName);
 
-  const insertResult = await userRepository.insertNew(newUser1);
+  const insertResult = await userRepo.insertNew(newUser1);
   expect(insertResult.acknowledged).toBeTruthy();
 
   await expectToThrow(async () => {
-    await userRepository.insertNew(newUser2);
+    await userRepo.insertNew(newUser2);
   });
 
-  await cleanupDoc(userRepository, newUser1);
+  await cleanupDoc(userRepo, newUser1);
 });
 
 it('throws if a user is updated with a username that already exists', async () => {
-  const userRepository = UserRepository.getRepo();
-  const newUser = new User('duplicateUserName');
-  const otherUserName = 'userName2';
-  const userWithOtherUserName = new User(otherUserName);
+  const userRepo = UserRepository.getRepo();
+  const userName1 = crypto.randomUUID();
+  const userName2 = crypto.randomUUID();
+  const newUser = new User(userName1);
+  const userWithOtherUserName = new User(userName2);
 
   // Insert the users
-  const insertResult1 = await userRepository.insertNew(newUser);
+  const insertResult1 = await userRepo.insertNew(newUser);
   expect(insertResult1.acknowledged).toBeTruthy();
-  const insertResult2 = await userRepository.insertNew(userWithOtherUserName);
+  const insertResult2 = await userRepo.insertNew(userWithOtherUserName);
   expect(insertResult2.acknowledged).toBeTruthy();
 
   // Try to update the first user
-  newUser.userName = otherUserName;
+  newUser.userName = userName2;
   await expectToThrow(async () => {
-    await userRepository.update(newUser);
+    await userRepo.update(newUser);
   });
 
   await Promise.all([
-    cleanupDoc(userRepository, newUser),
-    cleanupDoc(userRepository, userWithOtherUserName)
+    cleanupDoc(userRepo, newUser),
+    cleanupDoc(userRepo, userWithOtherUserName)
   ]);
 });
 
@@ -63,8 +53,12 @@ it('throws if a user is updated with a username that already exists', async () =
  *
  * To just do a cleanup, put `only` after `it`. So `it.only('can delete all users'`
  */
-it.only('can delete all users', async () => {
-  const userRepository = UserRepository.getRepo();
-  const result = await userRepository.deleteAll();
+it.skip('can delete all users', async () => {
+  const userRepo = UserRepository.getRepo();
+  const result = await userRepo.deleteAll();
   expect(result.acknowledged).toBeTruthy();
+});
+
+afterAll(async () => {
+  return DocumentDb.closeDbConnection();
 });

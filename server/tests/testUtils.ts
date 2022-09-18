@@ -23,3 +23,14 @@ export async function cleanupDoc<TDocType extends BaseDocument>(
   const findResult = await repo.get({ _id: doc._id } as Partial<TDocType>);
   expect(findResult).toBeNull();
 }
+
+export async function cleanupDocs<TDocType extends BaseDocument>(
+  repo: BaseRepository<TDocType>,
+  docs: TDocType[]
+) {
+  const idsToDelete = docs.map((doc) => doc._id);
+  const deleteResult = await repo.deleteList(idsToDelete);
+  expect(deleteResult.acknowledged).toBeTruthy();
+  const findResult = await repo.getList(idsToDelete);
+  expect(findResult.length).toBe(0);
+}

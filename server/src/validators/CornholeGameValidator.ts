@@ -20,7 +20,9 @@ export default class CornholeGameValidator extends IValidator<CornholeGame> {
       errorList.push(`Owner with ID: ${newGame.owner} does not exist.`);
     }
     errorList = await this.validateStandardGameRules(newGame, errorList);
-    throwErrorList(errorList, newGame);
+    if (errorList.length > 0) {
+      throwErrorList(errorList, newGame);
+    }
   }
 
   async validateUpdateObject(
@@ -47,7 +49,9 @@ export default class CornholeGameValidator extends IValidator<CornholeGame> {
 
     let errorList: string[] = [];
     errorList = await this.validateStandardGameRules(mergedGame, errorList);
-    throwErrorList(errorList, mergedGame);
+    if (errorList.length > 0) {
+      throwErrorList(errorList, mergedGame);
+    }
   }
 
   /**
@@ -108,12 +112,16 @@ export default class CornholeGameValidator extends IValidator<CornholeGame> {
     // Check that the teams include the players defined in fourPlayerPositioning
     if (game.fourPlayerPositioning) {
       const teamPlayers = [
-        ...teamsResult[0].players,
-        ...teamsResult[1].players
+        ...teamsResult[0].players.map((id) => id.toHexString()),
+        ...teamsResult[1].players.map((id) => id.toHexString())
       ];
       const playerPositioningPlayers = [
-        ...game.fourPlayerPositioning.board1Players,
-        ...game.fourPlayerPositioning.board2Players
+        ...game.fourPlayerPositioning.board1Players.map((id) =>
+          id.toHexString()
+        ),
+        ...game.fourPlayerPositioning.board2Players.map((id) =>
+          id.toHexString()
+        )
       ];
       if (
         !this.checkAllElementsExistInArr(teamPlayers, playerPositioningPlayers)

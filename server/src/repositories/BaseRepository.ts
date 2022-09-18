@@ -61,6 +61,11 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
     return collection.deleteOne({ _id: docId });
   }
 
+  async deleteList(docIds: ObjectId[]): Promise<DeleteResult> {
+    const collection = await this.getCollection();
+    return collection.deleteMany({ _id: { $in: docIds } });
+  }
+
   /**
    * This should not be used except for testing purposes
    */

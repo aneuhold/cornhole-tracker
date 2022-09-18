@@ -33,8 +33,6 @@ export default class DocumentDb {
   static async closeDbConnection(): Promise<void> {
     if (DocumentDb.mongoClient) {
       await DocumentDb.mongoClient.close();
-      console.log('MongoDB connection successfully closed...');
     }
-    console.log('Connection close was attempted but no client existed');
   }
 }
