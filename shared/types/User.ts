@@ -6,7 +6,7 @@ import Player from './Player';
  * have played, but only the ones they want stats calculated on their profile
  */
 export default class User implements Player {
-  id = new UUID();
+  _id = new UUID();
 
   userName: string;
 

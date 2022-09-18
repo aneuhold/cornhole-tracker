@@ -43,7 +43,9 @@
     // Turned off because of conflict with tsoa structure
     "class-methods-use-this": "off",
     // Turned off because tsoa needs controllers to not be a default export
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    // Turned off because mongoDB is being used and that needs the underscore
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "import/resolver": {

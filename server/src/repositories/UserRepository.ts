@@ -1,60 +1,24 @@
-import { UUID } from 'bson';
-import { Collection } from 'mongodb';
 import User from 'shared/types/User';
-import DocumentDb from 'src/util/DocumentDb';
-import UserDocument from './documentTypes/UserDocument';
+import BaseRepository from './BaseRepository';
 
 /**
  * The repository that contains {@link User} documents.
+ *
+ * This can not be offered as a singleton in this class because
  */
-export default class UserRepository {
+export default class UserRepository extends BaseRepository<User> {
   private static COLLECTION_NAME = 'users';
 
-  private static userCollection: Collection<UserDocument>;
+  private static singletonInstance: UserRepository;
 
-  private static async getCollection() {
-    if (!this.userCollection) {
-      this.userCollection = await DocumentDb.getCollection<UserDocument>(
-        this.COLLECTION_NAME
-      );
+  private constructor() {
+    super(UserRepository.COLLECTION_NAME);
+  }
+
+  public static getRepo() {
+    if (!UserRepository.singletonInstance) {
+      UserRepository.singletonInstance = new UserRepository();
     }
-    return this.userCollection;
-  }
-
-  static async insertNewUser(newUser: User) {
-    const collection = await this.getCollection();
-    return collection.insertOne(newUser);
-  }
-
-  static async getUser(userId: UUID) {
-    const collection = await this.getCollection();
-    return collection.findOne({ id: userId });
-  }
-
-  static async getAllUsers() {
-    const collection = await this.getCollection();
-    const cursor = collection.find();
-    return cursor.toArray();
-  }
-
-  static async deleteUser(userId: UUID) {
-    const collection = await this.getCollection();
-    return collection.deleteOne({ id: userId });
-  }
-
-  /**
-   * This should not be used except for testing purposes
-   */
-  static async deleteAllUsers() {
-    const collection = await this.getCollection();
-    return collection.deleteMany({});
-  }
-
-  static async updateUser(updatedUser: User) {
-    const collection = await this.getCollection();
-    const userId = updatedUser.id;
-    const userWithoutId: Partial<User> = updatedUser;
-    delete userWithoutId.id;
-    return collection.updateOne({ id: userId }, userWithoutId);
+    return UserRepository.singletonInstance;
   }
 }
