@@ -27,12 +27,7 @@ export class UserController extends BaseDocumentController<User> {
   @Get('{userId}')
   @SuccessResponse('200')
   public async get(@Path() userId: ObjectId): Promise<User | null> {
-    const userDoc = this.userRepo.get({ _id: userId });
-    if (userDoc) {
-      return userDoc;
-    }
-    this.setStatus(400);
-    return userDoc;
+    return this.baseGet(this.userRepo, { _id: userId });
   }
 
   /**
@@ -50,13 +45,7 @@ export class UserController extends BaseDocumentController<User> {
   @Delete('{userId}')
   @SuccessResponse('204')
   public async delete(@Path() userId: ObjectId) {
-    const result = await this.userRepo.delete(userId);
-    if (result.acknowledged && result.deletedCount >= 1) {
-      this.setStatus(204);
-    } else {
-      this.setStatus(400);
-    }
-    return result;
+    return this.baseDelete(this.userRepo, userId);
   }
 
   /**
@@ -65,13 +54,7 @@ export class UserController extends BaseDocumentController<User> {
   @SuccessResponse('200')
   @Patch('/')
   public async update(@Body() user: User) {
-    const response = await this.userRepo.update(user);
-    if (response.acknowledged) {
-      this.setStatus(200);
-    } else {
-      this.setStatus(400);
-    }
-    return response;
+    return this.baseUpdate(this.userRepo, user);
   }
 
   /**

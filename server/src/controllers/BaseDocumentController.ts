@@ -22,6 +22,26 @@ export default abstract class BaseDocumentController<
     return doc;
   }
 
+  protected async baseDelete(repo: BaseRepository<TBaseType>, docId: ObjectId) {
+    const result = await repo.delete(docId);
+    if (result.acknowledged && result.deletedCount >= 1) {
+      this.setStatus(204);
+    } else {
+      this.setStatus(400);
+    }
+    return result;
+  }
+
+  protected async baseUpdate(repo: BaseRepository<TBaseType>, doc: TBaseType) {
+    const response = await repo.update(doc);
+    if (response.acknowledged) {
+      this.setStatus(200);
+    } else {
+      this.setStatus(400);
+    }
+    return response;
+  }
+
   abstract get(docId: ObjectId): Promise<TBaseType | null>;
 
   abstract getAll(): Promise<TBaseType[]>;
