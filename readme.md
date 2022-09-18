@@ -62,6 +62,7 @@ The data architecture below is based upon using a document-based DB.
 
 - `cornholeGame`: Defined as the session where 2 or 4 players play on 2 teams. If 2 players are playing, then the rounds are always with the same 2 people. If 4 people are playing, then the rounds go back and forth between 2 opposing players on each team. Whoever reaches 21 points first, wins. The points to win are variable though and can change per game. A game does not have to be finished for it to be registered here, but a game does have to be finished to calculate stats (Otherwise, if a game ends with an uneven number of rounds, then the stats will be incorrect for the players).
   - `owner`: The user that created the game. Only this user can permenently delete the game, and log scores for it.
+  - `rounds`: These are defined as `player1` and `player2` for each round and not something like `leftPlayer` and `rightPlayer` because "left" and "right" can get confusing based on who is recording scores (facing the board or facing down the field towards the other board?). The only positioning is based on who is at what board in the `playerPositioning` field.
 
 ```json
 {
@@ -71,45 +72,57 @@ The data architecture below is based upon using a document-based DB.
   "rounds": [
     // The order of these rounds is important
     {
-      "playerId1": 10,
-      "playerId2": 9
+      "player1": {
+        "id": "playerId",
+        "score": 10
+      },
+      "player2": {
+        "id": "playerId",
+        "score": 9
+      }
     },
     {
-      "playerId3": 4,
-      "playerId4": 2
+      "player1": {
+        "id": "playerId",
+        "score": 4
+      },
+      "player2": {
+        "id": "playerId",
+        "score": 2
+      }
     },
     {
-      "playerId1": 6,
-      "playerId2": 8
+      "player1": {
+        "id": "playerId",
+        "score": 6
+      },
+      "player2": {
+        "id": "playerId",
+        "score": 8
+      }
     }
   ],
-  "playerPositioning": {
-    "is4PlayerGame": true,
-    "board1Players": [
-      // Array only exists if it is a 4 player game
-      "playerId1",
-      "playerId2"
-    ],
-    "board2Players": [
-      // Array only exists if it is a 4 player game
-      "playerId3",
-      "playerId4"
-    ]
+  "fourPlayerPositioning": {
+    // Only exists if a 4 player game
+    "board1Players": ["playerId1", "playerId2"],
+    "board2Players": ["playerId3", "playerId4"]
   },
   "owner": "ownerId"
 }
 ```
 
 - `cornholeTeam`: Defined as a grouping of players that may play over a span of `cornholeGame`s, or possibly for only one `cornholeGame`. It is supposed to only contain information on the players and possibly the color of the team, but no stats. Only the `owner` (the creator of the team) and the team members themselves can change the name of the team or the color.
+  - `name` The team name. This is required so that it can be represented to the user in some way. If there is a way to identify teams without this, then it can be made optional in the future.
   - `players` Contains the information on the players for the team. This is where temporary players can be entered if internet is not available or the new player doesn't have an account.
   - `isArchived` means that the team will not be shown to other users when trying to create new games, but will still be available for stats purposes. If a user tries to create a new team with the same players in it as an existing one, it will bring this team back. That way stats can stay consistent for particular users
+  - `color` A CSS compatible color. This needs to be able to change. It can only be checked if it is valid on the frontend though.
 
 ```json
 {
   "id": "someGuid",
-  "name": "Best Team Ever", // Optional
+  "name": "Best Team Ever",
   "players": ["someUserId", "someTempPlayerUserId"],
-  "color": "red", // CSS compatible color, this needs to be able to change,
+  "color": "red",
   "owner": "ownerId",
   "isArchived": false
 }

@@ -8,6 +8,8 @@ import Player from './Player';
 export default class User implements Player {
   _id = new ObjectId();
 
+  name?: string;
+
   userName: string;
 
   auth: {
@@ -58,9 +60,7 @@ export default class User implements Player {
   isArchived = false;
 
   /**
-   * Constructs a new user with default values.
-   *
-   * This should eventually probably check that the username is unique.
+   * Constructs a new {@link User} with default values.
    */
   constructor(userName: string) {
     this.userName = userName;
