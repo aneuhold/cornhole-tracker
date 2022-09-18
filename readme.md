@@ -165,3 +165,5 @@ Start making code changes!
 ## Testing
 
 To test, the docker mongoDB container must be running locally. After that you can run `yarn test`.
+
+To configure if something should be ignored in the code coverage, the `collectCoverageFrom` key-value pair should be added to.

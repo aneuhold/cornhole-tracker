@@ -1,6 +1,7 @@
 import User from 'shared/types/User';
 import UserRepository from 'src/repositories/UserRepository';
 import DocumentDb from 'src/util/DocumentDb';
+import { cleanupDoc, expectToThrow } from '../testUtils';
 
 afterAll(async () => {
   return DocumentDb.closeDbConnection();
@@ -12,7 +13,7 @@ it('can create a new user and delete them', async () => {
   const createResult = await userRepository.insertNew(newUser);
   expect(createResult.acknowledged).toBeTruthy();
 
-  await cleanupUser(userRepository, newUser);
+  await cleanupDoc(userRepository, newUser);
 });
 
 it('throws if a user is created with a duplicate username', async () => {
@@ -23,15 +24,35 @@ it('throws if a user is created with a duplicate username', async () => {
   const insertResult = await userRepository.insertNew(newUser1);
   expect(insertResult.acknowledged).toBeTruthy();
 
-  let threwError = false;
-  try {
+  await expectToThrow(async () => {
     await userRepository.insertNew(newUser2);
-  } catch {
-    threwError = true;
-  }
-  expect(threwError).toBeTruthy();
+  });
 
-  await cleanupUser(userRepository, newUser1);
+  await cleanupDoc(userRepository, newUser1);
+});
+
+it('throws if a user is updated with a username that already exists', async () => {
+  const userRepository = UserRepository.getRepo();
+  const newUser = new User('duplicateUserName');
+  const otherUserName = 'userName2';
+  const userWithOtherUserName = new User(otherUserName);
+
+  // Insert the users
+  const insertResult1 = await userRepository.insertNew(newUser);
+  expect(insertResult1.acknowledged).toBeTruthy();
+  const insertResult2 = await userRepository.insertNew(userWithOtherUserName);
+  expect(insertResult2.acknowledged).toBeTruthy();
+
+  // Try to update the first user
+  newUser.userName = otherUserName;
+  await expectToThrow(async () => {
+    await userRepository.update(newUser);
+  });
+
+  await Promise.all([
+    cleanupDoc(userRepository, newUser),
+    cleanupDoc(userRepository, userWithOtherUserName)
+  ]);
 });
 
 /**
@@ -42,15 +63,8 @@ it('throws if a user is created with a duplicate username', async () => {
  *
  * To just do a cleanup, put `only` after `it`. So `it.only('can delete all users'`
  */
-it.skip('can delete all users', async () => {
+it.only('can delete all users', async () => {
   const userRepository = UserRepository.getRepo();
   const result = await userRepository.deleteAll();
   expect(result.acknowledged).toBeTruthy();
 });
-
-async function cleanupUser(userRepository: UserRepository, newUser: User) {
-  const deleteResult = await userRepository.delete(newUser._id);
-  expect(deleteResult.acknowledged).toBeTruthy();
-  const findResult = await userRepository.get({ _id: newUser._id });
-  expect(findResult).toBeNull();
-}
