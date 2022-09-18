@@ -7,19 +7,20 @@ export default abstract class IValidator<TBaseType> {
 
   /**
    * Validates an object that is suppposed to be updated in the database.
+   *
+   * At this point, the fields that do not change should already be stripped.
    */
-  abstract validateUpdateObject(object: TBaseType): Promise<void>;
+  abstract validateUpdateObject(
+    partialObject: Partial<TBaseType>
+  ): Promise<void>;
 
   /**
-   * Throws a formatted message indicating the validation error and the
-   * provided object which caused it.
+   * Checks that all elements that exist in array1, exist in array2.
    */
-  protected throwValidationError(message: string, erroneousObject: TBaseType) {
-    const errorMessage = `${message}\n${JSON.stringify(
-      erroneousObject,
-      null,
-      2
-    )}`;
-    throw new Error(errorMessage);
+  protected checkAllElementsExistInArr(
+    array1: Array<unknown>,
+    array2: Array<unknown>
+  ) {
+    return array1.every((value) => array2.includes(value));
   }
 }

@@ -1,4 +1,5 @@
 import User from 'shared/types/User';
+import { throwError } from 'shared/utils/errorUtils';
 import UserRepository from 'src/repositories/UserRepository';
 import IValidator from './BaseValidator';
 
@@ -6,41 +7,50 @@ export default class UserValidator extends IValidator<User> {
   async validateNewObject(newUser: User): Promise<void> {
     // Check if it has a username
     if (!newUser.userName) {
-      this.throwValidationError(
-        'No username provided for creating new user',
-        newUser
-      );
+      throwError('No username provided for creating new user', newUser);
     }
 
     // Check if the username already exists
     const userRepo = UserRepository.getRepo();
-    await this.checkIfUserNameExists(userRepo, newUser);
+    await this.checkIfUserNameExists(userRepo, newUser.userName);
   }
 
-  async validateUpdateObject(userToUpdate: User): Promise<void> {
+  async validateUpdateObject(userToUpdate: Partial<User>): Promise<void> {
+    // Check if an id is defined
+    if (!userToUpdate._id) {
+      throwError(`No _id defined for user to update.`, userToUpdate);
+    }
+
     // Check to see if the user exists
     const userRepo = UserRepository.getRepo();
     const userInDb = await userRepo.get({ _id: userToUpdate._id });
     if (!userInDb) {
-      this.throwValidationError(
-        `User with ID: ${userToUpdate._id} does not exist in the database`,
+      throwError(
+        `User with ID: ${userToUpdate._id} does not exist in the database.`,
         userToUpdate
       );
+      return;
     }
 
     // Check if the username is being updated and, if it is, if it already
     // exists
-    if (userInDb?.userName !== userToUpdate.userName) {
-      await this.checkIfUserNameExists(userRepo, userToUpdate);
+    if (userToUpdate.userName && userInDb.userName !== userToUpdate.userName) {
+      await this.checkIfUserNameExists(userRepo, userToUpdate.userName);
     }
   }
 
-  private async checkIfUserNameExists(userRepo: UserRepository, user: User) {
+  /**
+   * Checks if the username exists already and throws an error if it does.
+   */
+  public async checkIfUserNameExists(
+    userRepo: UserRepository,
+    userName: string
+  ) {
     const userNameSearchResult = await userRepo.get({
-      userName: user.userName
+      userName
     });
     if (userNameSearchResult) {
-      this.throwValidationError('Username already exists', user);
+      throwError('Username already exists', { userName });
     }
   }
 }

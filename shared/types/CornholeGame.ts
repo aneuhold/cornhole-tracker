@@ -20,17 +20,37 @@ import { CornholeRound } from './CornholeRound';
 export default class CornholeGame implements BaseDocument {
   _id = new ObjectId();
 
+  /**
+   * These can change as long as there isn't a round recorded yet. This is
+   * because the players need to be associated with the teams.
+   */
   teams: ObjectId[];
 
   gameIsComplete = false;
 
+  /**
+   * If a round is entered, the `teams` can no longer change, and neither can
+   * the `pointsToWin`.
+   */
   rounds: CornholeRound[] = [];
 
+  /**
+   * The number of points to win the game. This can be modified until a
+   * round is recorded.
+   */
+  pointsToWin = 21;
+
+  /**
+   * If `fourPlayerPositioning` is defined, then there must be 2 teams. Also,
+   * the players in the positioning need to be on the teams.
+   */
   fourPlayerPositioning?: FourPlayerPositioning;
 
   /**
    * The user that created the game. Only this user can permenently delete
    * the game, and log scores for it.
+   *
+   * The owner cannot be changed after it is set.
    */
   owner: ObjectId;
 
@@ -66,6 +86,11 @@ export default class CornholeGame implements BaseDocument {
       );
     }
     // Validate playerPositioning
+    if (playerPositioning && teams.length !== 2) {
+      errorList.push(
+        `If playerPositioning is defined, there must be 2 teams. Current teams: ${teams.length}`
+      );
+    }
     if (playerPositioning && playerPositioning.board1Players.length !== 2) {
       errorList.push(
         `board1Players must contain 2 players. Currently contains: ${playerPositioning.board1Players.length}`

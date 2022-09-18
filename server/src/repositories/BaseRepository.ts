@@ -50,6 +50,12 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
     return result as unknown as TBasetype[];
   }
 
+  async getList(docIds: ObjectId[]): Promise<TBasetype[]> {
+    const collection = await this.getCollection();
+    const result = await collection.find({ _id: { $in: docIds } }).toArray();
+    return result as TBasetype[];
+  }
+
   async delete(docId: ObjectId): Promise<DeleteResult> {
     const collection = await this.getCollection();
     return collection.deleteOne({ _id: docId });
@@ -63,6 +69,11 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
     return collection.deleteMany({});
   }
 
+  /**
+   * Updates the provided doc in the DB.
+   *
+   * This base method strips the `_id` before updating.
+   */
   async update(updatedDoc: TBasetype): Promise<UpdateResult> {
     const collection = await this.getCollection();
     const docId = updatedDoc._id;
