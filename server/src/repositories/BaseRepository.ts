@@ -81,9 +81,10 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
    */
   async update(updatedDoc: TBasetype): Promise<UpdateResult> {
     const collection = await this.getCollection();
+    await this.validator.validateUpdateObject(updatedDoc);
     const docId = updatedDoc._id;
     const docWithoutId: Partial<TBasetype> = updatedDoc;
     delete docWithoutId._id;
-    return collection.updateOne({ _id: docId }, docWithoutId);
+    return collection.updateOne({ _id: docId }, { $set: docWithoutId });
   }
 }
