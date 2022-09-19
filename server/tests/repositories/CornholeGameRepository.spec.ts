@@ -117,6 +117,24 @@ describe('Update operations', () => {
 
     await cleanupDoc(gameRepo, testGame);
   });
+
+  it('throws if the id provided doesnt already exist', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+
+    await expectToThrow(async () => {
+      await gameRepo.update(testGame);
+    });
+  });
+
+  it('throws if no id is provided', async () => {
+    const gameRepo = CornholeGameRepository.getRepo();
+    const testGame = createValid4PersonCornholeGame();
+
+    await expectToThrow(async () => {
+      await gameRepo.update(testGame);
+    });
+  });
 });
 
 /**
