@@ -79,11 +79,11 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
    *
    * This base method strips the `_id` before updating.
    */
-  async update(updatedDoc: TBasetype): Promise<UpdateResult> {
+  async update(updatedDoc: Partial<TBasetype>): Promise<UpdateResult> {
     const collection = await this.getCollection();
     await this.validator.validateUpdateObject(updatedDoc);
     const docId = updatedDoc._id;
-    const docWithoutId: Partial<TBasetype> = updatedDoc;
+    const docWithoutId = updatedDoc;
     delete docWithoutId._id;
     return collection.updateOne({ _id: docId }, { $set: docWithoutId });
   }

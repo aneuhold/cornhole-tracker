@@ -1,3 +1,4 @@
+import { UpdateResult } from 'mongodb';
 import CornholeGameValidator from 'src/validators/CornholeGameValidator';
 import CornholeGame from 'src/_shared/types/CornholeGame';
 import BaseRepository from './BaseRepository';
@@ -24,5 +25,19 @@ export default class CornholeGameRepository extends BaseRepository<CornholeGame>
       CornholeGameRepository.singletonInstance = new CornholeGameRepository();
     }
     return CornholeGameRepository.singletonInstance;
+  }
+
+  /**
+   * Updates the provided game in the DB.
+   *
+   * This cleans the following because they can't be updated:
+   * - owner
+   *
+   * @override
+   */
+  async update(updatedGame: Partial<CornholeGame>): Promise<UpdateResult> {
+    const cleanedGame = updatedGame;
+    delete cleanedGame.owner;
+    return super.update(cleanedGame);
   }
 }
