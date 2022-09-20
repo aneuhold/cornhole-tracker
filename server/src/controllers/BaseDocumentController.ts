@@ -22,6 +22,9 @@ export default abstract class BaseDocumentController<
     return doc;
   }
 
+  /**
+   * A generic delete implementation that can be used for other controllers.
+   */
   protected async baseDelete(repo: BaseRepository<TBaseType>, docId: ObjectId) {
     const result = await repo.delete(docId);
     if (result.acknowledged && result.deletedCount >= 1) {
@@ -32,6 +35,9 @@ export default abstract class BaseDocumentController<
     return result;
   }
 
+  /**
+   * A generic update implementation that can be used for other controllers.
+   */
   protected async baseUpdate(repo: BaseRepository<TBaseType>, doc: TBaseType) {
     const response = await repo.update(doc);
     if (response.acknowledged) {

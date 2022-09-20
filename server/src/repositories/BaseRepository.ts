@@ -46,7 +46,7 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
   async getAll(): Promise<TBasetype[]> {
     const collection = await this.getCollection();
     const result = await collection.find().toArray();
-    // Set to uknown first because of some weird type things.
+    // Set to unknown first because of some weird type things.
     return result as unknown as TBasetype[];
   }
 
