@@ -1,3 +1,4 @@
+import { ObjectId } from 'bson';
 import { UpdateResult } from 'mongodb';
 import CornholeTeam from 'shared/types/CornholeTeam';
 import CornholeTeamValidator from 'src/validators/CornholeTeamValidator';
@@ -37,5 +38,23 @@ export default class CornholeTeamRepository extends BaseRepository<CornholeTeam>
     const cleanedTeam = updatedTeam;
     delete cleanedTeam.owner;
     return super.update(cleanedTeam);
+  }
+
+  /**
+   * Gets the team including the provided players. This can be a team of 1
+   * player or 2 players.
+   *
+   * If no team exists with those specified players, it returns null.
+   */
+  async getTeamIncludingPlayers(
+    players: ObjectId[]
+  ): Promise<CornholeTeam | null> {
+    const collection = await this.getCollection();
+    const result = await collection.findOne({
+      players: {
+        $all: players
+      }
+    });
+    return result as CornholeTeam | null;
   }
 }

@@ -20,7 +20,7 @@ export default class User implements Player {
   /**
    * Games the user has approved to count towards their overall profile record.
    */
-  approvedGames: string[] = [];
+  approvedGames: ObjectId[] = [];
 
   /**
    * currentTeamsIncludingUser will act in a kind of special way. A solo team
@@ -30,19 +30,19 @@ export default class User implements Player {
    * The user can archive teams in this list so it doesn't show up as an option to
    * them when creating new games.
    */
-  currentTeamsIncludingUser: string[] = [];
+  currentTeamsIncludingUser: ObjectId[] = [];
 
   /**
    * Contains teams that the user has created that don't include themself.
    * These will come up as an option when creating a new game.
    */
-  currentTeamsNotIncludingUser: string[] = [];
+  currentTeamsNotIncludingUser: ObjectId[] = [];
 
   /**
    * Players that the user has created that aren't linked to an actual user
    * in the database.
    */
-  tempPlayers: string[] = [];
+  tempPlayers: ObjectId[] = [];
 
   /**
    * False by default, but if set to true, then other people will see their
