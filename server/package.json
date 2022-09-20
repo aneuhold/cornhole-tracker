@@ -7,7 +7,7 @@
     "--- Main Commands ---": "",
     "dev": "yarn build && cross-env MONGO_URL=localhost concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "start": "yarn build && cross-env MONGO_URL=localhost node lib/server.js",
-    "start:docker": "yarn build && cross-env MONGO_URL=mongo node lib/index.js",
+    "start:docker": "yarn build && cross-env MONGO_URL=mongo node lib/server.js",
     "test": "cross-env MONGO_URL=localhost jest",
     "--- Support Commands ---": "",
     "build": "tsoa spec-and-routes && tsc --project tsconfig.build.json"
