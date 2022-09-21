@@ -1,5 +1,14 @@
 lib
 
+# Yarn 2 specific
+.pnp.*
+.yarn/**/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 # Swagger / TSOA files
 src/routes.ts
 src/swagger.json
