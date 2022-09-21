@@ -8,7 +8,7 @@
     "preDev": "yarn i && yarn copySharedFiles && yarn build",
     "start": "yarn copySharedFiles && cd server && yarn start",
     "dev": "yarn copySharedFiles && cd server && yarn dev",
-    "docker:start": "yarn copySharedFiles && cd server && docker-compose up",
+    "docker:start": "yarn copySharedFiles && cd server && docker-compose up -d",
     "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/_shared -u 1",
     "test": "cd server && yarn test"
   },
