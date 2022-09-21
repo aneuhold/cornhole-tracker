@@ -1,4 +1,3 @@
-import { ObjectId } from 'bson';
 import CornholeTeam from 'shared/types/CornholeTeam';
 import { throwError, throwErrorList } from 'shared/utils/errorUtils';
 import CornholeTeamRepository from 'src/repositories/CornholeTeamRepository';
@@ -21,14 +20,7 @@ export default class CornholeTeamValidator extends IValidator<CornholeTeam> {
 
     let errorList: string[] = [];
 
-    // Check if the players exist
-    const tempPlayerRepo = TempPlayerRepository.getRepo();
-    errorList = await this.validatePlayers(
-      userRepo,
-      tempPlayerRepo,
-      newTeam.players,
-      errorList
-    );
+    errorList = await this.validateStandardTeamRules(newTeam, errorList);
 
     if (errorList.length !== 0) {
       throwErrorList(errorList, newTeam);
@@ -55,38 +47,42 @@ export default class CornholeTeamValidator extends IValidator<CornholeTeam> {
 
     let errorList: string[] = [];
 
-    // If players updated, check that they exist in the DB
-    if (teamToUpdate.players) {
-      const userRepo = UserRepository.getRepo();
-      const tempPlayerRepo = TempPlayerRepository.getRepo();
-      errorList = await this.validatePlayers(
-        userRepo,
-        tempPlayerRepo,
-        teamToUpdate.players,
-        errorList
-      );
-    }
+    errorList = await this.validateStandardTeamRules(teamToUpdate, errorList);
 
     if (errorList.length !== 0) {
       throwErrorList(errorList, teamToUpdate);
     }
   }
 
-  private async validatePlayers(
-    userRepo: UserRepository,
-    tempPlayerRepo: TempPlayerRepository,
-    players: ObjectId[],
+  private async validateStandardTeamRules(
+    team: Partial<CornholeTeam>,
     errorList: string[]
   ): Promise<string[]> {
-    const userPromise = userRepo.getList(players);
-    const tempPlayerPromise = tempPlayerRepo.getList(players);
-    const result = await Promise.all([userPromise, tempPlayerPromise]);
-    const matchedPlayers = [...result[0], ...result[1]];
-    if (matchedPlayers.length !== players.length) {
-      errorList.push(
-        `1 or 2 of the players provided do not exist in the database`
-      );
+    if (team.players) {
+      const userRepo = UserRepository.getRepo();
+      const tempPlayerRepo = TempPlayerRepository.getRepo();
+      const teamRepo = CornholeTeamRepository.getRepo();
+
+      // Validate the players exist
+      const userPromise = userRepo.getList(team.players);
+      const tempPlayerPromise = tempPlayerRepo.getList(team.players);
+      const result = await Promise.all([userPromise, tempPlayerPromise]);
+      const matchedPlayers = [...result[0], ...result[1]];
+      if (matchedPlayers.length !== team.players.length) {
+        errorList.push(
+          `1 or 2 of the players provided do not exist in the database`
+        );
+      }
+
+      // Validate the team doesn't already exist
+      const teamResult = await teamRepo.getTeamIncludingPlayers(team.players);
+      if (teamResult) {
+        errorList.push(
+          `The players provided already exist on the team with the ID: ${teamResult._id}`
+        );
+      }
     }
+
     return errorList;
   }
 }

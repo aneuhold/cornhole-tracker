@@ -13,8 +13,6 @@ export default class UserRepository extends BaseRepository<User> {
 
   private static singletonInstance: UserRepository;
 
-  private static teamRepo = CornholeTeamRepository.getRepo();
-
   private constructor() {
     super(UserRepository.COLLECTION_NAME, new UserValidator());
   }
@@ -34,12 +32,16 @@ export default class UserRepository extends BaseRepository<User> {
    *
    * This will add the default team that consists of just the user if it
    * doesn't already exist. If it does exist, it will add that team to the
-   * user's {@link User.currentTeamsIncludingUser}.
+   * user's {@link User.currentTeamsIncludingUser} array.
    *
    * @override
    */
   async insertNew(newUser: User): Promise<InsertOneResult> {
-    const { teamRepo } = UserRepository;
+    // Insert the new user first
+    const insertResult = await super.insertNew(newUser);
+
+    // Create or add the single user team
+    const teamRepo = CornholeTeamRepository.getRepo();
     const teamResult = await teamRepo.getTeamIncludingPlayers([newUser._id]);
     if (teamResult) {
       newUser.currentTeamsIncludingUser.push(teamResult._id);
@@ -52,6 +54,9 @@ export default class UserRepository extends BaseRepository<User> {
       await teamRepo.insertNew(newTeam);
       newUser.currentTeamsIncludingUser.push(newTeam._id);
     }
-    return super.insertNew(newUser);
+    await super.update(newUser);
+
+    // Return the initial insert result
+    return insertResult;
   }
 }
