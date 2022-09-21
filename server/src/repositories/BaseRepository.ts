@@ -82,9 +82,13 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
   async update(updatedDoc: Partial<TBasetype>): Promise<UpdateResult> {
     const collection = await this.getCollection();
     await this.validator.validateUpdateObject(updatedDoc);
+
     const docId = updatedDoc._id;
-    const docWithoutId = updatedDoc;
-    delete docWithoutId._id;
-    return collection.updateOne({ _id: docId }, { $set: docWithoutId });
+
+    // Create a copy so that there aren't side-effects
+    const docCopy = { ...updatedDoc };
+    delete docCopy._id;
+
+    return collection.updateOne({ _id: docId }, { $set: docCopy });
   }
 }

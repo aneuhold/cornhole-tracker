@@ -21,6 +21,9 @@ const tempPlayerRepo = TempPlayerRepository.getRepo();
 
 describe('Create operations', () => {
   it('can create a team of temp players if the data is valid', async () => {
+    console.log(
+      JSON.stringify([validTeamUsers, validTeamTempPlayers], null, 2)
+    );
     const testTeam = createValidCornholeTeamWithTempPlayers();
     const result = await teamRepo.insertNew(testTeam);
     expect(result.acknowledged).toBeTruthy();
@@ -140,7 +143,13 @@ beforeAll(async () => {
   const newTempPlayerPromises = validTeamTempPlayers.map((tempPlayer) =>
     tempPlayerRepo.insertNew(tempPlayer)
   );
-  await Promise.all([...newUserPromises, ...newTempPlayerPromises]);
+  const results = await Promise.all([
+    ...newUserPromises,
+    ...newTempPlayerPromises
+  ]);
+  results.forEach((result) => {
+    expect(result.acknowledged).toBeTruthy();
+  });
 });
 
 afterAll(async () => {

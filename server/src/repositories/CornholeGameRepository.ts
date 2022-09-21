@@ -1,12 +1,10 @@
 import { UpdateResult } from 'mongodb';
 import CornholeGameValidator from 'src/validators/CornholeGameValidator';
-import CornholeGame from 'src/_shared/types/CornholeGame';
+import CornholeGame from 'shared/types/CornholeGame';
 import BaseRepository from './BaseRepository';
 
 /**
  * The repository that contains {@link User} documents.
- *
- * This can not be offered as a singleton in this class because
  */
 export default class CornholeGameRepository extends BaseRepository<CornholeGame> {
   private static COLLECTION_NAME = 'cornholeGames';
@@ -36,7 +34,7 @@ export default class CornholeGameRepository extends BaseRepository<CornholeGame>
    * @override
    */
   async update(updatedGame: Partial<CornholeGame>): Promise<UpdateResult> {
-    const cleanedGame = updatedGame;
+    const cleanedGame = { ...updatedGame };
     delete cleanedGame.owner;
     return super.update(cleanedGame);
   }

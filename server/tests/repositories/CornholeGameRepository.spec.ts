@@ -8,6 +8,7 @@ import CornholeGameRepository from 'src/repositories/CornholeGameRepository';
 import CornholeTeamRepository from 'src/repositories/CornholeTeamRepository';
 import UserRepository from 'src/repositories/UserRepository';
 import DocumentDb from 'src/util/DocumentDb';
+import crypto from 'crypto';
 import { cleanupDoc, cleanupDocs, expectToThrow } from '../testUtils';
 
 /**
@@ -148,10 +149,13 @@ beforeAll(async () => {
   // Create the users on the teams
   const newUsers: User[] = [];
   for (let i = 1; i <= 4; i += 1) {
-    newUsers.push(new User(`CornholeGameTestsUserName${i}`));
+    newUsers.push(new User(crypto.randomUUID()));
   }
   const newUserPromises = newUsers.map((user) => userRepo.insertNew(user));
-  await Promise.all(newUserPromises);
+  const newUsersResults = await Promise.all(newUserPromises);
+  newUsersResults.forEach((result) => {
+    expect(result.acknowledged).toBeTruthy();
+  });
 
   // Create the teams
   const newTeams: CornholeTeam[] = [];
@@ -166,7 +170,11 @@ beforeAll(async () => {
     );
   }
   const newTeamPromises = newTeams.map((team) => teamRepo.insertNew(team));
-  await Promise.all(newTeamPromises);
+  const newTeamsResults = await Promise.all(newTeamPromises);
+  newTeamsResults.forEach((result) => {
+    expect(result.acknowledged).toBeTruthy();
+  });
+
   validCornholeTeams = newTeams;
   validTeamUsers = newUsers;
 });

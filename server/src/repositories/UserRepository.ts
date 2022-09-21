@@ -1,7 +1,7 @@
 import { InsertOneResult } from 'mongodb';
 import User from 'shared/types/User';
 import UserValidator from 'src/validators/UserValidator';
-import CornholeTeam from 'src/_shared/types/CornholeTeam';
+import CornholeTeam from 'shared/types/CornholeTeam';
 import BaseRepository from './BaseRepository';
 import CornholeTeamRepository from './CornholeTeamRepository';
 
@@ -54,6 +54,7 @@ export default class UserRepository extends BaseRepository<User> {
       await teamRepo.insertNew(newTeam);
       newUser.currentTeamsIncludingUser.push(newTeam._id);
     }
+
     await super.update(newUser);
 
     // Return the initial insert result

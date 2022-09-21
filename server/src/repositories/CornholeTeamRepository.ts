@@ -35,7 +35,7 @@ export default class CornholeTeamRepository extends BaseRepository<CornholeTeam>
    * @override
    */
   async update(updatedTeam: Partial<CornholeTeam>): Promise<UpdateResult> {
-    const cleanedTeam = updatedTeam;
+    const cleanedTeam = { ...updatedTeam };
     delete cleanedTeam.owner;
     return super.update(cleanedTeam);
   }
