@@ -1,3 +1,4 @@
+import { ObjectId } from 'bson';
 import CornholeTeam from 'shared/types/CornholeTeam';
 import { throwError, throwErrorList } from 'shared/utils/errorUtils';
 import CornholeTeamRepository from 'src/repositories/CornholeTeamRepository';
@@ -20,7 +21,11 @@ export default class CornholeTeamValidator extends IValidator<CornholeTeam> {
 
     let errorList: string[] = [];
 
-    errorList = await this.validateStandardTeamRules(newTeam, errorList);
+    errorList = await this.validateTeamWithPlayersDoesntExist(
+      newTeam.players,
+      errorList
+    );
+    errorList = await this.validatePlayersExist(newTeam.players, errorList);
 
     if (errorList.length !== 0) {
       throwErrorList(errorList, newTeam);
@@ -38,7 +43,7 @@ export default class CornholeTeamValidator extends IValidator<CornholeTeam> {
     // Check that the team exists
     const teamRepo = CornholeTeamRepository.getRepo();
     const teamInDb = await teamRepo.get({ _id: teamToUpdate._id });
-    if (teamInDb === null) {
+    if (!teamInDb) {
       throwError(
         `Team with ID: ${teamToUpdate._id} does not exist in the database.`,
         teamToUpdate
@@ -47,42 +52,54 @@ export default class CornholeTeamValidator extends IValidator<CornholeTeam> {
 
     let errorList: string[] = [];
 
-    errorList = await this.validateStandardTeamRules(teamToUpdate, errorList);
+    if (teamInDb && teamToUpdate.players) {
+      const updatedPlayersMatchDbTeamPlayers = this.checkAllElementsExistInArr(
+        teamInDb.players.map((x) => x.toHexString()),
+        teamToUpdate.players.map((x) => x.toHexString())
+      );
+      if (!updatedPlayersMatchDbTeamPlayers) {
+        errorList = await this.validatePlayersExist(
+          teamToUpdate.players,
+          errorList
+        );
+        errorList = await this.validateTeamWithPlayersDoesntExist(
+          teamToUpdate.players,
+          errorList
+        );
+      }
+    }
 
     if (errorList.length !== 0) {
       throwErrorList(errorList, teamToUpdate);
     }
   }
 
-  private async validateStandardTeamRules(
-    team: Partial<CornholeTeam>,
+  private async validatePlayersExist(players: ObjectId[], errorList: string[]) {
+    const userRepo = UserRepository.getRepo();
+    const tempPlayerRepo = TempPlayerRepository.getRepo();
+    const userPromise = userRepo.getList(players);
+    const tempPlayerPromise = tempPlayerRepo.getList(players);
+    const result = await Promise.all([userPromise, tempPlayerPromise]);
+    const matchedPlayers = [...result[0], ...result[1]];
+    if (matchedPlayers.length !== players.length) {
+      errorList.push(
+        `1 or 2 of the players provided do not exist in the database`
+      );
+    }
+    return errorList;
+  }
+
+  private async validateTeamWithPlayersDoesntExist(
+    players: ObjectId[],
     errorList: string[]
   ): Promise<string[]> {
-    if (team.players) {
-      const userRepo = UserRepository.getRepo();
-      const tempPlayerRepo = TempPlayerRepository.getRepo();
-      const teamRepo = CornholeTeamRepository.getRepo();
-
-      // Validate the players exist
-      const userPromise = userRepo.getList(team.players);
-      const tempPlayerPromise = tempPlayerRepo.getList(team.players);
-      const result = await Promise.all([userPromise, tempPlayerPromise]);
-      const matchedPlayers = [...result[0], ...result[1]];
-      if (matchedPlayers.length !== team.players.length) {
-        errorList.push(
-          `1 or 2 of the players provided do not exist in the database`
-        );
-      }
-
-      // Validate the team doesn't already exist
-      const teamResult = await teamRepo.getTeamIncludingPlayers(team.players);
-      if (teamResult) {
-        errorList.push(
-          `The players provided already exist on the team with the ID: ${teamResult._id}`
-        );
-      }
+    const teamRepo = CornholeTeamRepository.getRepo();
+    const teamResult = await teamRepo.getTeamIncludingPlayers(players);
+    if (teamResult) {
+      errorList.push(
+        `The players provided already exist on the team with the ID: ${teamResult._id}`
+      );
     }
-
     return errorList;
   }
 }

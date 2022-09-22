@@ -13,7 +13,7 @@ describe('Create operations', () => {
     const newUser2 = new User(duplicateUserName);
 
     const insertResult = await userRepo.insertNew(newUser1);
-    expect(insertResult.acknowledged).toBeTruthy();
+    expect(insertResult).toBeTruthy();
 
     await expectToThrow(async () => {
       await userRepo.insertNew(newUser2);
@@ -32,9 +32,9 @@ describe('Update operations', () => {
 
     // Insert the users
     const insertResult1 = await userRepo.insertNew(newUser);
-    expect(insertResult1.acknowledged).toBeTruthy();
+    expect(insertResult1).toBeTruthy();
     const insertResult2 = await userRepo.insertNew(userWithOtherUserName);
-    expect(insertResult2.acknowledged).toBeTruthy();
+    expect(insertResult2).toBeTruthy();
 
     // Try to update the first user
     newUser.userName = userName2;
