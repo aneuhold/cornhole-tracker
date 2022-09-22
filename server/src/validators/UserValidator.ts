@@ -5,22 +5,12 @@ import IValidator from './BaseValidator';
 
 export default class UserValidator extends IValidator<User> {
   async validateNewObject(newUser: User): Promise<void> {
-    // Check if it has a username
-    if (!newUser.userName) {
-      throwError('No username provided for creating new user', newUser);
-    }
-
     // Check if the username already exists
     const userRepo = UserRepository.getRepo();
     await this.checkIfUserNameExists(userRepo, newUser.userName);
   }
 
   async validateUpdateObject(userToUpdate: Partial<User>): Promise<void> {
-    // Check if an id is defined
-    if (!userToUpdate._id) {
-      throwError(`No _id defined for user to update.`, userToUpdate);
-    }
-
     // Check to see if the user exists
     const userRepo = UserRepository.getRepo();
     const userInDb = await userRepo.get({ _id: userToUpdate._id });

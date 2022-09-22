@@ -24,6 +24,23 @@ describe('Create operations', () => {
 });
 
 describe('Update operations', () => {
+  it('can successfully update a user if the username doesnt already exist', async () => {
+    const userName1 = crypto.randomUUID();
+    const userName2 = crypto.randomUUID();
+    const newUser = new User(userName1);
+
+    // Insert the user
+    const insertResult = await userRepo.insertNew(newUser);
+    expect(insertResult).toBeTruthy();
+
+    // Try to update the user
+    newUser.userName = userName2;
+    const updateResult = await userRepo.update(newUser);
+    expect(updateResult.acknowledged).toBeTruthy();
+
+    await cleanupDoc(userRepo, newUser);
+  });
+
   it('throws if a user is updated with a username that already exists', async () => {
     const userName1 = crypto.randomUUID();
     const userName2 = crypto.randomUUID();
@@ -46,6 +63,15 @@ describe('Update operations', () => {
       cleanupDoc(userRepo, newUser),
       cleanupDoc(userRepo, userWithOtherUserName)
     ]);
+  });
+
+  it('throws if a user tries to be updated that doesnt exist', async () => {
+    const newUser = new User(crypto.randomUUID());
+
+    // Try to update the user
+    await expectToThrow(async () => {
+      await userRepo.update(newUser);
+    });
   });
 });
 
