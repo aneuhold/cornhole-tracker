@@ -11,6 +11,11 @@ export default class UserValidator extends IValidator<User> {
   }
 
   async validateUpdateObject(userToUpdate: Partial<User>): Promise<void> {
+    // Check if an id is defined
+    if (!userToUpdate._id) {
+      throwError(`No _id defined for user to update.`, userToUpdate);
+    }
+
     // Check to see if the user exists
     const userRepo = UserRepository.getRepo();
     const userInDb = await userRepo.get({ _id: userToUpdate._id });

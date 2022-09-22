@@ -1,4 +1,5 @@
 import { ObjectId } from 'bson';
+import crypto from 'crypto';
 import CornholeGame, { FourPlayerPositioning } from 'shared/types/CornholeGame';
 import { CornholeRound } from 'shared/types/CornholeRound';
 import { CornholeRoundPlayerInfo } from 'shared/types/CornholeRoundPlayerInfo';
@@ -8,7 +9,6 @@ import CornholeGameRepository from 'src/repositories/CornholeGameRepository';
 import CornholeTeamRepository from 'src/repositories/CornholeTeamRepository';
 import UserRepository from 'src/repositories/UserRepository';
 import DocumentDb from 'src/util/DocumentDb';
-import crypto from 'crypto';
 import { cleanupDoc, cleanupDocs, expectToThrow } from '../testUtils';
 
 /**
@@ -124,11 +124,26 @@ describe('Update operations', () => {
   });
 
   it('throws if no id is provided', async () => {
-    const testGame = createValid4PersonCornholeGame();
+    const testGame = createValid4PersonCornholeGame() as Partial<CornholeGame>;
+    delete testGame._id;
 
     await expectToThrow(async () => {
       await gameRepo.update(testGame);
     });
+  });
+
+  it('throws if the points to win are updated and they are less than 1', async () => {
+    const testGame = createValid4PersonCornholeGame();
+    const result = await gameRepo.insertNew(testGame);
+    expect(result).toBeTruthy();
+
+    // Update the game
+    testGame.pointsToWin = -21;
+    await expectToThrow(async () => {
+      await gameRepo.update(testGame);
+    });
+
+    await cleanupDoc(gameRepo, testGame);
   });
 });
 

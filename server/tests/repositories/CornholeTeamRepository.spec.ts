@@ -95,7 +95,7 @@ describe('Update operations', () => {
   });
 
   it('throws if a team is updated with a player that doesnt exist', async () => {
-    const testTeam = await createValidCornholeTeamWithTempPlayers();
+    const testTeam = await createValidCornholeTeamWithUsers();
     const result = await teamRepo.insertNew(testTeam);
     expect(result).toBeTruthy();
 
@@ -106,6 +106,26 @@ describe('Update operations', () => {
     });
 
     teamsToCleanup.push(testTeam);
+  });
+
+  it('throws if no ID is defined', async () => {
+    const testTeam = createCornholeTeam([
+      new ObjectId()
+    ]) as Partial<CornholeTeam>;
+
+    delete testTeam._id;
+
+    await expectToThrow(async () => {
+      await teamRepo.update(testTeam);
+    });
+  });
+
+  it('throws if the team doesnt exist', async () => {
+    const testTeam = createCornholeTeam([validOwner._id]);
+
+    await expectToThrow(async () => {
+      await teamRepo.update(testTeam);
+    });
   });
 });
 

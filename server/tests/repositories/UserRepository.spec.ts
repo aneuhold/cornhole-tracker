@@ -7,7 +7,7 @@ import { cleanupDoc, expectToThrow } from '../testUtils';
 const userRepo = UserRepository.getRepo();
 
 describe('Create operations', () => {
-  it('throws if a user is created with a duplicate username', async () => {
+  it('throws if the username is a duplicate username', async () => {
     const duplicateUserName = `${crypto.randomUUID()}`;
     const newUser1 = new User(duplicateUserName);
     const newUser2 = new User(duplicateUserName);
@@ -24,7 +24,7 @@ describe('Create operations', () => {
 });
 
 describe('Update operations', () => {
-  it('can successfully update a user if the username doesnt already exist', async () => {
+  it('succeeds in updating the username if the username doesnt already exist', async () => {
     const userName1 = crypto.randomUUID();
     const userName2 = crypto.randomUUID();
     const newUser = new User(userName1);
@@ -41,7 +41,15 @@ describe('Update operations', () => {
     await cleanupDoc(userRepo, newUser);
   });
 
-  it('throws if a user is updated with a username that already exists', async () => {
+  it('throws if no id is defined', async () => {
+    const newUser = new User(crypto.randomUUID()) as Partial<User>;
+    delete newUser._id;
+    await expectToThrow(async () => {
+      await userRepo.update(newUser);
+    });
+  });
+
+  it('throws if the username is updated and already exists', async () => {
     const userName1 = crypto.randomUUID();
     const userName2 = crypto.randomUUID();
     const newUser = new User(userName1);
@@ -65,7 +73,7 @@ describe('Update operations', () => {
     ]);
   });
 
-  it('throws if a user tries to be updated that doesnt exist', async () => {
+  it('throws if the user doesnt exist', async () => {
     const newUser = new User(crypto.randomUUID());
 
     // Try to update the user
