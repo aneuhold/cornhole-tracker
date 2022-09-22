@@ -1,5 +1,4 @@
 import { ObjectId } from 'bson';
-import { InsertOneResult } from 'mongodb';
 import CornholeTeam from 'shared/types/CornholeTeam';
 import CornholeTeamRepository from 'src/repositories/CornholeTeamRepository';
 import {
@@ -73,7 +72,7 @@ export class CornholeTeamController extends BaseDocumentController<CornholeTeam>
    */
   @SuccessResponse('204')
   @Post('/')
-  create(@Body() team: CornholeTeam): Promise<InsertOneResult<CornholeTeam>> {
+  create(@Body() team: CornholeTeam): Promise<CornholeTeam | null> {
     return this.cornholeTeamRepo.insertNew(team);
   }
 }

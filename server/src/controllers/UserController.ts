@@ -1,5 +1,4 @@
 import { ObjectId } from 'bson';
-import { InsertOneResult } from 'mongodb';
 import User from 'shared/types/User';
 import UserRepository from 'src/repositories/UserRepository';
 import {
@@ -73,7 +72,7 @@ export class UserController extends BaseDocumentController<User> {
    */
   @SuccessResponse('204')
   @Post('/')
-  create(@Body() user: User): Promise<InsertOneResult<User>> {
+  create(@Body() user: User): Promise<User | null> {
     return this.userRepo.insertNew(user);
   }
 }

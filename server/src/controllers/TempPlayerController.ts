@@ -1,5 +1,4 @@
 import { ObjectId } from 'bson';
-import { InsertOneResult } from 'mongodb';
 import TempPlayer from 'shared/types/TempPlayer';
 import TempPlayerRepository from 'src/repositories/TempPlayerRepository';
 import {
@@ -73,7 +72,7 @@ export class TempPlayerController extends BaseDocumentController<TempPlayer> {
    */
   @SuccessResponse('204')
   @Post('/')
-  create(@Body() player: TempPlayer): Promise<InsertOneResult<TempPlayer>> {
+  create(@Body() player: TempPlayer): Promise<TempPlayer | null> {
     return this.tempPlayerRepo.insertNew(player);
   }
 }

@@ -1,5 +1,4 @@
 import { ObjectId } from 'bson';
-import { InsertOneResult } from 'mongodb';
 import CornholeGameRepository from 'src/repositories/CornholeGameRepository';
 import CornholeGame from 'src/_shared/types/CornholeGame';
 import {
@@ -73,7 +72,7 @@ export class CornholeGameController extends BaseDocumentController<CornholeGame>
    */
   @SuccessResponse('204')
   @Post('/')
-  create(@Body() game: CornholeGame): Promise<InsertOneResult<CornholeGame>> {
+  create(@Body() game: CornholeGame): Promise<CornholeGame | null> {
     return this.cornholeGameRepo.insertNew(game);
   }
 }

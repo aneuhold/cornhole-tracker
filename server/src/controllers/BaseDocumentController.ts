@@ -1,5 +1,5 @@
 import { ObjectId } from 'bson';
-import { DeleteResult, InsertOneResult, UpdateResult } from 'mongodb';
+import { DeleteResult, UpdateResult } from 'mongodb';
 import BaseRepository from 'src/repositories/BaseRepository';
 import BaseDocument from 'src/_shared/types/BaseDocument';
 import { Controller } from 'tsoa';
@@ -58,5 +58,5 @@ export default abstract class BaseDocumentController<
 
   abstract update(doc: TBaseType): Promise<UpdateResult>;
 
-  abstract create(doc: TBaseType): Promise<InsertOneResult>;
+  abstract create(doc: TBaseType): Promise<TBaseType | null>;
 }

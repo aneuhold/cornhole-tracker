@@ -1,10 +1,5 @@
 import { ObjectId } from 'bson';
-import {
-  Collection,
-  DeleteResult,
-  InsertOneResult,
-  UpdateResult
-} from 'mongodb';
+import { Collection, DeleteResult, UpdateResult } from 'mongodb';
 import BaseDocument from 'shared/types/BaseDocument';
 import DocumentDb from 'src/util/DocumentDb';
 import IValidator from 'src/validators/BaseValidator';
@@ -31,7 +26,7 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
     return this.collection;
   }
 
-  async insertNew(newDoc: TBasetype): Promise<Partial<TBasetype> | null> {
+  async insertNew(newDoc: TBasetype): Promise<TBasetype | null> {
     const collection = await this.getCollection();
     await this.validator.validateNewObject(newDoc);
     const insertResult = await collection.insertOne(newDoc);
