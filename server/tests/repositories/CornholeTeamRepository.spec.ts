@@ -129,6 +129,11 @@ describe('Update operations', () => {
   });
 });
 
+it.skip('can delete all teams', async () => {
+  const result = await teamRepo.deleteAll();
+  expect(result.acknowledged).toBeTruthy();
+});
+
 async function createValidCornholeTeamWithTempPlayers() {
   const newTempPlayer1 = new User(crypto.randomUUID());
   const newTempPlayer2 = new User(crypto.randomUUID());
