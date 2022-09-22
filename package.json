@@ -50,5 +50,8 @@
     "typescript": "^4.4.3"
   },
   "name": "cornhole-tracker",
-  "packageManager": "yarn@3.2.3"
+  "packageManager": "yarn@3.2.3",
+  "workspaces": [
+    "client"
+  ]
 }
