@@ -26,7 +26,7 @@ describe('Create operations', () => {
     );
     const testTeam = createValidCornholeTeamWithTempPlayers();
     const result = await teamRepo.insertNew(testTeam);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     await cleanupDoc(teamRepo, testTeam);
   });
@@ -34,7 +34,7 @@ describe('Create operations', () => {
   it('can create a team of users if the data is valid', async () => {
     const testTeam = createValidCornholeTeamWithUsers();
     const result = await teamRepo.insertNew(testTeam);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     await cleanupDoc(teamRepo, testTeam);
   });
@@ -42,7 +42,7 @@ describe('Create operations', () => {
   it('can create a team of 1 player and 1 user if the data is valid', async () => {
     const testTeam = createValidCornholeTeamWithBothTypesOfPlayers();
     const result = await teamRepo.insertNew(testTeam);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     await cleanupDoc(teamRepo, testTeam);
   });
@@ -50,17 +50,16 @@ describe('Create operations', () => {
   it('can create a team of 1 tempPlayer if the data is valid', async () => {
     const testTeam = createValidCornholeTeamWith1TempPlayer();
     const result = await teamRepo.insertNew(testTeam);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     await cleanupDoc(teamRepo, testTeam);
   });
 
-  it('can create a team of 1 user if the data is valid', async () => {
-    const testTeam = createValidCornholeTeamWith1User();
-    const result = await teamRepo.insertNew(testTeam);
-    expect(result.acknowledged).toBeTruthy();
-
-    await cleanupDoc(teamRepo, testTeam);
+  it('throws if a team of 1 user is created, because all users should have their own team', async () => {
+    const testTeam = createValidCornholeTeam([validTeamUsers[0]._id]);
+    await expectToThrow(async () => {
+      await teamRepo.insertNew(testTeam);
+    });
   });
 
   it('throws if a team is created with an owner that doesnt exist', async () => {
@@ -83,9 +82,9 @@ describe('Create operations', () => {
 
 describe('Update operations', () => {
   it('can update a team if valid data is provided', async () => {
-    const testTeam = createValidCornholeTeamWith1User();
+    const testTeam = createValidCornholeTeamWithTempPlayers();
     const result = await teamRepo.insertNew(testTeam);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     testTeam.color = 'yellow';
     const updateResult = await teamRepo.update(testTeam);
@@ -95,9 +94,9 @@ describe('Update operations', () => {
   });
 
   it('throws if a team is updated with a player that doesnt exist', async () => {
-    const testTeam = createValidCornholeTeamWith1User();
+    const testTeam = createValidCornholeTeamWithTempPlayers();
     const result = await teamRepo.insertNew(testTeam);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     testTeam.players = [new ObjectId()];
 
@@ -117,9 +116,6 @@ const createValidCornholeTeamWithUsers = () =>
 
 const createValidCornholeTeamWithBothTypesOfPlayers = () =>
   createValidCornholeTeam([validTeamTempPlayers[0]._id, validTeamUsers[0]._id]);
-
-const createValidCornholeTeamWith1User = () =>
-  createValidCornholeTeam([validTeamUsers[0]._id]);
 
 const createValidCornholeTeamWith1TempPlayer = () =>
   createValidCornholeTeam([validTeamTempPlayers[0]._id]);
@@ -148,7 +144,7 @@ beforeAll(async () => {
     ...newTempPlayerPromises
   ]);
   results.forEach((result) => {
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
   });
 });
 

@@ -31,10 +31,14 @@ export default abstract class BaseRepository<TBasetype extends BaseDocument> {
     return this.collection;
   }
 
-  async insertNew(newDoc: TBasetype): Promise<InsertOneResult> {
+  async insertNew(newDoc: TBasetype): Promise<Partial<TBasetype> | null> {
     const collection = await this.getCollection();
     await this.validator.validateNewObject(newDoc);
-    return collection.insertOne(newDoc);
+    const insertResult = await collection.insertOne(newDoc);
+    if (!insertResult.acknowledged) {
+      return null;
+    }
+    return newDoc;
   }
 
   async get(filter: Partial<TBasetype>): Promise<TBasetype | null> {

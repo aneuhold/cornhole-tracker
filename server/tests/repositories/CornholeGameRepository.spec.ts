@@ -28,7 +28,7 @@ describe('Create operations', () => {
   it('can create a new game if the data is valid', async () => {
     const testGame = createValid4PersonCornholeGame();
     const result = await gameRepo.insertNew(testGame);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     await cleanupDoc(gameRepo, testGame);
   });
@@ -101,7 +101,7 @@ describe('Update operations', () => {
   it('can update a game if the data is valid', async () => {
     const testGame = createValid4PersonCornholeGame();
     const result = await gameRepo.insertNew(testGame);
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
 
     // Update the game
     const newCornHoleRound = new CornholeRound(
@@ -154,7 +154,7 @@ beforeAll(async () => {
   const newUserPromises = newUsers.map((user) => userRepo.insertNew(user));
   const newUsersResults = await Promise.all(newUserPromises);
   newUsersResults.forEach((result) => {
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
   });
 
   // Create the teams
@@ -172,7 +172,7 @@ beforeAll(async () => {
   const newTeamPromises = newTeams.map((team) => teamRepo.insertNew(team));
   const newTeamsResults = await Promise.all(newTeamPromises);
   newTeamsResults.forEach((result) => {
-    expect(result.acknowledged).toBeTruthy();
+    expect(result).toBeTruthy();
   });
 
   validCornholeTeams = newTeams;

@@ -1,4 +1,3 @@
-import { InsertOneResult } from 'mongodb';
 import User from 'shared/types/User';
 import UserValidator from 'src/validators/UserValidator';
 import CornholeTeam from 'shared/types/CornholeTeam';
@@ -35,10 +34,15 @@ export default class UserRepository extends BaseRepository<User> {
    * user's {@link User.currentTeamsIncludingUser} array.
    *
    * @override
+   *
+   * @returns The user with the additional team, or null if the insert failed.
    */
-  async insertNew(newUser: User): Promise<InsertOneResult> {
+  async insertNew(newUser: User): Promise<User | null> {
     // Insert the new user first
     const insertResult = await super.insertNew(newUser);
+    if (!insertResult) {
+      return null;
+    }
 
     // Create or add the single user team
     const teamRepo = CornholeTeamRepository.getRepo();
@@ -57,7 +61,6 @@ export default class UserRepository extends BaseRepository<User> {
 
     await super.update(newUser);
 
-    // Return the initial insert result
-    return insertResult;
+    return newUser;
   }
 }
