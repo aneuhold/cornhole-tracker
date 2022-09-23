@@ -5,7 +5,12 @@ module.exports = {
 		es2021: true,
 		node: true
 	},
-	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
+		'plugin:storybook/recommended',
+		'prettier'
+	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		sourceType: 'module',
@@ -15,7 +20,12 @@ module.exports = {
 		'svelte3/typescript': () => require('typescript')
 	},
 	plugins: ['svelte3', '@typescript-eslint', 'prettier'],
-	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
+	overrides: [
+		{
+			files: ['*.svelte'],
+			processor: 'svelte3/svelte3'
+		}
+	],
 	rules: {
 		'prettier/prettier': [
 			'error',

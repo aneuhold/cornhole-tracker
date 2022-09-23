@@ -25,7 +25,10 @@
 		"tests/**/*.js",
 		"tests/**/*.ts",
 		"tests/**/*.svelte",
-		"_shared/**/*"
+		"_shared/**/*",
+		"stories/**/*.js",
+		"stories/**/*.ts",
+		"stories/**/*.svelte"
 	]
 
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
