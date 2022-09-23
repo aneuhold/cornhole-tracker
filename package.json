@@ -3,11 +3,12 @@
   "description": "An application that can be used to track cornhole stats over time",
   "main": "index.js",
   "scripts": {
-    "i": "yarn && cd server && yarn",
+    "preDev": "yarn && yarn copySharedFiles && yarn build",
+    "server": "yarn copySharedFiles && cd server && yarn start",
+    "server:dev": "yarn copySharedFiles && cd server && yarn dev",
+    "client": "yarn copySharedFiles && cd client && yarn start",
+    "client:dev": "yarn copySharedFiles && cd client && yarn dev",
     "build": "cd server && yarn build",
-    "preDev": "yarn i && yarn copySharedFiles && yarn build",
-    "start": "yarn copySharedFiles && cd server && yarn start",
-    "dev": "yarn copySharedFiles && cd server && yarn dev",
     "docker:start": "yarn copySharedFiles && cd server && docker-compose up -d",
     "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/_shared -u 1",
     "test": "cd server && yarn test"
@@ -52,6 +53,7 @@
   "name": "cornhole-tracker",
   "packageManager": "yarn@3.2.3",
   "workspaces": [
-    "client"
+    "client",
+    "server"
   ]
 }
