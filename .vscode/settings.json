@@ -13,5 +13,7 @@
   },
   "[svelte]": {
     "editor.defaultFormatter": "svelte.svelte-vscode"
-  }
+  },
+  // Ignored because of tailwind using special @rules
+  "css.lint.unknownAtRules": "ignore"
 }
