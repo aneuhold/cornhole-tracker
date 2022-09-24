@@ -9,6 +9,7 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
+		"types": ["vite/client"],
 		"paths": {
 			"src/*": ["src/*"],
 			"shared/*": ["src/_shared/*"],

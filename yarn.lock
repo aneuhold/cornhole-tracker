@@ -3541,8 +3541,8 @@ __metadata:
   linkType: hard
 
 "@sveltejs/kit@npm:next":
-  version: 1.0.0-next.499
-  resolution: "@sveltejs/kit@npm:1.0.0-next.499"
+  version: 1.0.0-next.503
+  resolution: "@sveltejs/kit@npm:1.0.0-next.503"
   dependencies:
     "@sveltejs/vite-plugin-svelte": ^1.0.5
     "@types/cookie": ^0.5.1
@@ -3562,11 +3562,11 @@ __metadata:
     vite: ^3.1.0
   bin:
     svelte-kit: svelte-kit.js
-  checksum: 877c913473037b67ccd0c6122d2c9f381c4bbea6b924b38ea8a0478a4b56fdfe9b916af64f89218855a41a3580cd4320cf55a6498ce0d3f663514ca73a97e81b
+  checksum: df5b238c4c1ad6f11452c4aed3cd78147711a8022493d82860804f6ece90683f04cbafc553b380ddfc5e4cfd32e4f2c2e9153591981c707f82fd2709f85037fc
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte@npm:^1.0.5":
+"@sveltejs/vite-plugin-svelte@npm:^1.0.5, @sveltejs/vite-plugin-svelte@npm:^1.0.8":
   version: 1.0.8
   resolution: "@sveltejs/vite-plugin-svelte@npm:1.0.8"
   dependencies:
@@ -6059,17 +6059,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001400":
-  version: 1.0.30001409
-  resolution: "caniuse-lite@npm:1.0.30001409"
-  checksum: d8581693491295ad8716db7ad6dccf74de970fc3ef4723b38bbc03b972862d363a9710c2a7582abcb741e1619164ddceca1df4dcf3d53d550e74829a9cb5ca82
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001407":
+"caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001407":
   version: 1.0.30001411
   resolution: "caniuse-lite@npm:1.0.30001411"
   checksum: 7bec883e51b4c2297bfca4368227d8150fb7fb54e3e00dae1ab6f43197724168fe083ad268170f6857d8dbc58a9c1d8d09bae7871f1085a6cd7d702623792191
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001400":
+  version: 1.0.30001409
+  resolution: "caniuse-lite@npm:1.0.30001409"
+  checksum: d8581693491295ad8716db7ad6dccf74de970fc3ef4723b38bbc03b972862d363a9710c2a7582abcb741e1619164ddceca1df4dcf3d53d550e74829a9cb5ca82
   languageName: node
   linkType: hard
 
@@ -6305,6 +6305,7 @@ __metadata:
     "@storybook/testing-library": ^0.0.13
     "@sveltejs/adapter-static": next
     "@sveltejs/kit": next
+    "@sveltejs/vite-plugin-svelte": ^1.0.8
     "@types/cookie": ^0.5.1
     "@typescript-eslint/eslint-plugin": ^5.27.0
     "@typescript-eslint/parser": ^5.27.0
@@ -10168,10 +10169,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-callable@npm:^1.1.4, is-callable@npm:^1.2.4, is-callable@npm:^1.2.6":
+"is-callable@npm:^1.1.4, is-callable@npm:^1.2.4":
   version: 1.2.6
   resolution: "is-callable@npm:1.2.6"
   checksum: 7667d6a6be66df00741cfa18c657877c46a00139ea7ea7765251e9db0182745c9ee173506941a329d6914e34e59e9cc80029fb3f68bbf8c22a6c155ee6ea77b3
+  languageName: node
+  linkType: hard
+
+"is-callable@npm:^1.2.6":
+  version: 1.2.7
+  resolution: "is-callable@npm:1.2.7"
+  checksum: 61fd57d03b0d984e2ed3720fb1c7a897827ea174bd44402878e059542ea8c4aeedee0ea0985998aa5cc2736b2fa6e271c08587addb5b3959ac52cf665173d1ac
   languageName: node
   linkType: hard
 

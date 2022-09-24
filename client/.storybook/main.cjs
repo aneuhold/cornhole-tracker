@@ -4,7 +4,9 @@ module.exports = {
     const svelteLoader = config.module.rules.find(
       (r) => r.loader && r.loader.includes("svelte-loader"),
     )
-    svelteLoader.options.preprocess = require("svelte-preprocess")({})
+    svelteLoader.options.preprocess = require("svelte-preprocess")({
+      postCss: true
+    })
     return config
   },
   "stories": [
