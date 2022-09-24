@@ -2641,6 +2641,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/addon-svelte-csf@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@storybook/addon-svelte-csf@npm:2.0.7"
+  dependencies:
+    ts-dedent: ^2.0.0
+  peerDependencies:
+    "@storybook/svelte": ">=6.4.20"
+    svelte: ^3.46.6
+    svelte-loader: ^3.1.2
+  peerDependenciesMeta:
+    svelte-loader:
+      optional: true
+  checksum: 207a2efd70ae340affd1b18c26c37c1a5c43fbce207d2dc5f5b2899cdc4160acd209d5ba2573de192f7dbdabfaa4b40839bba2746f6866871c998b838c6c7ed0
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-toolbars@npm:6.5.12":
   version: 6.5.12
   resolution: "@storybook/addon-toolbars@npm:6.5.12"
@@ -6233,6 +6249,7 @@ __metadata:
     "@storybook/addon-essentials": ^6.5.12
     "@storybook/addon-interactions": ^6.5.12
     "@storybook/addon-links": ^6.5.12
+    "@storybook/addon-svelte-csf": ^2.0.7
     "@storybook/builder-vite": ^0.2.2
     "@storybook/svelte": ^6.5.12
     "@storybook/testing-library": ^0.0.13
@@ -6242,6 +6259,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.27.0
     "@typescript-eslint/parser": ^5.27.0
     babel-loader: ^8.2.5
+    concurrently: ^7.4.0
     eslint: ^8.16.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-storybook: ^0.6.4
