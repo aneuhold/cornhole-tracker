@@ -25,7 +25,7 @@
 	/**
 	 * Optional click handler
 	 */
-	function onClick(event) {
+	function onClick(event: Event) {
 		dispatch('click', event);
 	}
 </script>
