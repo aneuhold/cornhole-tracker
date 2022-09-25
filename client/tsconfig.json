@@ -21,8 +21,7 @@
 		"vite.config.ts",
 		"src/**/*.{js,svelte,ts}",
 		"tests/**/*.{js,svelte,ts}",
-		"_shared/**/*",
-		"stories/**/*.{js,svelte,ts}"
+		"_shared/**/*"
 	]
 
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
