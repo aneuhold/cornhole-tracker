@@ -16,7 +16,7 @@
 
 <script lang="ts">
 	import SideBar from 'src/lib/SideBar.svelte';
-	import Button, { buttonStories } from 'src/lib/button/Button.svelte';
+	import Button, { buttonStories } from 'src/lib/Button.svelte';
 	import ComponentControls from 'src/lib/componentLib/ComponentControls.svelte';
 
 	let componentStoryBooks: ComponentStoryBooks = {
