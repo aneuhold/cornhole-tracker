@@ -7,6 +7,7 @@
 	export type ComponentStories = { [storyName: string]: ComponentStory };
 	export type ComponentStory = {
 		props: { [propName: string]: any };
+		listeners?: { [eventName: string]: Function };
 	};
 	export type CurrentStoryInfo = {
 		currentComponent: string;
@@ -15,7 +16,7 @@
 </script>
 
 <script lang="ts">
-	import SideBar from 'src/lib/SideBar.svelte';
+	import SideBar from 'src/lib/componentLib/SideBar.svelte';
 	import Button, { buttonStories } from 'src/lib/Button.svelte';
 	import ComponentControls from 'src/lib/componentLib/ComponentControls.svelte';
 
@@ -26,8 +27,27 @@
 		}
 	};
 
+	let componentInstance: any;
 	let currentComponentKey = Object.keys(componentStoryBooks)[0];
 	let currentStoryKey = Object.keys(componentStoryBooks[currentComponentKey].stories)[0];
+	let eventListenerRemovers: Function[] = [];
+
+	$: currentComponent = componentStoryBooks[currentComponentKey].component;
+	$: currentStory = componentStoryBooks[currentComponentKey].stories[currentStoryKey];
+
+	$: if (componentInstance && currentStory.listeners) {
+		// Remove any current event listeners
+		if (eventListenerRemovers.length !== 0) {
+			eventListenerRemovers.forEach((remove) => {
+				remove();
+			});
+			eventListenerRemovers = [];
+		}
+		// Now add the new ones
+		for (let [key, listener] of Object.entries(currentStory.listeners)) {
+			eventListenerRemovers.push(componentInstance.$on(key, listener));
+		}
+	}
 </script>
 
 <svelte:head>
@@ -40,11 +60,11 @@
 	<div class="componentContainer">
 		<div>
 			<svelte:component
-				this={componentStoryBooks[currentComponentKey].component}
-				{...componentStoryBooks[currentComponentKey].stories[currentStoryKey].props}
+				this={currentComponent}
+				{...currentStory.props}
+				bind:this={componentInstance}
 			/>
 		</div>
-
 		<ComponentControls
 			bind:componentStory={componentStoryBooks[currentComponentKey].stories[currentStoryKey]}
 		/>

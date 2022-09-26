@@ -1,17 +1,25 @@
 <script lang="ts" context="module">
 	import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
 
+	const listeners = {
+		click: () => {
+			console.log('button was clicked');
+		}
+	};
+
 	export const buttonStories: ComponentStories = {
 		Primary: {
 			props: {
 				label: 'Primary Button',
 				primary: true
-			}
+			},
+			listeners
 		},
 		'Non Primary': {
 			props: {
 				label: 'Secondary Button'
-			}
+			},
+			listeners
 		}
 	};
 </script>
