@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ComponentStoryBooks } from 'src/routes/componentlibrary/+layout.svelte';
+	import type { ComponentStoryBooks } from 'src/routes/componentlibrary/+page.svelte';
 
 	export let currentComponentKey: string;
 
