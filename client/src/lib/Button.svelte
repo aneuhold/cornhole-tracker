@@ -37,7 +37,7 @@
 	 */
 	export let label = 'Button';
 
-	const standardClasses = 'font-bold py-2 px-4 rounded-full';
+	const standardClasses = 'font-bold py-2 px-4 rounded-full active:bg-blue-800 shadow-md';
 
 	$: primaryClasses = primary
 		? 'bg-blue-500 hover:bg-blue-700 text-white'
