@@ -3,7 +3,7 @@
 
 	const listeners = {
 		click: () => {
-			console.log('button was clicked');
+			console.log('Button was clicked');
 		}
 	};
 

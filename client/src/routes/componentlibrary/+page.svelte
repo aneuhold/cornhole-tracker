@@ -19,11 +19,26 @@
 	import SideBar from 'src/lib/componentLib/SideBar.svelte';
 	import Button, { buttonStories } from 'src/lib/Button.svelte';
 	import ComponentControls from 'src/lib/componentLib/ComponentControls.svelte';
+	import InputBox, { inputBoxStories } from 'src/lib/InputBox.svelte';
+	import Login, { loginStories } from 'src/lib/Login.svelte';
+	import IconButton, { iconButtonStories } from 'src/lib/IconButton.svelte';
 
 	let componentStoryBooks: ComponentStoryBooks = {
+		Login: {
+			component: Login,
+			stories: loginStories
+		},
+		IconButton: {
+			component: IconButton,
+			stories: iconButtonStories
+		},
 		Button: {
 			component: Button,
 			stories: buttonStories
+		},
+		InputBox: {
+			component: InputBox,
+			stories: inputBoxStories
 		}
 	};
 
