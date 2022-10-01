@@ -1,3 +1,9 @@
+<!--
+  @component
+
+  A Modal that can be used to display information or get info from the user.
+  Content can be provided as a slot to this component.
+-->
 <script lang="ts" context="module">
 	export interface DialogElement extends HTMLElement {
 		close: () => void;
