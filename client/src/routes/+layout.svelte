@@ -13,7 +13,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+		min-height: 100vh;
 		margin: 0 auto;
-		box-sizing: border-box;
 	}
 </style>
