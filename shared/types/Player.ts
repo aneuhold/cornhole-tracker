@@ -1,4 +1,4 @@
-import BaseDocument from './BaseDocument';
+import type BaseDocument from './BaseDocument';
 
 /**
  * A generalization of users and players in the software.

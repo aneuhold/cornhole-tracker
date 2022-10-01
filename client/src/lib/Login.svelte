@@ -42,7 +42,7 @@
 	}
 </script>
 
-<div class="md:mb-0 mx-auto loginContainer max-w-md">
+<div class="mx-auto loginContainer max-w-md my-6">
 	<form>
 		<div class="flex flex-row items-center justify-center">
 			<p class="text-lg mb-0 mr-4">Sign in with</p>

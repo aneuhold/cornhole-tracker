@@ -1,5 +1,5 @@
 import { ObjectId } from 'bson';
-import Player from './Player';
+import type Player from './Player';
 
 /**
  * A person that a user has created that isn't linked to a person with a

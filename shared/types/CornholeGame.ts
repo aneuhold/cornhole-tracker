@@ -1,7 +1,7 @@
 import { ObjectId } from 'bson';
 import { throwErrorList } from '../utils/errorUtils';
-import BaseDocument from './BaseDocument';
-import { CornholeRound } from './CornholeRound';
+import type BaseDocument from './BaseDocument';
+import type { CornholeRound } from './CornholeRound';
 
 /**
  * A session where 2 or 4 players play on 2 teams. If 2 players are playing,

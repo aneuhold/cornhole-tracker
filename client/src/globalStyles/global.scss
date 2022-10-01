@@ -1,23 +1,23 @@
 @use './theme.scss';
 
 html {
-	font-family: 'Roboto', sans-serif;
-	color: theme.$color-text-primary;
-	text-align: center;
+  font-family: 'Roboto', sans-serif;
+  color: theme.$color-text-primary;
+  text-align: center;
 }
 
 // Defining the variables as CSS variables first allows for the variables
 // to show up in dev tools when viewing the actual site
 :root {
-	--color-text-primary: rgba(0, 0, 0, 0.87);
-	--color-text-secondary: rgba(0, 0, 0, 0.6);
+  --color-text-primary: rgba(0, 0, 0, 0.87);
+  --color-text-secondary: rgba(0, 0, 0, 0.6);
 
-	--color-primary: #ff9800;
-	--color-primary-300: rgba(255, 152, 0, 0.4);
-	--color-primary-100: rgba(255, 152, 0, 0.04);
-	--color-secondary: #ff9800;
-	--color-shadow: rgba(0, 0, 0, 0.04);
+  --color-primary: #ff9800;
+  --color-primary-300: rgba(255, 152, 0, 0.4);
+  --color-primary-100: rgba(255, 152, 0, 0.04);
+  --color-secondary: #ff9800;
+  --color-shadow: rgba(0, 0, 0, 0.04);
 
-	--standard-spacing: 8px;
-	--background: #fff;
+  --standard-spacing: 8px;
+  --background: #fff;
 }

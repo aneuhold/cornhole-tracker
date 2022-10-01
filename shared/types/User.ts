@@ -1,5 +1,5 @@
 import { ObjectId } from 'bson';
-import Player from './Player';
+import type Player from './Player';
 
 /**
  * A standard user of the software. This object contains links to games they

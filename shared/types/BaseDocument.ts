@@ -1,5 +1,5 @@
-import { ObjectId } from 'bson';
-import { Document } from 'mongodb';
+import type { ObjectId } from 'bson';
+import type { Document } from 'mongodb';
 
 /**
  * A base document which other types that will be stored in a document DB can

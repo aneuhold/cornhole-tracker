@@ -1,4 +1,4 @@
-import { CornholeRoundPlayerInfo } from './CornholeRoundPlayerInfo';
+import type { CornholeRoundPlayerInfo } from './CornholeRoundPlayerInfo';
 
 /**
  * Represents a single round of cornhole. So 2 people throwing bags.

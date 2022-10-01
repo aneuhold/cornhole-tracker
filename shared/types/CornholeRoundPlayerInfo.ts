@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson';
+import type { ObjectId } from 'bson';
 
 /**
  * Player info for a `CornholeRound`. This should only be used in the context

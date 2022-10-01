@@ -4,18 +4,18 @@ import type { UserConfig } from 'vite';
 
 /** @type {import('vite').UserConfig} */
 const config: UserConfig = {
-	plugins: [sveltekit()],
-	resolve: {
-		alias: {
-			src: path.resolve('./src'),
-			shared: path.resolve('./_shared')
-		}
-	},
-	server: {
-		fs: {
-			allow: ['./_shared', './src']
-		}
-	}
+  plugins: [sveltekit()],
+  resolve: {
+    alias: {
+      src: path.resolve('./src'),
+      shared: path.resolve('./src/_shared')
+    }
+  },
+  server: {
+    fs: {
+      allow: ['./src']
+    }
+  }
 };
 
 export default config;

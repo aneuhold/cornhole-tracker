@@ -1,5 +1,5 @@
 import { ObjectId } from 'bson';
-import BaseDocument from './BaseDocument';
+import type BaseDocument from './BaseDocument';
 
 /**
  * A grouping of players that may play over a span of `CornholeGame`s, or
