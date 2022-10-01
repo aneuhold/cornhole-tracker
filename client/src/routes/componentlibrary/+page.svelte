@@ -23,6 +23,7 @@
 	import Login, { loginStories } from 'src/lib/Login.svelte';
 	import IconButton, { iconButtonStories } from 'src/lib/IconButton.svelte';
 	import NavBar, { navBarStories } from 'src/lib/ NavBar.svelte';
+	import Table, { tableStories } from 'src/lib/Table.svelte';
 
 	let componentStoryBooks: ComponentStoryBooks = {
 		NavBar: {
@@ -44,6 +45,10 @@
 		InputBox: {
 			component: InputBox,
 			stories: inputBoxStories
+		},
+		Table: {
+			component: Table,
+			stories: tableStories
 		}
 	};
 
