@@ -23,12 +23,29 @@
 	export let placeHolder = 'Example';
 	export let password = false;
 
+	/**
+	 * The tags for autocomplete that will be applied to the input. This helps
+	 * browsers find out what the input is for.
+	 */
+	export let autoCompleteTags = '';
+
 	const inputClasses =
 		'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:shadow-outline transition ease-in-out';
 </script>
 
 {#if password}
-	<input class={inputClasses} placeholder={placeHolder} type="password" bind:value />
+	<input
+		class={inputClasses}
+		autocomplete={autoCompleteTags}
+		placeholder={placeHolder}
+		type="password"
+		bind:value
+	/>
 {:else}
-	<input class={inputClasses} placeholder={placeHolder} bind:value />
+	<input
+		class={inputClasses}
+		autocomplete={autoCompleteTags}
+		placeholder={placeHolder}
+		bind:value
+	/>
 {/if}

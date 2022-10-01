@@ -58,11 +58,16 @@
 		</div>
 
 		<div class="px-4 py-2">
-			<InputBox placeHolder="Email address" bind:value={emailAddress} />
+			<InputBox autoCompleteTags="username" placeHolder="Email address" bind:value={emailAddress} />
 		</div>
 
 		<div class="px-4 py-2">
-			<InputBox placeHolder="Password" password={true} bind:value={password} />
+			<InputBox
+				autoCompleteTags="current-password"
+				placeHolder="Password"
+				password={true}
+				bind:value={password}
+			/>
 		</div>
 
 		<div class="text-center lg:text-left mt-2">
