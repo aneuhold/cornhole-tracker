@@ -14,6 +14,13 @@
 				iconHtml: svgIcons.twitter
 			},
 			listeners
+		},
+		'Non Primary': {
+			props: {
+				iconHtml: svgIcons.twitter,
+				primary: false
+			},
+			listeners
 		}
 	};
 </script>
@@ -23,7 +30,20 @@
 
 	export let iconHtml: string;
 
+	export let primary = true;
+
+	export let raised = true;
+
 	const dispatch = createEventDispatcher();
+
+	const standardIconButtonClasses =
+		'inline-block p-3 font-medium text-xs leading-tight uppercase rounded-full focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out mx-1';
+
+	const raisedClasses = raised ? 'shadow-md hover:shadow-lg focus:shadow-lg' : '';
+
+	const colorClasses = primary
+		? 'active:bg-blue-800 fill-white bg-blue-500 focus:bg-blue-700 hover:bg-blue-700'
+		: 'active:bg-gray-800 border-blue-500 fill-blue-500 bg-white hover:border-transparent focus:bg-gray-300 hover:bg-gray-300';
 
 	/**
 	 * Optional click handler
@@ -35,7 +55,7 @@
 
 <button
 	type="button"
-	class="inline-block p-3 bg-blue-500 fill-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1"
+	class={standardIconButtonClasses + ' ' + colorClasses + ' ' + raisedClasses}
 	on:click={onClick}
 >
 	{@html iconHtml}
