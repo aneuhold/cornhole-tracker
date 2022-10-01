@@ -8,8 +8,7 @@ const config: UserConfig = {
 	resolve: {
 		alias: {
 			src: path.resolve('./src'),
-			shared: path.resolve('./_shared'),
-			$lib: path.resolve('./src/lib')
+			shared: path.resolve('./_shared')
 		}
 	},
 	server: {

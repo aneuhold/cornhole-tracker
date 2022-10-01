@@ -6,7 +6,9 @@
 	<slot />
 </main>
 
-<style>
+<style lang="scss">
+	@use '../globalStyles/global.scss';
+
 	main {
 		flex: 1;
 		display: flex;

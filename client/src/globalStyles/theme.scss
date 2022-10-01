@@ -1,0 +1,17 @@
+// All the variables in this file are defined in `global.scss` so that the
+// root CSS variables are only put on the site once.
+//
+// If the root CSS variables were here, then it would be repeated every time
+// this file was imported.
+
+$color-text-primary: var(--color-text-primary);
+$color-text-secondary: var(--color-text-secondary);
+
+$color-primary: var(--color-primary);
+$color-primary-300: var(--color-primary-300);
+$color-primary-100: var(--color-primary-100);
+$color-secondary: var(--color-secondary);
+$color-shadow: var(--color-shadow);
+
+$standard-spacing: var(--standard-spacing);
+$background: var(--background);

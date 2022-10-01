@@ -7,16 +7,35 @@
 <script lang="ts" context="module">
 	import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
 	import svgIcons from 'src/util/svgIcons';
+	import { createEventDispatcher } from 'svelte';
+	import Button from './Button.svelte';
+
+	const listeners = {
+		loginClick: () => {
+			console.log('Login button was clicked');
+		}
+	};
 
 	export const navBarStories: ComponentStories = {
 		'Logged In': {
-			props: {}
+			props: {
+				username: 'Some User'
+			}
+		},
+		'Not Logged In': {
+			props: {},
+			listeners
 		}
 	};
 </script>
 
 <script lang="ts">
 	import IconButton from './IconButton.svelte';
+
+	/**
+	 * If a username is provided, then the user is considered logged in.
+	 */
+	export let username: string;
 
 	let menuOpen = false;
 
@@ -26,12 +45,20 @@
 	function toggleMenu() {
 		menuOpen = !menuOpen;
 	}
+
+	const dispatch = createEventDispatcher();
+
+	/**
+	 * Optional click handler
+	 */
+	function onLoginClick() {
+		dispatch('loginClick');
+	}
 </script>
 
 <!-- drawer component -->
 {#if menuOpen}
 	<div
-		id="drawer-example"
 		class="fixed z-40 h-screen p-4 overflow-y-auto w-80 bg-blue-300 transition"
 		tabindex="-1"
 		aria-labelledby="drawer-label"
@@ -41,7 +68,6 @@
 		</h5>
 		<button
 			type="button"
-			aria-controls="drawer-example"
 			class="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center text-gray-700"
 			on:click={toggleMenu}
 		>
@@ -52,7 +78,32 @@
 	</div>
 {/if}
 
-<ul class="flex rounded p-4 bg-blue-200 flex-row items-center gap-x-2">
+<ul class="rounded p-4 bg-blue-200 items-center gap-x-2 navBar">
 	<IconButton iconHtml={svgIcons.menu} on:click={toggleMenu} />
-	<h1>Cornhole Tracker</h1>
+	<h1 class="site-title">Cornhole Tracker</h1>
+	{#if username}
+		<span class="userInfo">{username}</span>
+	{:else}
+		<div class="userInfo">
+			<Button label="Login" primary={true} on:click={onLoginClick} />
+		</div>
+	{/if}
 </ul>
+
+<style lang="scss">
+	.navBar {
+		display: grid;
+		grid-template-areas: 'menu-button site-title user-info';
+		grid-template-columns: min-content max-content 1fr;
+	}
+
+	.siteTitle {
+		white-space: nowrap;
+		grid-area: site-title;
+	}
+
+	.userInfo {
+		grid-area: user-info;
+		justify-self: end;
+	}
+</style>
