@@ -75,6 +75,7 @@
 
 <script lang="ts">
 	import IconButton from './IconButton.svelte';
+	import Modal, { openDialog } from './Modal.svelte';
 
 	export let tableData: TableData;
 
@@ -92,6 +93,12 @@
 	 * Optional classes for the table title. This can be used to color them.
 	 */
 	export let tableClasses: string;
+
+	const dialogId = crypto.randomUUID();
+
+	function handleInfoButtonClick() {
+		openDialog(dialogId);
+	}
 </script>
 
 <div class={tableClasses + ' rounded-xl px-3 pb-3'}>
@@ -101,8 +108,14 @@
 		{/if}
 		{#if tableDescription}
 			<div class="m-3">
-				<IconButton primary={false} raised={false} iconHtml={svgIcons.info} />
+				<IconButton
+					primary={false}
+					raised={false}
+					iconHtml={svgIcons.info}
+					on:click={handleInfoButtonClick}
+				/>
 			</div>
+			<Modal {dialogId} modalTitle={tableTitle}>{tableDescription}</Modal>
 		{/if}
 	</div>
 	<div class="scrollArea">
