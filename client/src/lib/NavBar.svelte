@@ -64,7 +64,7 @@
 		aria-labelledby="drawer-label"
 	>
 		<h5 id="drawer-label" class="inline-flex items-center mb-4 text-base font-semibold text-black">
-			Menu
+			Cornhole Tracker
 		</h5>
 		<button
 			type="button"
@@ -80,7 +80,7 @@
 
 <ul class="rounded p-4 bg-blue-200 items-center gap-x-2 navBar">
 	<IconButton iconHtml={svgIcons.menu} on:click={toggleMenu} />
-	<h1 class="site-title">Cornhole Tracker</h1>
+	<h1 class="site-title text-lg">Cornhole Tracker</h1>
 	{#if username}
 		<span class="userInfo">{username}</span>
 	{:else}

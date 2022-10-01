@@ -1,14 +1,13 @@
 <script lang="ts">
 	import '../app.css';
+	import '../globalStyles/global.scss';
 </script>
 
 <main>
 	<slot />
 </main>
 
-<style lang="scss">
-	@use '../globalStyles/global.scss';
-
+<style>
 	main {
 		flex: 1;
 		display: flex;

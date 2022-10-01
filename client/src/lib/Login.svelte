@@ -42,9 +42,9 @@
 	}
 </script>
 
-<div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+<div class="mb-12 md:mb-0 mx-auto loginContainer max-w-md">
 	<form>
-		<div class="flex flex-row items-center justify-center lg:justify-start">
+		<div class="flex flex-row items-center justify-center">
 			<p class="text-lg mb-0 mr-4">Sign in with</p>
 			<IconButton iconHtml={svgIcons.facebook} />
 			<IconButton iconHtml={svgIcons.twitter} />
@@ -70,7 +70,7 @@
 			/>
 		</div>
 
-		<div class="text-center lg:text-left mt-2">
+		<div class="text-center mt-2">
 			<Button label="Login" on:click={onSubmit} primary={true} />
 			<p class="text-sm font-semibold mt-2 pt-1 mb-0">
 				Don't have an account?
@@ -84,3 +84,9 @@
 		</div>
 	</form>
 </div>
+
+<style>
+	.loginContainer {
+		width: 100%;
+	}
+</style>
