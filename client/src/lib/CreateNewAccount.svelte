@@ -23,7 +23,7 @@
   let userName = '';
   let password1 = '';
   let password2 = '';
-  $: passwordsMatch = password1 === password2;
+  $: passwordsMatch = password1 === password2 && password1 !== '';
 
   const dispatch = createEventDispatcher();
 
@@ -37,8 +37,9 @@
   }
 </script>
 
-<div class="mx-auto loginContainer max-w-md my-6">
+<div class="mx-auto createAccountContainer max-w-md my-6">
   <form>
+    <h2 class="text-lg">Create a new account</h2>
     <div
       class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5"
     />
@@ -59,7 +60,7 @@
     <div class="px-4 py-2">
       <InputBox
         autoCompleteTags="current-password"
-        placeHolder="Password"
+        placeHolder="Retype Password"
         password={true}
         bind:value={password2}
       />
@@ -77,7 +78,7 @@
 </div>
 
 <style>
-  .loginContainer {
+  .createAccountContainer {
     width: 100%;
   }
 </style>
