@@ -13,7 +13,9 @@ const config = {
       shared: 'src/_shared',
       // an alias ending /* will only match
       // the contents of a directory, not the directory itself
-      'shared/*': 'src/_shared/*'
+      'shared/*': 'src/_shared/*',
+      'src/*': 'src/*',
+      'stores/*': 'src/stores/*'
     }
   }
 };

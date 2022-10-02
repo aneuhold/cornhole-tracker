@@ -6,10 +6,9 @@ function createUserInfo() {
 
   return {
     subscribe,
-    increment: () => update((n) => n + 1),
-    decrement: () => update((n) => n - 1),
-    reset: () => set(0)
+    set,
+    update
   };
 }
 
-export const count = createUserInfo();
+export const userInfo = createUserInfo();
