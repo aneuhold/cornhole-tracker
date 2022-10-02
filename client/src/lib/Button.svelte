@@ -1,58 +1,94 @@
 <script lang="ts" context="module">
-	import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+  import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
 
-	const listeners = {
-		click: () => {
-			console.log('Button was clicked');
-		}
-	};
+  const listeners = {
+    click: () => {
+      console.log('Button was clicked');
+    }
+  };
 
-	export const buttonStories: ComponentStories = {
-		Primary: {
-			props: {
-				label: 'Primary Button',
-				primary: true
-			},
-			listeners
-		},
-		'Non Primary': {
-			props: {
-				label: 'Secondary Button'
-			},
-			listeners
-		}
-	};
+  export const buttonStories: ComponentStories = {
+    Primary: {
+      props: {
+        label: 'Primary Button',
+        primary: true
+      },
+      listeners
+    },
+    'Non Primary': {
+      props: {
+        label: 'Secondary Button'
+      },
+      listeners
+    },
+    'Disabled Primary': {
+      props: {
+        label: 'Disabled Button',
+        disabled: true,
+        primary: true
+      },
+      listeners
+    },
+    'Disabled Secondary': {
+      props: {
+        label: 'Disabled Button',
+        disabled: true,
+        primary: false
+      },
+      listeners
+    }
+  };
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
 
-	/**
-	 * If the button should be the primary color
-	 */
-	export let primary = false;
+  /**
+   * If the button should be the primary color
+   */
+  export let primary = false;
 
-	/**
-	 * Button contents
-	 */
-	export let label = 'Button';
+  /**
+   * Button contents
+   */
+  export let label = 'Button';
 
-	const standardClasses = 'font-bold py-2 px-4 rounded-full active:bg-blue-800 shadow-md';
+  export let disabled = false;
 
-	$: primaryClasses = primary
-		? 'bg-blue-500 hover:bg-blue-700 text-white'
-		: 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border-blue-500 hover:border-transparent';
+  $: buttonClasses = () => {
+    let returnString = 'font-bold py-2 px-4 rounded-full';
+    if (primary) {
+      returnString += ' bg-blue-500 text-white';
+      if (!disabled) {
+        returnString += ' hover:bg-blue-700';
+      }
+    } else {
+      returnString +=
+        ' bg-transparent text-blue-700 font-semibold border-blue-500 hover:border-transparent';
+      if (!disabled) {
+        returnString += ' hover:bg-blue-500 hover:text-white';
+      }
+    }
+    if (disabled) {
+      returnString += ' opacity-50 cursor-not-allowed';
+    } else {
+      returnString += ' active:bg-blue-800 shadow-md';
+    }
+    return returnString;
+  };
 
-	const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 
-	/**
-	 * Optional click handler
-	 */
-	function onClick(event: Event) {
-		dispatch('click', event);
-	}
+  /**
+   * Optional click handler
+   */
+  function onClick(event: Event) {
+    if (!disabled) {
+      dispatch('click', event);
+    }
+  }
 </script>
 
-<button type="button" class={standardClasses + ' ' + primaryClasses} on:click={onClick}>
-	{label}
+<button {disabled} type="button" class={buttonClasses()} on:click={onClick}>
+  {label}
 </button>

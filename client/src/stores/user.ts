@@ -7,7 +7,10 @@ function createUserStore() {
 
   return {
     subscribe,
-    set,
+    set: (updatedUser: Partial<User>) => {
+      set(updatedUser);
+      LocalData.user = updatedUser;
+    },
     update
   };
 }

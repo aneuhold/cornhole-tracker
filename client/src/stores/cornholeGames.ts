@@ -7,7 +7,10 @@ function createCornholeGamesStore() {
 
   return {
     subscribe,
-    set,
+    set: (updatedCornholeGames: CornholeGame[]) => {
+      set(updatedCornholeGames);
+      LocalData.cornholeGames = updatedCornholeGames;
+    },
     update
   };
 }
