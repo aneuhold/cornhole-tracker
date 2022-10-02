@@ -1,11 +1,11 @@
 <script lang="ts">
   import NavBar from 'src/lib/NavBar.svelte';
-  import { userInfo } from 'stores/userInfo';
+  import { user } from 'src/stores/user';
   import { onDestroy } from 'svelte';
 
   let userName: string;
 
-  const unsubscibeFromUserInfo = userInfo.subscribe((updatedUser) => {
+  const unsubscibeFromUserInfo = user.subscribe((updatedUser) => {
     if (updatedUser?.userName) {
       userName = updatedUser.userName;
     }
