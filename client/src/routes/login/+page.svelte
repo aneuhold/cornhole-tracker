@@ -1,9 +1,13 @@
 <script lang="ts">
-  import Login from 'src/lib/Login.svelte';
+  import Login, { type LoginComponentEventData } from 'src/lib/Login.svelte';
+
+  function handleLogin(event: CustomEvent<LoginComponentEventData>) {
+    console.log(`Logging in with user with username: ${event.detail.userName}`);
+  }
 </script>
 
 <div class="loginContainer">
-  <Login />
+  <Login on:submit={handleLogin} />
 </div>
 
 <style>

@@ -1,6 +1,6 @@
 import CornholeGame from '../_shared/types/CornholeGame';
-import User from '../_shared/types/User';
 import CornholeTeam from '../_shared/types/CornholeTeam';
+import User from '../_shared/types/User';
 
 export default class LocalData {
   /**
@@ -21,7 +21,11 @@ export default class LocalData {
   }
 
   private static getValue(key: string) {
-    return window.localStorage.getItem(key);
+    if (typeof window !== 'undefined') {
+      return window.localStorage.getItem(key);
+    }
+    console.error('Window wasnt defined! Cant access localStorage.');
+    return '';
   }
 
   static set users(newUsers: Partial<User>[]) {

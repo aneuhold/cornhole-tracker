@@ -16,6 +16,11 @@
       listeners
     }
   };
+
+  export type LoginComponentEventData = {
+    userName: string;
+    password: string;
+  };
 </script>
 
 <script lang="ts">
@@ -25,20 +30,23 @@
   import IconButton from './IconButton.svelte';
   import InputBox from './InputBox.svelte';
 
-  let emailAddress = '';
+  let userName = '';
   let password = '';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{
+    submit: LoginComponentEventData;
+    createAccount: LoginComponentEventData;
+  }>();
 
   /**
    * Optional click handler
    */
   function onSubmit() {
-    dispatch('submit', { emailAddress, password });
+    dispatch('submit', { userName, password });
   }
 
   function onCreateAccount() {
-    dispatch('createAccount', { emailAddress, password });
+    dispatch('createAccount', { userName, password });
   }
 </script>
 
@@ -58,7 +66,7 @@
     </div>
 
     <div class="px-4 py-2">
-      <InputBox autoCompleteTags="username" placeHolder="Email address" bind:value={emailAddress} />
+      <InputBox autoCompleteTags="username" placeHolder="Username" bind:value={userName} />
     </div>
 
     <div class="px-4 py-2">
