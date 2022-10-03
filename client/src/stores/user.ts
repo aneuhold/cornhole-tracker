@@ -5,6 +5,8 @@ import User from '../_shared/types/User';
 function createUserStore() {
   const { subscribe, set, update } = writable<Partial<User>>(LocalData.user);
 
+  console.log('Initializing user store...');
+
   return {
     subscribe,
     set: (updatedUser: Partial<User>) => {

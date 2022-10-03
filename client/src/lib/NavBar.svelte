@@ -42,9 +42,6 @@
 
   let menuOpen = false;
 
-  const menuItemClasses =
-    'flex items-center p-2 text-base font-normal text-gray-700 rounded-lg hover:bg-gray-100';
-
   function toggleMenu() {
     menuOpen = !menuOpen;
   }
@@ -83,6 +80,8 @@
     </button>
     <div class="menuItems">
       <Button primary={true} label="Logout" on:click={onLogOutClick} />
+      <a href="/login">Login</a>
+      <a href="/createaccount">Create an Account</a>
     </div>
   </div>
 {/if}
