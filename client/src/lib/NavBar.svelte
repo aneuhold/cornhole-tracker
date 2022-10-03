@@ -89,7 +89,7 @@
 
 <ul class="rounded p-4 bg-blue-200 items-center gap-x-2 navBar">
   <IconButton iconHtml={svgIcons.menu} on:click={toggleMenu} />
-  <h1 class="site-title text-lg">Cornhole Tracker</h1>
+  <h1 class="siteTitle text-lg">Cornhole Tracker</h1>
   {#if username}
     <span class="userInfo">{username}</span>
   {:else}
@@ -99,7 +99,7 @@
   {/if}
 </ul>
 
-<style lang="scss">
+<style>
   .navBar {
     display: grid;
     grid-template-areas: 'menu-button site-title user-info';
