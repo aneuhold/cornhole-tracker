@@ -11,6 +11,11 @@
     }
   });
 
+  function handleLogout() {
+    user.set({});
+    window.location.href = '/login';
+  }
+
   onDestroy(unsubscibeFromUserInfo);
 </script>
 
@@ -19,6 +24,6 @@
   <meta name="description" content="App for keeping track of cornhole scores" />
 </svelte:head>
 
-<NavBar username={userName} />
+<NavBar username={userName} on:logout={handleLogout} />
 
 <slot />

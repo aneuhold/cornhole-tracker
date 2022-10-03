@@ -10,6 +10,8 @@
     return user.subscribe((updatedUser) => {
       if (!updatedUser.userName) {
         window.location.href = '/login';
+      } else {
+        window.location.href = '/app';
       }
     });
   });
