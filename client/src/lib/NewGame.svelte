@@ -31,6 +31,9 @@
 
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import InputBox from './InputBox.svelte';
+
+  let gameName = '';
 
   const dispatch = createEventDispatcher();
 
@@ -47,7 +50,10 @@
 </script>
 
 <div class="mx-auto createNewGameContainer max-w-md my-6">
-  <p>this is a test</p>
+  <h2>New Game</h2>
+  <span>Points to win: </span>
+  <span>Game Name</span>
+  <InputBox value={gameName} />
 </div>
 
 <style>
