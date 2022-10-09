@@ -1,3 +1,8 @@
+<!--
+  @component
+
+  A component that shows a login prompt for the user.
+-->
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
 
@@ -74,6 +79,7 @@
         autoCompleteTags="current-password"
         placeHolder="Password"
         password={true}
+        on:enterPressed={onSubmit}
         bind:value={password}
       />
     </div>

@@ -1,51 +1,69 @@
-<script lang="ts" context="module">
-	import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+<!--
+  @component
 
-	export const inputBoxStories: ComponentStories = {
-		Standard: {
-			props: {
-				value: '',
-				placeHolder: 'Some example placeholder'
-			}
-		},
-		Password: {
-			props: {
-				value: '',
-				placeHolder: 'Password',
-				password: true
-			}
-		}
-	};
+  A simple input box.
+
+	When `enter` is pressed, the `enterPressed` event is emitted.
+-->
+<script lang="ts" context="module">
+  import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+  import { createEventDispatcher } from 'svelte';
+
+  export const inputBoxStories: ComponentStories = {
+    Standard: {
+      props: {
+        value: '',
+        placeHolder: 'Some example placeholder'
+      }
+    },
+    Password: {
+      props: {
+        value: '',
+        placeHolder: 'Password',
+        password: true
+      }
+    }
+  };
 </script>
 
 <script lang="ts">
-	export let value = '';
-	export let placeHolder = 'Example';
-	export let password = false;
+  export let value = '';
+  export let placeHolder = 'Example';
+  export let password = false;
 
-	/**
-	 * The tags for autocomplete that will be applied to the input. This helps
-	 * browsers find out what the input is for.
-	 */
-	export let autoCompleteTags = '';
+  /**
+   * The tags for autocomplete that will be applied to the input. This helps
+   * browsers find out what the input is for.
+   */
+  export let autoCompleteTags = '';
 
-	const inputClasses =
-		'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:shadow-outline transition ease-in-out';
+  const dispatch = createEventDispatcher();
+
+  const handleKeypress = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      dispatch('enterPressed');
+    }
+  };
+
+  const inputClasses =
+    'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:shadow-outline transition ease-in-out';
 </script>
 
 {#if password}
-	<input
-		class={inputClasses}
-		autocomplete={autoCompleteTags}
-		placeholder={placeHolder}
-		type="password"
-		bind:value
-	/>
+  <input
+    class={inputClasses}
+    autocomplete={autoCompleteTags}
+    placeholder={placeHolder}
+    type="password"
+    on:keypress={handleKeypress}
+    bind:value
+  />
 {:else}
-	<input
-		class={inputClasses}
-		autocomplete={autoCompleteTags}
-		placeholder={placeHolder}
-		bind:value
-	/>
+  <input
+    class={inputClasses}
+    autocomplete={autoCompleteTags}
+    placeholder={placeHolder}
+    on:keypress={handleKeypress}
+    bind:value
+  />
 {/if}
