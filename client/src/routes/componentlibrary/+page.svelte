@@ -25,8 +25,13 @@
   import NavBar, { navBarStories } from 'src/lib/NavBar.svelte';
   import Table, { tableStories } from 'src/lib/Table.svelte';
   import CreateNewAccount, { createNewAccountStories } from 'src/lib/CreateNewAccount.svelte';
+  import NewGame, { createNewGameStories } from 'src/lib/NewGame.svelte';
 
   let componentStoryBooks: ComponentStoryBooks = {
+    NewGame: {
+      component: NewGame,
+      stories: createNewGameStories
+    },
     NavBar: {
       component: NavBar,
       stories: navBarStories

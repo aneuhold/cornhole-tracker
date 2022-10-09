@@ -80,8 +80,6 @@
     </button>
     <div class="menuItems">
       <Button primary={true} label="Logout" on:click={onLogOutClick} />
-      <a href="/login">Login</a>
-      <a href="/createaccount">Create an Account</a>
     </div>
   </div>
 {/if}
