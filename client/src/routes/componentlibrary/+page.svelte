@@ -26,8 +26,13 @@
   import Table, { tableStories } from 'src/lib/Table.svelte';
   import CreateNewAccount, { createNewAccountStories } from 'src/lib/CreateNewAccount.svelte';
   import NewGame, { createNewGameStories } from 'src/lib/NewGame.svelte';
+  import FabDialer, { fabDialerStories } from 'src/lib/FabDialer.svelte';
 
   let componentStoryBooks: ComponentStoryBooks = {
+    FabDialer: {
+      component: FabDialer,
+      stories: fabDialerStories
+    },
     NewGame: {
       component: NewGame,
       stories: createNewGameStories
