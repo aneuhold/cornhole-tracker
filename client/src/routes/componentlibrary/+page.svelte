@@ -29,6 +29,10 @@
   import FabDialer, { fabDialerStories } from 'src/lib/FabDialer.svelte';
 
   let componentStoryBooks: ComponentStoryBooks = {
+    Table: {
+      component: Table,
+      stories: tableStories
+    },
     FabDialer: {
       component: FabDialer,
       stories: fabDialerStories
@@ -60,10 +64,6 @@
     InputBox: {
       component: InputBox,
       stories: inputBoxStories
-    },
-    Table: {
-      component: Table,
-      stories: tableStories
     }
   };
 

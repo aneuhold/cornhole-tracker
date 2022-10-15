@@ -1,43 +1,53 @@
 <script lang="ts" context="module">
-  import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+  import type { ComponentStories, ComponentStory } from 'src/routes/componentlibrary/+page.svelte';
   import { RaisedHeight } from 'src/util/styleEnums';
   import svgIcons from 'src/util/svgIcons';
 
   export type TableData = {
     headers: string[];
-    rows: string[][];
+    rows: RowData[];
   };
+
+  export type RowData = {
+    columnVals: string[];
+    rowClickAction: () => void;
+  };
+
+  function generateTableData(numHeaders: number, numRows: number): TableData {
+    const headers: string[] = [];
+    for (let i = 0; i < numHeaders; i++) {
+      headers.push(`Test Header ${i + 1}`);
+    }
+    const rows: RowData[] = [];
+    for (let row = 0; row < numRows; row++) {
+      const columnVals: string[] = [];
+      for (let column = 0; column < numHeaders; column++) {
+        columnVals.push(`data ${column + 1}`);
+      }
+      rows.push({
+        columnVals: columnVals,
+        rowClickAction: () => {
+          console.log(`row ${row} clicked`);
+        }
+      });
+    }
+    return {
+      headers: headers,
+      rows: rows
+    };
+  }
 
   export const tableStories: ComponentStories = {
     'With Small Amount of Data': {
       props: {
-        tableData: {
-          headers: ['Test header 1', 'Test header 2', 'Test header 3'],
-          rows: [
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3']
-          ]
-        }
+        tableData: generateTableData(3, 4)
       }
     },
     'With Title': {
       props: {
         tableTitle: 'Some Test Title',
         tableClasses: 'bg-blue-100',
-        tableData: {
-          headers: ['test header 1', 'test header 2', 'test header 3'],
-          rows: [
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3']
-          ]
-        }
+        tableData: generateTableData(3, 5)
       }
     },
     'With a lot of data': {
@@ -45,30 +55,7 @@
         tableTitle: 'Some Test Title',
         tableClasses: 'bg-green-100',
         tableDescription: 'This is a test table with a lot of data',
-        tableData: {
-          headers: ['test header 1', 'test header 2', 'test header 3'],
-          rows: [
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3'],
-            ['data 1', 'data 2', 'data 3']
-          ]
-        }
+        tableData: generateTableData(3, 22)
       }
     }
   };
@@ -119,25 +106,21 @@
       <Modal {dialogId} modalTitle={tableTitle}>{tableDescription}</Modal>
     {/if}
   </div>
-  <div class="scrollArea">
-    <table class="table-auto table centerText bg-white rounded-lg">
-      <thead>
-        <tr class="border-b border-black">
-          {#each tableData.headers as header}
-            <th>{header}</th>
+  <div class="scrollArea tableContent">
+    <div class="tableDataHeaders tableRow">
+      {#each tableData.headers as header}
+        <span>{header}</span>
+      {/each}
+    </div>
+    <div class="tableRows">
+      {#each tableData.rows as rowData}
+        <div class="bg-white rounded-md shadow-md tableRow">
+          {#each rowData.columnVals as columnValue}
+            <span class="px-6 py-4">{columnValue}</span>
           {/each}
-        </tr>
-      </thead>
-      <tbody>
-        {#each tableData.rows as rowData}
-          <tr class="border-b border-black">
-            {#each rowData as rowValue}
-              <td class="px-6 py-4">{rowValue}</td>
-            {/each}
-          </tr>
-        {/each}
-      </tbody>
-    </table>
+        </div>
+      {/each}
+    </div>
   </div>
 </div>
 
@@ -155,6 +138,20 @@
     /* To make sure that the height doesn't get too large and it scrolls. */
     max-height: 100vh;
     overflow-y: scroll;
+  }
+  .tableContent {
+    display: flex;
+    flex-direction: column;
+  }
+  .tableRows {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+  }
+  .tableRow {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
   }
   .centerText {
     text-align: center;

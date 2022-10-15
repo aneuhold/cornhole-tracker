@@ -6,30 +6,66 @@
   const currentlyRunningGames: TableData = {
     headers: ['Name', '# Completed Rounds'],
     rows: [
-      ['Game 1', '3'],
-      ['Game 2', '3'],
-      ['Game 3', '6'],
-      ['Game 4', '1']
+      {
+        columnVals: ['Game 1', '3'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 2', '3'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 3', '6'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 4', '1'],
+        rowClickAction: () => {}
+      }
     ]
   };
 
   const myTeams: TableData = {
-    headers: ['Name', '# Completed Rounds'],
+    headers: ['Name', 'Players'],
     rows: [
-      ['Game 1', '3'],
-      ['Game 2', '3'],
-      ['Game 3', '6'],
-      ['Game 4', '1']
+      {
+        columnVals: ['Game 1', '3'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 2', '3'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 3', '6'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 4', '1'],
+        rowClickAction: () => {}
+      }
     ]
   };
 
   const myCompetition: TableData = {
     headers: ['Name', '# Completed Rounds'],
     rows: [
-      ['Game 1', '3'],
-      ['Game 2', '3'],
-      ['Game 3', '6'],
-      ['Game 4', '1']
+      {
+        columnVals: ['Game 1', '3'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 2', '3'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 3', '6'],
+        rowClickAction: () => {}
+      },
+      {
+        columnVals: ['Game 4', '1'],
+        rowClickAction: () => {}
+      }
     ]
   };
 
