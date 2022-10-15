@@ -6,6 +6,7 @@
 -->
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+  import { RaisedHeight } from 'src/util/styleEnums';
   import svgIcons from 'src/util/svgIcons';
   import { createEventDispatcher } from 'svelte';
   import Button from './Button.svelte';
@@ -85,7 +86,7 @@
 {/if}
 
 <ul class="rounded p-4 bg-blue-200 items-center gap-x-2 navBar">
-  <IconButton iconHtml={svgIcons.menu} on:click={toggleMenu} />
+  <IconButton iconHtml={svgIcons.menu} on:click={toggleMenu} raisedHeight={RaisedHeight.none} />
   <h1 class="siteTitle text-lg">Cornhole Tracker</h1>
   {#if username}
     <span class="userInfo">{username}</span>

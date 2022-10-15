@@ -8,6 +8,7 @@
 -->
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+  import { RaisedHeight } from 'src/util/styleEnums';
   import svgIcons from 'src/util/svgIcons';
 
   const listeners = {
@@ -91,7 +92,7 @@
 
 <div class="fabContainer">
   <div class={fabButtonClasses()}>
-    <IconButton iconHtml={svgIcons.addMedium} on:click={onClick} />
+    <IconButton iconHtml={svgIcons.addMedium} on:click={onClick} raisedHeight={RaisedHeight.high} />
   </div>
 
   <div class={optionsContainerClasses()}>

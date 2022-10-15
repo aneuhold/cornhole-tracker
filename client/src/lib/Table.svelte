@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+  import { RaisedHeight } from 'src/util/styleEnums';
   import svgIcons from 'src/util/svgIcons';
 
   export type TableData = {
@@ -110,7 +111,7 @@
       <div class="m-3">
         <IconButton
           primary={false}
-          raised={false}
+          raisedHeight={RaisedHeight.none}
           iconHtml={svgIcons.info}
           on:click={handleInfoButtonClick}
         />
