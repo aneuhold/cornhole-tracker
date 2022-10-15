@@ -3,7 +3,8 @@
 
   A material design FAB button with a dialer functionality. 
 
-  Code copied from [here](https://jh3y.medium.com/how-to-create-the-speed-dial-style-floating-action-button-from-material-design-b30d49f9a0ff).
+  Code copied from [here](https://jh3y.medium.com/how-to-create-the-speed-dial-style-floating-action-button-from-material-design-b30d49f9a0ff)
+  then modified.
 -->
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
@@ -18,191 +19,148 @@
   export const fabDialerStories: ComponentStories = {
     Primary: {
       props: {
-        label: 'Primary Button',
-        primary: true
+        dialerOptions: [
+          {
+            iconHtml: svgIcons.info,
+            onClickAction: () => {
+              console.log('option 1 clicked');
+            }
+          },
+          {
+            iconHtml: svgIcons.info,
+            onClickAction: () => {
+              console.log('option 1 clicked');
+            }
+          },
+          {
+            iconHtml: svgIcons.info,
+            onClickAction: () => {
+              console.log('option 1 clicked');
+            }
+          },
+          {
+            iconHtml: svgIcons.info,
+            onClickAction: () => {
+              console.log('option 1 clicked');
+            }
+          }
+        ]
       },
       listeners
     }
   };
+
+  export type DialerOptions = DialerOption[];
+  export type DialerOption = {
+    iconHtml: string;
+    onClickAction: () => void;
+  };
 </script>
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import IconButton from './IconButton.svelte';
 
-  /**
-   * If the button should be the primary color
-   */
-  export let primary = false;
+  export let dialerOptions: DialerOptions;
 
-  export let disabled = false;
+  let dialerOpen = false;
+  let dialerHasBeenOpened = false;
 
-  const plusIconHtml = svgIcons.info;
-
-  $: buttonClasses = () => {
-    let returnString = 'font-bold py-2 px-4 rounded-full';
-    if (primary) {
-      returnString += ' bg-blue-500 text-white';
-      if (!disabled) {
-        returnString += ' hover:bg-blue-700';
-      }
-    } else {
-      returnString +=
-        ' bg-transparent text-blue-700 font-semibold border-blue-500 hover:border-transparent';
-      if (!disabled) {
-        returnString += ' hover:bg-blue-500 hover:text-white';
-      }
+  $: fabButtonClasses = () => {
+    const baseClass = 'fabButton';
+    if (dialerHasBeenOpened && !dialerOpen) {
+      return `${baseClass} closeFabButtonAnimation`;
+    } else if (dialerOpen) {
+      return `${baseClass} openFabButtonAnimation`;
     }
-    if (disabled) {
-      returnString += ' opacity-50 cursor-not-allowed';
-    } else {
-      returnString += ' active:bg-blue-800 shadow-md';
-    }
-    return returnString;
+    return baseClass;
   };
 
-  const dispatch = createEventDispatcher();
-
-  /**
-   * Optional click handler
-   */
-  function onClick(event: Event) {
-    if (!disabled) {
-      dispatch('click', event);
+  $: optionsContainerClasses = () => {
+    const baseClass = 'fabOptions';
+    if (dialerOpen) {
+      return `${baseClass} showOptions`;
     }
+    return baseClass;
+  };
+
+  function onClick() {
+    dialerHasBeenOpened = true;
+    dialerOpen = !dialerOpen;
   }
 </script>
 
-<div class="mdl-button--fab_flinger-container" id="fab_ctn">
-  <button
-    class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
-    id="fab_btn"><i>{@html plusIconHtml}</i></button
-  >
-  <div class="mdl-button--fab_flinger-options">
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect"
-      ><i class="material-icons">{@html plusIconHtml}</i></button
-    >
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">{@html plusIconHtml}</i>
-    </button>
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">{@html plusIconHtml}</i>
-    </button>
+<div class="fabContainer">
+  <div class={fabButtonClasses()}>
+    <IconButton iconHtml={svgIcons.addMedium} on:click={onClick} />
+  </div>
+
+  <div class={optionsContainerClasses()}>
+    {#each dialerOptions as option}
+      <div class="fabOption">
+        <IconButton iconHtml={option.iconHtml} on:click={option.onClickAction} />
+      </div>
+    {/each}
   </div>
 </div>
 
 <style>
-  .mdl-button--fab_flinger-container {
+  .fabContainer {
     position: fixed;
-    bottom: 100px;
-    right: 100px;
+    bottom: 36px;
+    right: 36px;
   }
-
-  .mdl-button--fab_flinger-container.is-showing-options > button i {
-    -webkit-transition: -webkit-transform 0.1s linear;
-    transition: transform 0.1s linear;
-    -webkit-transform: translate(-12px, -12px) rotate(45deg);
-    -ms-transform: translate(-12px, -12px) rotate(45deg);
-    transform: translate(-12px, -12px) rotate(45deg);
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
+  .fabOptions {
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-    -webkit-flex-direction: column-reverse;
-    -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button {
-    display: block;
-    -webkit-animation-name: enter;
-    animation-name: enter;
-    -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards;
-    -webkit-animation-duration: 0.1s;
-    animation-duration: 0.1s;
-    -webkit-transform-origin: bottom center;
-    -ms-transform-origin: bottom center;
-    transform-origin: bottom center;
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options
-    .mdl-button--fab_flinger-options
-    button:nth-of-type(1) {
-    -webkit-animation-delay: 0.1s;
-    animation-delay: 0.1s;
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options
-    .mdl-button--fab_flinger-options
-    button:nth-of-type(2) {
-    -webkit-animation-delay: 0.2s;
-    animation-delay: 0.2s;
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options
-    .mdl-button--fab_flinger-options
-    button:nth-of-type(3) {
-    -webkit-animation-delay: 0.3s;
-    animation-delay: 0.3s;
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options
-    .mdl-button--fab_flinger-options
-    button:nth-of-type(4) {
-    -webkit-animation-delay: 0.4s;
-    animation-delay: 0.4s;
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options
-    .mdl-button--fab_flinger-options
-    button:nth-of-type(5) {
-    -webkit-animation-delay: 0.5s;
-    animation-delay: 0.5s;
-  }
-
-  .mdl-button--fab_flinger-container.is-showing-options
-    .mdl-button--fab_flinger-options
-    button:nth-of-type(6) {
-    -webkit-animation-delay: 0.6s;
-    animation-delay: 0.6s;
-  }
-
-  .mdl-button--fab_flinger-container .mdl-button--fab_flinger-options {
+    /* Not really sure what the wizardry below is doing */
     position: absolute;
     bottom: 100%;
     margin-bottom: 10px;
+    /* Okay end of wizardry */
   }
-
-  .mdl-button--fab_flinger-container .mdl-button--fab_flinger-options button {
-    -webkit-transform: scale(0);
-    -ms-transform: scale(0);
+  .openFabButtonAnimation {
+    transition: transform 0.1s linear;
+    transform: rotate(45deg);
+  }
+  .closeFabButtonAnimation {
+    transition: transform 0.1s linear;
+    transform: rotate(0deg);
+  }
+  .fabOption {
     transform: scale(0);
     display: none;
   }
-
-  @-webkit-keyframes enter {
-    from {
-      -webkit-transform: scale(0);
-      transform: scale(0);
-    }
-    to {
-      -webkit-transform: scale(0.8);
-      transform: scale(0.8);
-    }
+  .fabOptions.showOptions .fabOption {
+    display: block;
+    animation-name: enter;
+    animation-fill-mode: forwards;
+    animation-duration: 0.1s;
+    transform-origin: bottom center;
+  }
+  .fabOptions.showOptions .fabOption:nth-of-type(1) {
+    animation-delay: 0.1s;
+  }
+  .fabOptions.showOptions .fabOption:nth-of-type(2) {
+    animation-delay: 0.2s;
+  }
+  .fabOptions.showOptions .fabOption:nth-of-type(3) {
+    animation-delay: 0.3s;
+  }
+  .fabOptions.showOptions .fabOption:nth-of-type(4) {
+    animation-delay: 0.4s;
+  }
+  .fabOptions.showOptions .fabOption:nth-of-type(5) {
+    animation-delay: 0.5s;
+  }
+  .fabOptions.showOptions .fabOption:nth-of-type(6) {
+    animation-delay: 0.6s;
   }
 
   @keyframes enter {
     from {
-      -webkit-transform: scale(0);
       transform: scale(0);
     }
     to {
-      -webkit-transform: scale(0.8);
       transform: scale(0.8);
     }
   }

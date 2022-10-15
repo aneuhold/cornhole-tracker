@@ -37,7 +37,7 @@
   const dispatch = createEventDispatcher();
 
   const standardIconButtonClasses =
-    'inline-block p-3 font-medium text-xs leading-tight uppercase rounded-full focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mx-1';
+    'inline-block p-3 font-medium text-xs leading-tight uppercase rounded-full focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out';
 
   const raisedClasses = raised ? 'shadow-md hover:shadow-lg' : '';
 
