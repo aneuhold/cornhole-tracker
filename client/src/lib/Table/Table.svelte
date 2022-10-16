@@ -34,15 +34,31 @@
    */
   export let tableClasses: string = '';
 
+  /**
+   * A variable that stores if the options button was clicked. This is used
+   * to override functionality pertaining to the row click handler.
+   */
+  let optionsWasClicked = false;
+
   const dialogId = crypto.randomUUID();
 
   function handleInfoButtonClick() {
     openDialog(dialogId);
   }
 
-  function handleOptionsButtonClick(event: Event) {
-    event.stopPropagation();
-    console.log('this is a test');
+  function handleOptionsButtonClick() {
+    optionsWasClicked = true;
+    console.log('Options button clicked');
+  }
+
+  function createRowClickHandler(rowData: RowData) {
+    return () => {
+      if (optionsWasClicked) {
+        optionsWasClicked = false;
+      } else {
+        rowData.rowClickAction();
+      }
+    };
   }
 </script>
 
@@ -75,7 +91,7 @@
       {#each tableData.rows as rowData}
         <button
           class="bg-white rounded-md shadow-md hover:shadow-lg tableRow"
-          on:click={rowData.rowClickAction}
+          on:click={createRowClickHandler(rowData)}
         >
           <div class="tableRowData">
             {#each rowData.columnVals as columnValue}
