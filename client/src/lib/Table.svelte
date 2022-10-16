@@ -70,12 +70,12 @@
   /**
    * Optional title for the table.
    */
-  export let tableTitle: string;
+  export let tableTitle: string = '';
 
   /**
    * The description for the table.
    */
-  export let tableDescription: string;
+  export let tableDescription: string = '';
 
   /**
    * Optional classes for the table title. This can be used to color them.
@@ -91,10 +91,10 @@
 
 <div class={tableClasses + ' rounded-xl px-3 pb-3'}>
   <div class="tableHeader">
-    {#if tableTitle}
+    {#if tableTitle !== ''}
       <h3 class="rounded-lg p-2 text-lg mr-auto">{tableTitle}</h3>
     {/if}
-    {#if tableDescription}
+    {#if tableDescription !== ''}
       <div class="m-3">
         <IconButton
           primary={false}
@@ -114,11 +114,14 @@
     </div>
     <div class="tableRows">
       {#each tableData.rows as rowData}
-        <div class="bg-white rounded-md shadow-md tableRow">
+        <button
+          class="bg-white rounded-md shadow-md hover:shadow-lg tableRow"
+          on:click={rowData.rowClickAction}
+        >
           {#each rowData.columnVals as columnValue}
             <span class="px-6 py-4">{columnValue}</span>
           {/each}
-        </div>
+        </button>
       {/each}
     </div>
   </div>
@@ -136,8 +139,8 @@
   }
   .scrollArea {
     /* To make sure that the height doesn't get too large and it scrolls. */
-    max-height: 100vh;
-    overflow-y: scroll;
+    max-height: 75vh;
+    overflow-y: auto;
   }
   .tableContent {
     display: flex;
