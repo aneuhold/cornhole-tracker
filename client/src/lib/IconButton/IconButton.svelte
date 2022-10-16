@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  import { RaisedHeight } from 'src/util/styleEnums';
+  import { ButtonColor, RaisedHeight } from 'src/util/styleEnums';
   import type { SvgIconInfo } from 'src/util/svgIcons';
 
   export enum IconSize {
@@ -17,7 +17,7 @@
 
   export let iconInfo: SvgIconInfo;
 
-  export let primary = true;
+  export let buttonColor: ButtonColor = ButtonColor.primary;
 
   export let raisedHeight: RaisedHeight = RaisedHeight.small;
 
@@ -39,11 +39,18 @@
         break;
     }
     // Color related classes
-    if (primary) {
-      iconButtonClasses += ' active:bg-blue-800 fill-white bg-blue-500 hover:bg-blue-700';
-    } else {
-      iconButtonClasses +=
-        ' active:bg-gray-800 border-blue-500 fill-blue-500 bg-white hover:border-transparent hover:bg-gray-300';
+    switch (buttonColor) {
+      case ButtonColor.primary:
+        iconButtonClasses += ' active:bg-blue-800 fill-white bg-blue-500 hover:bg-blue-700';
+        break;
+      case ButtonColor.standard:
+        iconButtonClasses +=
+          ' active:bg-gray-800 border-blue-500 fill-blue-500 bg-white hover:border-transparent hover:bg-gray-300';
+        break;
+      case ButtonColor.transparent:
+        iconButtonClasses +=
+          ' active:bg-gray-800 border-blue-500 fill-blue-500 bg-transparent hover:border-transparent hover:bg-gray-300';
+        break;
     }
     // Height related classes
     switch (raisedHeight) {

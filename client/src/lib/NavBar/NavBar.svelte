@@ -53,7 +53,7 @@
     <div class="absolute top-2.5 right-2.5">
       <IconButton
         raisedHeight={RaisedHeight.none}
-        primary={false}
+        buttonColor={false}
         iconSize={IconSize.small}
         iconInfo={svgIcons.closeIcon}
         on:click={toggleMenu}

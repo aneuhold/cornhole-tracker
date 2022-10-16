@@ -9,7 +9,7 @@
   /**
    * Button contents
    */
-  export let label = 'Button';
+  export let label: string | number;
 
   export let disabled = false;
 

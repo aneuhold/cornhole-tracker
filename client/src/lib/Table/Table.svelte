@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  import { RaisedHeight } from 'src/util/styleEnums';
+  import { ButtonColor, RaisedHeight } from 'src/util/styleEnums';
   import svgIcons from 'src/util/svgIcons';
 
   export type TableData = {
@@ -70,7 +70,7 @@
     {#if tableDescription !== ''}
       <div class="m-3">
         <IconButton
-          primary={false}
+          buttonColor={ButtonColor.transparent}
           raisedHeight={RaisedHeight.none}
           iconInfo={svgIcons.info}
           on:click={handleInfoButtonClick}
@@ -102,7 +102,7 @@
             <IconButton
               iconInfo={svgIcons.options}
               iconSize={IconSize.medium}
-              primary={false}
+              buttonColor={ButtonColor.standard}
               raisedHeight={RaisedHeight.none}
               on:click={handleOptionsButtonClick}
             />

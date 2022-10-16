@@ -5,61 +5,61 @@
   Content can be provided as a slot to this component.
 -->
 <script lang="ts" context="module">
-	export interface DialogElement extends HTMLElement {
-		close: () => void;
-		showModal: () => void;
-	}
+  export interface DialogElement extends HTMLElement {
+    close: () => void;
+    showModal: () => void;
+  }
 
-	export function closeDialog(dialogId: string) {
-		const dialogElement = document.getElementById(dialogId) as DialogElement;
-		dialogElement.close();
-	}
+  export function closeDialog(dialogId: string) {
+    const dialogElement = document.getElementById(dialogId) as DialogElement;
+    dialogElement.close();
+  }
 
-	export function openDialog(dialogId: string) {
-		const dialogElement = document.getElementById(dialogId) as DialogElement;
-		dialogElement.showModal();
-	}
+  export function openDialog(dialogId: string) {
+    const dialogElement = document.getElementById(dialogId) as DialogElement;
+    dialogElement.showModal();
+  }
 </script>
 
 <script lang="ts">
-	import svgIcons from 'src/util/svgIcons';
+  import { ButtonColor, RaisedHeight } from 'src/util/styleEnums';
 
-	export let modalTitle = 'Confirm';
+  import svgIcons from 'src/util/svgIcons';
+  import IconButton from './IconButton/IconButton.svelte';
 
-	/**
-	 * The ID of the dialog so it can be individually identified.
-	 */
-	export let dialogId: string;
+  export let modalTitle = 'Confirm';
 
-	function closeThisDialog() {
-		closeDialog(dialogId);
-	}
+  /**
+   * The ID of the dialog so it can be individually identified.
+   */
+  export let dialogId: string;
+
+  function closeThisDialog() {
+    closeDialog(dialogId);
+  }
 </script>
 
-<dialog id={dialogId} class="rounded-md shadow-md flex-col">
-	<div class="border-b-2 mb-2 dialogHeader">
-		<h3 class="text-lg">{modalTitle}</h3>
-
-		<button
-			type="button"
-			class="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 items-center text-gray-700"
-			on:click={closeThisDialog}
-		>
-			{@html svgIcons.closeIcon}
-			<span class="sr-only">Close dialog</span>
-		</button>
-	</div>
-	<slot />
+<dialog id={dialogId} class="rounded-md shadow-md flex-col pt-0">
+  <div class="border-b-2 mb-2 pt-2 dialogHeader">
+    <h3 class="text-lg">{modalTitle}</h3>
+    <IconButton
+      iconInfo={svgIcons.closeIcon}
+      buttonColor={ButtonColor.transparent}
+      on:click={closeThisDialog}
+      raisedHeight={RaisedHeight.none}
+    />
+  </div>
+  <slot />
 </dialog>
 
 <style>
-	.dialogHeader {
-		display: grid;
-		grid-template-rows: 1fr;
-		grid-template-columns: auto min-content;
-		align-items: center;
-	}
-	dialog::backdrop {
-		background: rgba(0, 0, 0, 0.5);
-	}
+  .dialogHeader {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: auto min-content;
+    align-items: center;
+  }
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
 </style>

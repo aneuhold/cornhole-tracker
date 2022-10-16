@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
-  import { RaisedHeight } from 'src/util/styleEnums';
+  import { ButtonColor, RaisedHeight } from 'src/util/styleEnums';
   import svgIcons from 'src/util/svgIcons';
   import type IconButton from './IconButton.svelte';
   import { IconSize } from './IconButton.svelte';
@@ -15,7 +15,7 @@
     Twitter: {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: true,
+        buttonColor: ButtonColor.primary,
         iconSize: IconSize.medium
       },
       listeners
@@ -23,7 +23,15 @@
     'Non Primary': {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: false,
+        buttonColor: ButtonColor.standard,
+        iconSize: IconSize.medium
+      },
+      listeners
+    },
+    Transparent: {
+      props: {
+        iconInfo: svgIcons.twitter,
+        buttonColor: ButtonColor.transparent,
         iconSize: IconSize.medium
       },
       listeners
@@ -31,7 +39,7 @@
     Small: {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: true,
+        buttonColor: ButtonColor.standard,
         iconSize: IconSize.small
       },
       listeners
@@ -39,7 +47,7 @@
     Medium: {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: true,
+        buttonColor: ButtonColor.standard,
         iconSize: IconSize.medium
       },
       listeners
@@ -47,7 +55,7 @@
     Large: {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: true,
+        buttonColor: ButtonColor.standard,
         iconSize: IconSize.large
       },
       listeners
@@ -55,7 +63,7 @@
     'No raised height': {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: false,
+        buttonColor: ButtonColor.standard,
         raisedHeight: RaisedHeight.none,
         iconSize: IconSize.medium
       },
@@ -64,7 +72,7 @@
     'Small raised height': {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: false,
+        buttonColor: ButtonColor.standard,
         raisedHeight: RaisedHeight.small,
         iconSize: IconSize.medium
       },
@@ -73,7 +81,7 @@
     'High raised height': {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: false,
+        buttonColor: ButtonColor.standard,
         raisedHeight: RaisedHeight.high,
         iconSize: IconSize.medium
       },

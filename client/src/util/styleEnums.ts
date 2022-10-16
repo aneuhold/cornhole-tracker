@@ -6,3 +6,9 @@ export enum RaisedHeight {
   small,
   high
 }
+
+export enum ButtonColor {
+  primary,
+  standard,
+  transparent
+}
