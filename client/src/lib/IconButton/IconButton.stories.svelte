@@ -14,14 +14,17 @@
   export const iconButtonStories: ComponentStories<IconButton> = {
     Twitter: {
       props: {
-        iconInfo: svgIcons.twitter
+        iconInfo: svgIcons.twitter,
+        primary: true,
+        iconSize: IconSize.medium
       },
       listeners
     },
     'Non Primary': {
       props: {
         iconInfo: svgIcons.twitter,
-        primary: false
+        primary: false,
+        iconSize: IconSize.medium
       },
       listeners
     },
@@ -53,7 +56,8 @@
       props: {
         iconInfo: svgIcons.twitter,
         primary: false,
-        raisedHeight: RaisedHeight.none
+        raisedHeight: RaisedHeight.none,
+        iconSize: IconSize.medium
       },
       listeners
     },
@@ -61,7 +65,8 @@
       props: {
         iconInfo: svgIcons.twitter,
         primary: false,
-        raisedHeight: RaisedHeight.small
+        raisedHeight: RaisedHeight.small,
+        iconSize: IconSize.medium
       },
       listeners
     },
@@ -69,7 +74,8 @@
       props: {
         iconInfo: svgIcons.twitter,
         primary: false,
-        raisedHeight: RaisedHeight.high
+        raisedHeight: RaisedHeight.high,
+        iconSize: IconSize.medium
       },
       listeners
     }
