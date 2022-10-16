@@ -1,7 +1,7 @@
 <!--
   @component
 
-  A new game component which displays the things needed to create a new game
+  A new game component which displays the things needed to create a new team
   and validates the things entered.
 -->
 <script lang="ts">
@@ -13,8 +13,7 @@
   import InputBox from '../InputBox/InputBox.svelte';
   import Modal, { closeDialog, openDialog } from '../Modal.svelte';
 
-  let gameName = '';
-  let pointsToWin = 21;
+  let teamName = '';
 
   const dispatch = createEventDispatcher();
   const pointsToWinDialogId = 'pointsToWin';
@@ -34,8 +33,8 @@
   /**
    * Optional click handler
    */
-  function onCreateNewGame() {
-    dispatch('createNewGame');
+  function onCreateNewTeam() {
+    dispatch('createNewTeam');
   }
 </script>
 
@@ -50,28 +49,12 @@
   </div>
 
   <div class="mx-auto max-w-md flex flex-col gap-y-3">
-    <h2 class="text-2xl">New Game</h2>
-    <InputBox value={gameName} placeHolder="Game Name" label="Game Name" />
-    <div class="flex-row">
-      <span>Points to win: </span>
-      <Button label={pointsToWin} on:click={handlePointsToWinClick} />
-    </div>
+    <h2 class="text-2xl">New Team</h2>
+    <InputBox value={teamName} placeHolder="Team Name" label="Team Name" />
     <div class="mt-4">
-      <Button label="Create New Game" primary={true} on:click={onCreateNewGame} />
+      <Button label="Create New Team" primary={true} on:click={onCreateNewTeam} />
     </div>
   </div>
-  <Modal dialogId={pointsToWinDialogId} modalTitle="Points to Win">
-    <div class="flex flex-col gap-y-3">
-      <InputBox
-        bind:value={pointsToWin}
-        placeHolder="Points to Win"
-        on:enterPressed={closePointsToWinDialog}
-      />
-      <div>
-        <Button label="Done" on:click={closePointsToWinDialog} />
-      </div>
-    </div>
-  </Modal>
 </div>
 
 <style>

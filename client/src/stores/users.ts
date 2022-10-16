@@ -7,7 +7,7 @@ function createUsersStore() {
 
   return {
     subscribe,
-    set: (updatedUsers: Partial<User>[]) => {
+    set: (updatedUsers: User[]) => {
       set(updatedUsers);
       LocalData.users = updatedUsers;
     },

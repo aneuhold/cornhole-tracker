@@ -1,6 +1,7 @@
-import CornholeGame from '../_shared/types/CornholeGame';
-import CornholeTeam from '../_shared/types/CornholeTeam';
-import User from '../_shared/types/User';
+import type TempPlayer from 'src/_shared/types/TempPlayer';
+import type CornholeGame from '../_shared/types/CornholeGame';
+import type CornholeTeam from '../_shared/types/CornholeTeam';
+import type User from '../_shared/types/User';
 
 export default class LocalData {
   /**
@@ -13,7 +14,8 @@ export default class LocalData {
     users: `${this.PREFIX}users`,
     user: `${this.PREFIX}user`,
     cornholeGames: `${this.PREFIX}cornholeGames`,
-    cornholeTeams: `${this.PREFIX}cornholeTeams`
+    cornholeTeams: `${this.PREFIX}cornholeTeams`,
+    tempPlayers: `${this.PREFIX}tempPlayers`
   };
 
   private static storeValue(key: string, value: string) {
@@ -75,6 +77,18 @@ export default class LocalData {
 
   static get cornholeTeams(): CornholeTeam[] {
     const currentlyStoredValue = this.getValue(LocalData.storedKeyNames.cornholeTeams);
+    if (currentlyStoredValue && currentlyStoredValue !== '') {
+      return JSON.parse(currentlyStoredValue);
+    }
+    return [];
+  }
+
+  static set tempPlayers(updatedTempPlayers: TempPlayer[]) {
+    this.storeValue(LocalData.storedKeyNames.tempPlayers, JSON.stringify(updatedTempPlayers));
+  }
+
+  static get tempPlayers(): TempPlayer[] {
+    const currentlyStoredValue = this.getValue(LocalData.storedKeyNames.tempPlayers);
     if (currentlyStoredValue && currentlyStoredValue !== '') {
       return JSON.parse(currentlyStoredValue);
     }
