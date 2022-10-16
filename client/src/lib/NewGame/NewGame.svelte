@@ -11,7 +11,7 @@
   import Button from '../Button/Button.svelte';
   import IconButton from '../IconButton/IconButton.svelte';
   import InputBox from '../InputBox/InputBox.svelte';
-  import Modal, { openDialog } from '../Modal.svelte';
+  import Modal, { closeDialog, openDialog } from '../Modal.svelte';
 
   let gameName = '';
   let pointsToWin = 21;
@@ -25,6 +25,10 @@
 
   function handlePointsToWinClick() {
     openDialog(pointsToWinDialogId);
+  }
+
+  function closePointsToWinDialog() {
+    closeDialog(pointsToWinDialogId);
   }
 
   /**
@@ -53,7 +57,16 @@
     </div>
   </div>
   <Modal dialogId={pointsToWinDialogId} modalTitle="Points to Win">
-    <InputBox value={pointsToWin} placeHolder="Points to Win" />
+    <div class="flex flex-col gap-y-3">
+      <InputBox
+        bind:value={pointsToWin}
+        placeHolder="Points to Win"
+        on:enterPressed={closePointsToWinDialog}
+      />
+      <div>
+        <Button label="Done" on:click={closePointsToWinDialog} />
+      </div>
+    </div>
   </Modal>
 </div>
 

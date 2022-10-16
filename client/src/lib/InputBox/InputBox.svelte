@@ -69,6 +69,7 @@
       placeholder={placeHolder}
       id={placeHolder}
       on:keypress={handleKeypress}
+      bind:value
     />
   {:else}
     <input
