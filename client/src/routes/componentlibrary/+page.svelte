@@ -41,8 +41,14 @@
   import { loginStories } from 'src/lib/Login/Login.stories.svelte';
   import { buttonStories } from 'src/lib/Button/Button.stories.svelte';
   import { inputBoxStories } from 'src/lib/InputBox/InputBox.stories.svelte';
+  import TeamPicker from 'src/lib/TeamPicker/TeamPicker.svelte';
+  import { teamPickerStories } from 'src/lib/TeamPicker/TeamPicker.stories.svelte';
 
   let componentStoryBooks: ComponentStoryBooks = {
+    TeamPicker: {
+      component: TeamPicker,
+      stories: teamPickerStories
+    },
     Table: {
       component: Table,
       stories: tableStories

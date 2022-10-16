@@ -3,7 +3,7 @@
   import svgIcons from 'src/util/svgIcons';
 
   export type TableData = {
-    headers: string[];
+    headers?: string[];
     rows: RowData[];
   };
 
@@ -62,13 +62,13 @@
   }
 </script>
 
-<div class={tableClasses + ' rounded-xl px-3 pb-3'}>
+<div class={tableClasses + ' rounded-xl px-3 pb-3 border'}>
   <div class="tableHeader">
     {#if tableTitle !== ''}
       <h3 class="rounded-lg p-2 text-lg mr-auto">{tableTitle}</h3>
     {/if}
     {#if tableDescription !== ''}
-      <div class="m-3">
+      <div class="p-1">
         <IconButton
           buttonColor={ButtonColor.transparent}
           raisedHeight={RaisedHeight.none}
@@ -80,13 +80,15 @@
     {/if}
   </div>
   <div class="scrollArea tableContent">
-    <div class="tableDataHeaders tableRow">
-      <div class="tableRowData font-bold">
-        {#each tableData.headers as header}
-          <span>{header}</span>
-        {/each}
+    {#if tableData.headers}
+      <div class="tableDataHeaders tableRow pt-2">
+        <div class="tableRowData font-bold">
+          {#each tableData.headers as header}
+            <span>{header}</span>
+          {/each}
+        </div>
       </div>
-    </div>
+    {/if}
     <div class="tableRows">
       {#each tableData.rows as rowData}
         <button

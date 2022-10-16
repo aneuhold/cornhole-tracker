@@ -30,6 +30,8 @@
   export const tableStories: ComponentStories<Table> = {
     'With Small Amount of Data': {
       props: {
+        tableTitle: '',
+        tableDescription: '',
         tableData: generateTableData(3, 4)
       }
     },
@@ -37,6 +39,7 @@
       props: {
         tableTitle: 'Some Test Title',
         tableClasses: 'bg-blue-100',
+        tableDescription: '',
         tableData: generateTableData(3, 5)
       }
     },
