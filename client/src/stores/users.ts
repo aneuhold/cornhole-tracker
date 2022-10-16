@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import LocalData from '../util/LocalData';
-import User from '../_shared/types/User';
+import type User from '../_shared/types/User';
 
 function createUsersStore() {
   const { subscribe, set, update } = writable<Partial<User>[]>(LocalData.users);

@@ -6,14 +6,45 @@
     Standard: {
       props: {
         value: '',
-        placeHolder: 'Some example placeholder'
+        placeHolder: 'Some example placeholder',
+        label: '',
+        isInvalid: false
       }
     },
     Password: {
       props: {
         value: '',
         placeHolder: 'Password',
-        password: true
+        password: true,
+        label: '',
+        isInvalid: false
+      }
+    },
+    'With Label': {
+      props: {
+        value: '',
+        placeHolder: 'Username',
+        password: false,
+        label: 'Username',
+        isInvalid: false
+      }
+    },
+    'Number Input': {
+      props: {
+        value: 32,
+        placeHolder: 'Points to win',
+        password: false,
+        label: '',
+        isInvalid: false
+      }
+    },
+    'Invalid input': {
+      props: {
+        value: -1,
+        placeHolder: 'Points to win',
+        password: false,
+        label: '',
+        isInvalid: true
       }
     }
   };
