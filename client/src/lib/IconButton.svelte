@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
   import { RaisedHeight } from 'src/util/styleEnums';
-  import svgIcons from 'src/util/svgIcons';
+  import svgIcons, { type SvgIconInfo } from 'src/util/svgIcons';
 
   const listeners = {
     click: () => {
@@ -9,23 +9,56 @@
     }
   };
 
+  export enum IconSize {
+    /**
+     * 20px x 20px
+     */
+    small,
+    medium,
+    large
+  }
+
   export const iconButtonStories: ComponentStories = {
     Twitter: {
       props: {
-        iconHtml: svgIcons.twitter
+        iconInfo: svgIcons.twitter
       },
       listeners
     },
     'Non Primary': {
       props: {
-        iconHtml: svgIcons.twitter,
+        iconInfo: svgIcons.twitter,
         primary: false
+      },
+      listeners
+    },
+    Small: {
+      props: {
+        iconInfo: svgIcons.twitter,
+        primary: true,
+        iconSize: IconSize.small
+      },
+      listeners
+    },
+    Medium: {
+      props: {
+        iconInfo: svgIcons.twitter,
+        primary: true,
+        iconSize: IconSize.medium
+      },
+      listeners
+    },
+    Large: {
+      props: {
+        iconInfo: svgIcons.twitter,
+        primary: true,
+        iconSize: IconSize.large
       },
       listeners
     },
     'No raised height': {
       props: {
-        iconHtml: svgIcons.twitter,
+        iconInfo: svgIcons.twitter,
         primary: false,
         raisedHeight: RaisedHeight.none
       },
@@ -33,7 +66,7 @@
     },
     'Small raised height': {
       props: {
-        iconHtml: svgIcons.twitter,
+        iconInfo: svgIcons.twitter,
         primary: false,
         raisedHeight: RaisedHeight.small
       },
@@ -41,7 +74,7 @@
     },
     'High raised height': {
       props: {
-        iconHtml: svgIcons.twitter,
+        iconInfo: svgIcons.twitter,
         primary: false,
         raisedHeight: RaisedHeight.high
       },
@@ -53,32 +86,59 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
-  export let iconHtml: string;
+  export let iconInfo: SvgIconInfo;
 
   export let primary = true;
 
   export let raisedHeight: RaisedHeight = RaisedHeight.small;
 
+  export let iconSize: IconSize = IconSize.medium;
+
   const dispatch = createEventDispatcher();
 
-  const standardIconButtonClasses =
-    'inline-block p-3 font-medium text-xs leading-tight uppercase rounded-full focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out';
-
-  $: raisedClasses = () => {
+  $: buttonClasses = () => {
+    let iconButtonClasses =
+      'inline-block font-medium text-xs leading-tight uppercase rounded-full focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out';
+    // Size related classes
+    switch (iconSize) {
+      case IconSize.small:
+        iconButtonClasses += ' p-2';
+        break;
+      case IconSize.medium:
+      case IconSize.large:
+        iconButtonClasses += ' p-3';
+        break;
+    }
+    // Color related classes
+    if (primary) {
+      iconButtonClasses += ' active:bg-blue-800 fill-white bg-blue-500 hover:bg-blue-700';
+    } else {
+      iconButtonClasses +=
+        ' active:bg-gray-800 border-blue-500 fill-blue-500 bg-white hover:border-transparent hover:bg-gray-300';
+    }
+    // Height related classes
     switch (raisedHeight) {
       case RaisedHeight.none:
-        return '';
+        break;
       case RaisedHeight.small:
-        return 'shadow-md hover:shadow-lg';
+        iconButtonClasses += ' shadow-md hover:shadow-lg';
+        break;
       case RaisedHeight.high:
-        return 'shadow-lg hover:shadow-xl';
+        iconButtonClasses += ' shadow-lg hover:shadow-xl';
+        break;
     }
+    return iconButtonClasses;
   };
 
-  $: colorClasses = () => {
-    return primary
-      ? 'active:bg-blue-800 fill-white bg-blue-500 hover:bg-blue-700'
-      : 'active:bg-gray-800 border-blue-500 fill-blue-500 bg-white hover:border-transparent hover:bg-gray-300';
+  $: iconDimension = () => {
+    switch (iconSize) {
+      case IconSize.small:
+        return '15';
+      case IconSize.medium:
+        return '20';
+      case IconSize.large:
+        return '30';
+    }
   };
 
   /**
@@ -89,10 +149,14 @@
   }
 </script>
 
-<button
-  type="button"
-  class={standardIconButtonClasses + ' ' + colorClasses() + ' ' + raisedClasses()}
-  on:click={onClick}
->
-  {@html iconHtml}
+<button type="button" class={buttonClasses()} on:click={onClick}>
+  <svg
+    height={iconDimension()}
+    width={iconDimension()}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox={iconInfo.viewBox}
+  >
+    {@html iconInfo.path}
+  </svg>
+  <span class="sr-only">Close menu</span>
 </button>

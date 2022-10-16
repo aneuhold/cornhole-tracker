@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Table, { type TableData } from '$lib/Table.svelte';
+  import Table, { type TableData } from 'src/lib/Table/Table.svelte';
   import FabDialer, { type DialerOptions } from 'src/lib/FabDialer.svelte';
   import svgIcons from 'src/util/svgIcons';
 
@@ -71,13 +71,13 @@
 
   const dialerOptions: DialerOptions = [
     {
-      iconHtml: svgIcons.teamAdd,
+      iconInfo: svgIcons.teamAdd,
       onClickAction: () => {
         console.log('clicked team add');
       }
     },
     {
-      iconHtml: svgIcons.gameAdd,
+      iconInfo: svgIcons.gameAdd,
       onClickAction: () => {
         console.log('clicked game add');
       }

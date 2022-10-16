@@ -23,10 +23,11 @@
   import Login, { loginStories } from 'src/lib/Login.svelte';
   import IconButton, { iconButtonStories } from 'src/lib/IconButton.svelte';
   import NavBar, { navBarStories } from 'src/lib/NavBar.svelte';
-  import Table, { tableStories } from 'src/lib/Table.svelte';
+  import Table from 'src/lib/Table/Table.svelte';
   import CreateNewAccount, { createNewAccountStories } from 'src/lib/CreateNewAccount.svelte';
   import NewGame, { createNewGameStories } from 'src/lib/NewGame.svelte';
   import FabDialer, { fabDialerStories } from 'src/lib/FabDialer.svelte';
+  import { tableStories } from 'src/lib/Table/Table.stories.svelte';
 
   let componentStoryBooks: ComponentStoryBooks = {
     Table: {

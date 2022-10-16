@@ -34,7 +34,7 @@
 </script>
 
 <script lang="ts">
-  import IconButton from './IconButton.svelte';
+  import IconButton, { IconSize } from './IconButton.svelte';
 
   /**
    * If a username is provided, then the user is considered logged in.
@@ -71,14 +71,15 @@
     <h5 id="drawer-label" class="inline-flex items-center mb-4 text-base font-semibold text-black">
       Cornhole Tracker
     </h5>
-    <button
-      type="button"
-      class="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center text-gray-700"
-      on:click={toggleMenu}
-    >
-      {@html svgIcons.closeIcon}
-      <span class="sr-only">Close menu</span>
-    </button>
+    <div class="absolute top-2.5 right-2.5">
+      <IconButton
+        raisedHeight={RaisedHeight.none}
+        primary={false}
+        iconSize={IconSize.small}
+        iconInfo={svgIcons.closeIcon}
+        on:click={toggleMenu}
+      />
+    </div>
     <div class="menuItems">
       <Button primary={true} label="Logout" on:click={onLogOutClick} />
     </div>
@@ -86,7 +87,7 @@
 {/if}
 
 <ul class="rounded p-4 bg-blue-200 items-center gap-x-2 navBar">
-  <IconButton iconHtml={svgIcons.menu} on:click={toggleMenu} raisedHeight={RaisedHeight.none} />
+  <IconButton iconInfo={svgIcons.menu} on:click={toggleMenu} raisedHeight={RaisedHeight.none} />
   <h1 class="siteTitle text-lg">Cornhole Tracker</h1>
   {#if username}
     <span class="userInfo">{username}</span>

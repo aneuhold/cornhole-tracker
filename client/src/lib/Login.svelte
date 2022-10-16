@@ -59,9 +59,9 @@
   <form>
     <div class="flex flex-row items-center justify-center">
       <p class="text-lg mb-0 mr-4">Sign in with</p>
-      <IconButton iconHtml={svgIcons.facebook} />
-      <IconButton iconHtml={svgIcons.twitter} />
-      <IconButton iconHtml={svgIcons.linkedIn} />
+      <IconButton iconInfo={svgIcons.facebook} />
+      <IconButton iconInfo={svgIcons.twitter} />
+      <IconButton iconInfo={svgIcons.linkedIn} />
     </div>
 
     <div

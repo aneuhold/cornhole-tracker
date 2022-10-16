@@ -9,7 +9,7 @@
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
   import { RaisedHeight } from 'src/util/styleEnums';
-  import svgIcons from 'src/util/svgIcons';
+  import svgIcons, { type SvgIconInfo } from 'src/util/svgIcons';
 
   const listeners = {
     click: () => {
@@ -22,25 +22,25 @@
       props: {
         dialerOptions: [
           {
-            iconHtml: svgIcons.info,
+            iconInfo: svgIcons.info,
             onClickAction: () => {
               console.log('option 1 clicked');
             }
           },
           {
-            iconHtml: svgIcons.info,
+            iconInfo: svgIcons.info,
             onClickAction: () => {
               console.log('option 1 clicked');
             }
           },
           {
-            iconHtml: svgIcons.info,
+            iconInfo: svgIcons.info,
             onClickAction: () => {
               console.log('option 1 clicked');
             }
           },
           {
-            iconHtml: svgIcons.info,
+            iconInfo: svgIcons.info,
             onClickAction: () => {
               console.log('option 1 clicked');
             }
@@ -53,13 +53,13 @@
 
   export type DialerOptions = DialerOption[];
   export type DialerOption = {
-    iconHtml: string;
+    iconInfo: SvgIconInfo;
     onClickAction: () => void;
   };
 </script>
 
 <script lang="ts">
-  import IconButton from './IconButton.svelte';
+  import IconButton, { IconSize } from './IconButton.svelte';
 
   export let dialerOptions: DialerOptions;
 
@@ -92,13 +92,18 @@
 
 <div class="fabContainer">
   <div class={fabButtonClasses()}>
-    <IconButton iconHtml={svgIcons.addMedium} on:click={onClick} raisedHeight={RaisedHeight.high} />
+    <IconButton
+      iconInfo={svgIcons.add}
+      iconSize={IconSize.medium}
+      on:click={onClick}
+      raisedHeight={RaisedHeight.high}
+    />
   </div>
 
   <div class={optionsContainerClasses()}>
     {#each dialerOptions as option}
       <div class="fabOption">
-        <IconButton iconHtml={option.iconHtml} on:click={option.onClickAction} />
+        <IconButton iconInfo={option.iconInfo} on:click={option.onClickAction} />
       </div>
     {/each}
   </div>
