@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-  import IconButton from '../IconButton/IconButton.svelte';
+  import IconButton, { IconSize } from '../IconButton/IconButton.svelte';
   import Modal, { openDialog } from '../Modal.svelte';
 
   export let tableData: TableData;
@@ -65,9 +65,11 @@
   </div>
   <div class="scrollArea tableContent">
     <div class="tableDataHeaders tableRow">
-      {#each tableData.headers as header}
-        <span>{header}</span>
-      {/each}
+      <div class="tableRowData font-bold">
+        {#each tableData.headers as header}
+          <span>{header}</span>
+        {/each}
+      </div>
     </div>
     <div class="tableRows">
       {#each tableData.rows as rowData}
@@ -75,10 +77,20 @@
           class="bg-white rounded-md shadow-md hover:shadow-lg tableRow"
           on:click={rowData.rowClickAction}
         >
-          {#each rowData.columnVals as columnValue}
-            <span class="px-6 py-4">{columnValue}</span>
-          {/each}
-          <IconButton iconInfo={svgIcons.options} on:click={handleOptionsButtonClick} />
+          <div class="tableRowData">
+            {#each rowData.columnVals as columnValue}
+              <span class="px-6 py-4">{columnValue}</span>
+            {/each}
+          </div>
+          <div>
+            <IconButton
+              iconInfo={svgIcons.options}
+              iconSize={IconSize.medium}
+              primary={false}
+              raisedHeight={RaisedHeight.none}
+              on:click={handleOptionsButtonClick}
+            />
+          </div>
         </button>
       {/each}
     </div>
@@ -115,9 +127,17 @@
   }
   .tableRow {
     display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
+    grid-template-columns: 1fr 50px;
+    align-items: center;
+    padding-right: theme.$standard-spacing;
+
+    .tableRowData {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+    }
   }
+
   .centerText {
     text-align: center;
   }
