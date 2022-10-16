@@ -1,12 +1,17 @@
 <script lang="ts" context="module">
-  export type ComponentStoryBooks = { [componentName: string]: ComponentStoryBook };
-  export type ComponentStoryBook = {
-    component: any;
-    stories: ComponentStories;
+  import type { ComponentProps, SvelteComponent } from 'svelte';
+  export type ComponentStoryBooks = {
+    [componentName: string]: ComponentStoryBook<SvelteComponent>;
   };
-  export type ComponentStories = { [storyName: string]: ComponentStory };
-  export type ComponentStory = {
-    props: { [propName: string]: any };
+  export type ComponentStoryBook<TComponent extends SvelteComponent> = {
+    component: any;
+    stories: ComponentStories<TComponent>;
+  };
+  export type ComponentStories<TComponent extends SvelteComponent> = {
+    [storyName: string]: ComponentStory<TComponent>;
+  };
+  export type ComponentStory<TComponent extends SvelteComponent> = {
+    props: ComponentProps<TComponent>;
     listeners?: { [eventName: string]: Function };
   };
   export type CurrentStoryInfo = {
@@ -17,17 +22,25 @@
 
 <script lang="ts">
   import SideBar from 'src/lib/componentLib/SideBar.svelte';
-  import Button, { buttonStories } from 'src/lib/Button.svelte';
+  import Button from 'src/lib/Button/Button.svelte';
   import ComponentControls from 'src/lib/componentLib/ComponentControls.svelte';
-  import InputBox, { inputBoxStories } from 'src/lib/InputBox.svelte';
-  import Login, { loginStories } from 'src/lib/Login.svelte';
-  import IconButton, { iconButtonStories } from 'src/lib/IconButton.svelte';
-  import NavBar, { navBarStories } from 'src/lib/NavBar.svelte';
+  import InputBox from 'src/lib/InputBox/InputBox.svelte';
+  import Login from 'src/lib/Login/Login.svelte';
+  import IconButton from 'src/lib/IconButton/IconButton.svelte';
+  import NavBar from 'src/lib/NavBar/NavBar.svelte';
   import Table from 'src/lib/Table/Table.svelte';
-  import CreateNewAccount, { createNewAccountStories } from 'src/lib/CreateNewAccount.svelte';
-  import NewGame, { createNewGameStories } from 'src/lib/NewGame.svelte';
-  import FabDialer, { fabDialerStories } from 'src/lib/FabDialer.svelte';
+  import CreateNewAccount from 'src/lib/CreateNewAccount/CreateNewAccount.svelte';
+  import NewGame from 'src/lib/NewGame/NewGame.svelte';
+  import FabDialer from 'src/lib/FabDialer/FabDialer.svelte';
   import { tableStories } from 'src/lib/Table/Table.stories.svelte';
+  import { createNewAccountStories } from 'src/lib/CreateNewAccount/CreateNewAccount.stories.svelte';
+  import { iconButtonStories } from 'src/lib/IconButton/IconButton.stories.svelte';
+  import { fabDialerStories } from 'src/lib/FabDialer/FabDialer.stories.svelte';
+  import { createNewGameStories } from 'src/lib/NewGame/NewGame.stories.svelte';
+  import { navBarStories } from 'src/lib/NavBar/NavBar.stories.svelte';
+  import { loginStories } from 'src/lib/Login/Login.stories.svelte';
+  import { buttonStories } from 'src/lib/Button/Button.stories.svelte';
+  import { inputBoxStories } from 'src/lib/InputBox/InputBox.stories.svelte';
 
   let componentStoryBooks: ComponentStoryBooks = {
     Table: {

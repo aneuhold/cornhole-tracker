@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { ComponentStory } from 'src/routes/componentlibrary/+page.svelte';
+  import type { SvelteComponent } from 'svelte';
 
-  export let componentStory: ComponentStory;
+  export let componentStory: ComponentStory<SvelteComponent>;
 
   function createStringHandler(propName: string) {
     return (event: Event) => {

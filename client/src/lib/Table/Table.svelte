@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-  import IconButton from '../IconButton.svelte';
+  import IconButton from '../IconButton/IconButton.svelte';
   import Modal, { openDialog } from '../Modal.svelte';
 
   export let tableData: TableData;

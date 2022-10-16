@@ -5,28 +5,9 @@
 
 	When `enter` is pressed, the `enterPressed` event is emitted.
 -->
-<script lang="ts" context="module">
-  import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
-  export const inputBoxStories: ComponentStories = {
-    Standard: {
-      props: {
-        value: '',
-        placeHolder: 'Some example placeholder'
-      }
-    },
-    Password: {
-      props: {
-        value: '',
-        placeHolder: 'Password',
-        password: true
-      }
-    }
-  };
-</script>
-
-<script lang="ts">
   export let value = '';
   export let placeHolder = 'Example';
   export let password = false;

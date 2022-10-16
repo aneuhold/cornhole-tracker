@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
   import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
   import type { RowData, TableData } from './Table.svelte';
+  import type Table from './Table.svelte';
 
   function generateTableData(numHeaders: number, numRows: number): TableData {
     const headers: string[] = [];
@@ -26,7 +27,7 @@
     };
   }
 
-  export const tableStories: ComponentStories = {
+  export const tableStories: ComponentStories<Table> = {
     'With Small Amount of Data': {
       props: {
         tableData: generateTableData(3, 4)

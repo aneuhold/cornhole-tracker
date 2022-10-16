@@ -4,24 +4,6 @@
   A component that shows a login prompt for the user.
 -->
 <script lang="ts" context="module">
-  import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
-
-  const listeners = {
-    submit: (data: any) => {
-      console.log('Submit clicked with data: ', data.detail);
-    },
-    createAccount: (data: any) => {
-      console.log('Create account clicked with data: ', data.detail);
-    }
-  };
-
-  export const loginStories: ComponentStories = {
-    'With Nothing Filled': {
-      props: {},
-      listeners
-    }
-  };
-
   export type LoginComponentEventData = {
     userName: string;
     password: string;
@@ -31,9 +13,9 @@
 <script lang="ts">
   import svgIcons from 'src/util/svgIcons';
   import { createEventDispatcher } from 'svelte';
-  import Button from './Button.svelte';
-  import IconButton from './IconButton.svelte';
-  import InputBox from './InputBox.svelte';
+  import Button from '../Button/Button.svelte';
+  import IconButton from '../IconButton/IconButton.svelte';
+  import InputBox from '../InputBox/InputBox.svelte';
 
   let userName = '';
   let password = '';

@@ -1,24 +1,7 @@
-<script lang="ts" context="module">
-  import type { ComponentStories } from 'src/routes/componentlibrary/+page.svelte';
-
-  const listeners = {
-    submit: (data: any) => {
-      console.log('Submit clicked with data: ', data.detail);
-    }
-  };
-
-  export const createNewAccountStories: ComponentStories = {
-    'With Nothing Filled': {
-      props: {},
-      listeners
-    }
-  };
-</script>
-
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import Button from './Button.svelte';
-  import InputBox from './InputBox.svelte';
+  import Button from '../Button/Button.svelte';
+  import InputBox from '../InputBox/InputBox.svelte';
 
   let userName = '';
   let password1 = '';

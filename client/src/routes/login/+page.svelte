@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Login, { type LoginComponentEventData } from 'src/lib/Login.svelte';
+  import Login, { type LoginComponentEventData } from 'src/lib/Login/Login.svelte';
   import { user } from 'src/stores/user';
   import { RoutePath, routeTo } from 'src/util/routing';
 

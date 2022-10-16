@@ -1,6 +1,6 @@
 <script lang="ts">
   import Table, { type TableData } from 'src/lib/Table/Table.svelte';
-  import FabDialer, { type DialerOptions } from 'src/lib/FabDialer.svelte';
+  import FabDialer, { type DialerOptions } from 'src/lib/FabDialer/FabDialer.svelte';
   import svgIcons from 'src/util/svgIcons';
 
   const currentlyRunningGames: TableData = {

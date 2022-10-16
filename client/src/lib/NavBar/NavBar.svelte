@@ -9,37 +9,16 @@
   import { RaisedHeight } from 'src/util/styleEnums';
   import svgIcons from 'src/util/svgIcons';
   import { createEventDispatcher } from 'svelte';
-  import Button from './Button.svelte';
-
-  const listeners = {
-    loginClick: () => {
-      console.log('Login button was clicked');
-    },
-    logout: () => {
-      console.log('Logout clicked');
-    }
-  };
-
-  export const navBarStories: ComponentStories = {
-    'Logged In': {
-      props: {
-        username: 'Some User'
-      }
-    },
-    'Not Logged In': {
-      props: {},
-      listeners
-    }
-  };
+  import Button from '../Button/Button.svelte';
 </script>
 
 <script lang="ts">
-  import IconButton, { IconSize } from './IconButton.svelte';
+  import IconButton, { IconSize } from '../IconButton/IconButton.svelte';
 
   /**
    * If a username is provided, then the user is considered logged in.
    */
-  export let username: string;
+  export let username: string = '';
 
   let menuOpen = false;
 
@@ -89,7 +68,7 @@
 <ul class="rounded p-4 bg-blue-200 items-center gap-x-2 navBar">
   <IconButton iconInfo={svgIcons.menu} on:click={toggleMenu} raisedHeight={RaisedHeight.none} />
   <h1 class="siteTitle text-lg">Cornhole Tracker</h1>
-  {#if username}
+  {#if username !== ''}
     <span class="userInfo">{username}</span>
   {:else}
     <div class="userInfo">

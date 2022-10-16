@@ -11,46 +11,6 @@
   import { RaisedHeight } from 'src/util/styleEnums';
   import svgIcons, { type SvgIconInfo } from 'src/util/svgIcons';
 
-  const listeners = {
-    click: () => {
-      console.log('Button was clicked');
-    }
-  };
-
-  export const fabDialerStories: ComponentStories = {
-    Primary: {
-      props: {
-        dialerOptions: [
-          {
-            iconInfo: svgIcons.info,
-            onClickAction: () => {
-              console.log('option 1 clicked');
-            }
-          },
-          {
-            iconInfo: svgIcons.info,
-            onClickAction: () => {
-              console.log('option 1 clicked');
-            }
-          },
-          {
-            iconInfo: svgIcons.info,
-            onClickAction: () => {
-              console.log('option 1 clicked');
-            }
-          },
-          {
-            iconInfo: svgIcons.info,
-            onClickAction: () => {
-              console.log('option 1 clicked');
-            }
-          }
-        ]
-      },
-      listeners
-    }
-  };
-
   export type DialerOptions = DialerOption[];
   export type DialerOption = {
     iconInfo: SvgIconInfo;
@@ -59,7 +19,7 @@
 </script>
 
 <script lang="ts">
-  import IconButton, { IconSize } from './IconButton.svelte';
+  import IconButton, { IconSize } from '../IconButton/IconButton.svelte';
 
   export let dialerOptions: DialerOptions;
 

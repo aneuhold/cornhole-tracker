@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NavBar from 'src/lib/NavBar.svelte';
+  import NavBar from 'src/lib/NavBar/NavBar.svelte';
   import { user } from 'src/stores/user';
   import { onDestroy } from 'svelte';
 
