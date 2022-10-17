@@ -30,11 +30,11 @@ export default class LocalData {
     return '';
   }
 
-  static set users(newUsers: Partial<User>[]) {
+  static set users(newUsers: User[]) {
     this.storeValue(LocalData.storedKeyNames.users, JSON.stringify(newUsers));
   }
 
-  static get users(): Partial<User>[] {
+  static get users(): User[] {
     const currentlyStoredValue = this.getValue(LocalData.storedKeyNames.users);
     if (currentlyStoredValue && currentlyStoredValue !== '') {
       return JSON.parse(currentlyStoredValue);
@@ -42,7 +42,7 @@ export default class LocalData {
     return [];
   }
 
-  static set user(newUser: Partial<User>) {
+  static set user(newUser: User | undefined) {
     this.storeValue(LocalData.storedKeyNames.user, JSON.stringify(newUser));
   }
 
@@ -51,12 +51,12 @@ export default class LocalData {
    *
    * If the user does not exist yet, then this returns an empty object.
    */
-  static get user(): Partial<User> {
+  static get user(): User | undefined {
     const currentlyStoredValue = this.getValue(LocalData.storedKeyNames.user);
     if (currentlyStoredValue && currentlyStoredValue !== '') {
       return JSON.parse(currentlyStoredValue);
     }
-    return {};
+    return undefined;
   }
 
   static set cornholeGames(updatedCornholeGames: CornholeGame[]) {

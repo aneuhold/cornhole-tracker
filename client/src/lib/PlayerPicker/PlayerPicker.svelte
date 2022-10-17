@@ -5,15 +5,23 @@
   pick a player or create a new tempPlayer.
 -->
 <script lang="ts">
+  import type { ObjectId } from 'bson';
   import { tempPlayers } from 'src/stores/tempPlayers';
   import { user } from 'src/stores/user';
   import { users } from 'src/stores/users';
+  import type Player from 'src/_shared/types/Player';
   import { createEventDispatcher } from 'svelte';
   import Button from '../Button/Button.svelte';
   import InputBox from '../InputBox/InputBox.svelte';
   import Table, { type RowData, type TableData } from '../Table/Table.svelte';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{
+    createNewPlayer: { userName: string };
+    chooseUser: { id: ObjectId };
+    chooseTempPlayer: { id: ObjectId };
+  }>();
+
+  export let includeCurrentUser = true;
 
   let searchTerm = '';
 
@@ -21,16 +29,24 @@
     return searchTerm.trim().toLowerCase();
   };
 
+  $: userMatchesSearch = () => {
+    const cleanSearchTerm = cleanedSearchTerm();
+    if (
+      cleanSearchTerm === '' ||
+      $user.userName?.toLowerCase().includes(cleanSearchTerm) ||
+      $user.name?.toLowerCase().includes(cleanSearchTerm)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   $: foundUsers = () => {
     const cleanSearchTerm = cleanedSearchTerm();
     if (cleanSearchTerm === '') {
       return [];
     }
-    return $users.filter(
-      (user) =>
-        user.name?.toLowerCase().includes(cleanSearchTerm) ||
-        user.userName?.toLowerCase().includes(cleanSearchTerm)
-    );
+    return $users.filter(createPlayerFilterFunction(cleanSearchTerm));
   };
 
   $: foundTempPlayers = () => {
@@ -38,16 +54,20 @@
     if (cleanSearchTerm === '') {
       return [];
     }
-    return $tempPlayers.filter(
-      (tempPlayer) =>
-        tempPlayer.name?.toLowerCase().includes(cleanSearchTerm) ||
-        tempPlayer.userName?.toLowerCase().includes(cleanSearchTerm)
-    );
+    return $tempPlayers.filter(createPlayerFilterFunction(cleanSearchTerm));
   };
 
   $: tableData = () => {
     const cleanSearchTerm = cleanedSearchTerm();
     let rowData: RowData[] = [];
+    if (includeCurrentUser && $user && userMatchesSearch()) {
+      rowData.push({
+        columnVals: [$user.userName ? $user.userName : '', $user.name ? $user.name : ''],
+        rowClickAction: () => {
+          onChooseUser($user._id);
+        }
+      });
+    }
     if (cleanSearchTerm !== '') {
       const foundUsersRowData: RowData[] = foundUsers().map((user) => {
         return {
@@ -57,6 +77,7 @@
           }
         };
       });
+      rowData.push(...foundUsersRowData);
       const foundTempPlayersRowData: RowData[] = foundTempPlayers().map((tempPlayer) => {
         return {
           columnVals: [
@@ -68,7 +89,7 @@
           }
         };
       });
-      rowData = [...foundUsersRowData, ...foundTempPlayersRowData];
+      rowData.push(...foundTempPlayersRowData);
     }
     return {
       headers: ['Username', 'Name'],
@@ -76,19 +97,39 @@
     } as TableData;
   };
 
-  console.log($users);
-  console.log($user);
-
   $: buttonDisabled = () => {
     console.log('ran buttonDisabled');
     if (cleanedSearchTerm() === '') {
       return true;
     }
+    if (
+      foundUsers().find((user) => user.userName?.toLowerCase() === cleanedSearchTerm()) ||
+      foundTempPlayers().find(
+        (tempPlayer) => tempPlayer.userName?.toLowerCase() === cleanedSearchTerm()
+      )
+    ) {
+      return true;
+    }
     return false;
   };
 
+  function createPlayerFilterFunction(cleanSearchTerm: string) {
+    return (player: Partial<Player>) => {
+      player.name?.toLowerCase().includes(cleanSearchTerm) ||
+        player.userName?.toLowerCase().includes(cleanSearchTerm);
+    };
+  }
+
   function onCreateNewPlayer() {
-    dispatch('createNewPlayer');
+    dispatch('createNewPlayer', { userName: searchTerm.trim() });
+  }
+
+  function onChooseUser(userId: ObjectId) {
+    dispatch('chooseUser', { id: userId });
+  }
+
+  function onChooseTempPlayer(tempPlayerId: ObjectId) {
+    dispatch('chooseTempPlayer', { id: tempPlayerId });
   }
 </script>
 

@@ -5,6 +5,12 @@
   const listeners = {
     createNewPlayer: () => {
       console.log('Create new player clicked');
+    },
+    chooseUser: (data: any) => {
+      console.log('Choose user activated with data: ', data.detail);
+    },
+    chooseTempPlayer: (data: any) => {
+      console.log('Choose tempPlayer activated with data: ', data.detail);
     }
   };
 

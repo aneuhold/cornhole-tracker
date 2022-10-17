@@ -3,7 +3,7 @@ import LocalData from '../util/LocalData';
 import type User from '../_shared/types/User';
 
 function createUserStore() {
-  const { subscribe, set, update } = writable<Partial<User>>(LocalData.user);
+  const { subscribe, set, update } = writable<User>(LocalData.user);
 
   console.log('Initializing user store...');
 
