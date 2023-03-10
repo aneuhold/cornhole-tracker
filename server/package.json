@@ -6,9 +6,11 @@
   "scripts": {
     "--- Main Commands ---": "",
     "dev": "yarn build && cross-env MONGO_URL=localhost concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-    "start": "yarn build && cross-env MONGO_URL=localhost node lib/server.js",
-    "start:docker": "yarn build && cross-env MONGO_URL=mongo node lib/server.js",
+    "start": "yarn build && cross-env MONGO_URL=localhost node build/server.js",
+    "start:docker": "yarn build && cross-env MONGO_URL=mongo node build/server.js",
     "test": "cross-env MONGO_URL=localhost jest",
+    "link:core": "yarn link ../../core-ts-lib",
+    "unlink:core": "yarn unlink ../../core-ts-lib",
     "--- Support Commands ---": "",
     "build": "tsoa spec-and-routes && tsc --project tsconfig.build.json"
   },
@@ -28,6 +30,7 @@
     "ts-jest": "^29.0.1"
   },
   "dependencies": {
+    "@aneuhold/core-ts-lib": "*",
     "body-parser": "^1.20.0",
     "bson": "^4.7.0",
     "cross-env": "^7.0.3",

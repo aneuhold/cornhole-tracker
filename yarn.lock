@@ -15,6 +15,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aneuhold/core-ts-lib@npm:*":
+  version: 1.0.7
+  resolution: "@aneuhold/core-ts-lib@npm:1.0.7"
+  checksum: fa23c5ed6b6cac2ce4dc374909fe3c87b6524755da740d8018b3209bf102e6a9564c07082610af620fb74057e542be5ecd7bdd86c0053b4ed5f3e36e6e7d4dbb
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/code-frame@npm:7.18.6"
@@ -6619,6 +6626,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "server@workspace:server"
   dependencies:
+    "@aneuhold/core-ts-lib": "*"
     "@types/body-parser": ^1.19.2
     "@types/express": ^4.17.14
     "@types/jest": ^29.0.3

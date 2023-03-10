@@ -1,3 +1,4 @@
+import { DockerService } from '@aneuhold/core-ts-lib';
 import bodyParser from 'body-parser';
 import express, { Express, Request, Response } from 'express';
 import http, { Server as HttpServer } from 'http';
@@ -17,6 +18,7 @@ async function main() {
   console.log('The server is beginning to start...');
   const app = express();
   setupSwagger(app);
+  await DockerService.startDockerDesktop();
   createServer(app, NODE_SERVER_PORT);
 }
 

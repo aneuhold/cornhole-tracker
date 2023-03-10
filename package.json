@@ -1,4 +1,5 @@
 {
+  "name": "cornhole-tracker",
   "version": "1.0.0",
   "description": "An application that can be used to track cornhole stats over time",
   "main": "index.js",
@@ -9,9 +10,11 @@
     "client": "yarn copySharedFiles && cd client && yarn start",
     "client:dev": "yarn copySharedFiles && cd client && yarn dev",
     "build": "cd server && yarn build",
-    "docker:start": "yarn copySharedFiles && cd server && docker-compose up -d",
+    "docker:start": "yarn copySharedFiles && cd server && Start-Service Docker && docker-compose up -d",
     "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/src/_shared -u 1",
-    "test": "cd server && yarn test"
+    "test": "cd server && yarn test",
+    "link:core": "cd server && yarn link:core",
+    "unlink:core": "cd server && yarn unlink:core"
   },
   "scriptsDescription": {
     "start": "Will start up the node server locally. Assumes the mongodb docker container is already running.",
@@ -50,7 +53,6 @@
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },
-  "name": "cornhole-tracker",
   "packageManager": "yarn@3.2.3",
   "workspaces": [
     "client",
