@@ -1,4 +1,3 @@
-import { DockerService } from '@aneuhold/core-ts-lib';
 import bodyParser from 'body-parser';
 import express, { Express, Request, Response } from 'express';
 import http, { Server as HttpServer } from 'http';
@@ -8,6 +7,7 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from './routes';
 import DocumentDb from './util/DocumentDb';
+import startDocker from './util/startDocker';
 
 const NODE_SERVER_PORT = process.env.PORT || 3020;
 
@@ -18,7 +18,7 @@ async function main() {
   console.log('The server is beginning to start...');
   const app = express();
   setupSwagger(app);
-  await DockerService.startDockerDesktop();
+  await startDocker();
   createServer(app, NODE_SERVER_PORT);
 }
 

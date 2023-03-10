@@ -10,7 +10,6 @@
     "client": "yarn copySharedFiles && cd client && yarn start",
     "client:dev": "yarn copySharedFiles && cd client && yarn dev",
     "build": "cd server && yarn build",
-    "docker:start": "yarn copySharedFiles && cd server && Start-Service Docker && docker-compose up -d",
     "copySharedFiles": "copyfiles shared/**/* server/src/_shared -u 1 && copyfiles shared/**/* client/src/_shared -u 1",
     "test": "cd server && yarn test",
     "link:core": "cd server && yarn link:core",
